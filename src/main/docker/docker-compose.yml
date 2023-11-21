@@ -1,8 +1,8 @@
 version: '2'
 
 services:
-  Korepetytio:
-    image: 'docker-spring-boot-postgres:latest'
+  app:
+    image: 'korepetytio:latest'
     build:
       context: .
     container_name: app
