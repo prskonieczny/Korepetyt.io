@@ -5,7 +5,6 @@ import com.korepetytio.Korepetytio.dto.converters.AccountDTOConverter;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

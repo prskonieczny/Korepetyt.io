@@ -1,22 +1,14 @@
 version: '2'
 
 services:
-  app:
-    image: 'korepetytio:latest'
-    build:
-      context: .
-    container_name: app
-    depends_on:
-      - db
+  postgres:
+    image: postgres:latest
+    container_name: korepetytio
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-  db:
-    image: 'postgres:13.1-alpine'
-    container_name: db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: korepetytio
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - /path/to/store/data:/var/lib/postgresql/data
