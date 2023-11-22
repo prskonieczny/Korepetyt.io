@@ -9,6 +9,10 @@ public class AccountDTOConverter {
                 .id(a.getId())
                 .username(a.getUsername())
                 .email(a.getEmail())
+                .phone(a.getPhone())
+                .city(a.getCity())
+                .street(a.getStreet())
+                .roles(a.getRoles())
                 .build();
     }
 }
