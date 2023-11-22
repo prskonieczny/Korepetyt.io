@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AccountService {
     List<ShowAccountResponse> getAllAccounts();
+    void addAdminRole(Long id);
+    void removeAdminRole(Long id);
 }

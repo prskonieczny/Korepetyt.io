@@ -4,9 +4,8 @@ package com.korepetytio.Korepetytio.controller;
 import com.korepetytio.Korepetytio.dto.ShowAccountResponse;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +25,17 @@ public class AccountController {
     @GetMapping("/all")
     public ResponseEntity<List<ShowAccountResponse>> getAllAccounts(){
         return ResponseEntity.ok().body(accountService.getAllAccounts());
+    }
+    @PostMapping("/addAdminRole/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity addAdminRole(@PathVariable Long id) {
+        accountService.addAdminRole(id);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/removeAdminRole/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity removeAdminRole(@PathVariable Long id) {
+        accountService.removeAdminRole(id);
+        return ResponseEntity.ok().build();
     }
 }
