@@ -41,6 +41,15 @@ public class Account extends AbstractEntity{
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
+    public Account(String username, String password, String phone, String email, String city, String street) {
+        this.username = username;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.street = street;
+    }
+
     public void addRole(Role role){
         roles.add(role);
     }
