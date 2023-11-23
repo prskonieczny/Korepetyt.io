@@ -1,15 +1,12 @@
 package com.korepetytio.Korepetytio.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -23,6 +20,8 @@ public class Account extends AbstractEntity{
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "password", nullable = false)
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -34,6 +33,11 @@ public class Account extends AbstractEntity{
     private String street;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
+    @OneToMany(mappedBy = "studentAccount", cascade = CascadeType.ALL)
+    private List<Lesson> lessonListAsStudent = new ArrayList<>();
+    @OneToMany(mappedBy = "teacherAccount", cascade = CascadeType.ALL)
+    private List<Lesson> lessonListAsTeacher = new ArrayList<>();
+
 
     public Account(String username, String password, String phone, String email, String city, String street) {
         this.username = username;
@@ -42,6 +46,15 @@ public class Account extends AbstractEntity{
         this.email = email;
         this.city = city;
         this.street = street;
+    }
+
+    public void addLessonStudent(Lesson lesson) {
+        lessonListAsStudent.add(lesson);
+        lesson.setStudentAccount(this);
+    }
+    public void addLessonTeacher(Lesson lesson) {
+        lessonListAsTeacher.add(lesson);
+        lesson.setTeacherAccount(this);
     }
 
     public void addRole(Role role){

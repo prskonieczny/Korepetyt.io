@@ -3,16 +3,13 @@ package com.korepetytio.Korepetytio.entities;
 import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Lesson extends AbstractEntity {

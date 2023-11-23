@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,9 +21,9 @@ public class TecherStatistics extends AbstractEntity{
     @NotNull
     private int numberOfLessons;
     @Column(name = "teached_subjects")
-    private List<Subjects> techedSubjects;
+    private List<Subjects> techedSubjects = new ArrayList<>();
     @Column(name = "teached_level")
-    private List<Levels> teachedLevels;
+    private List<Levels> teachedLevels = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Account teacher;
