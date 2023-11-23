@@ -3,7 +3,10 @@ package com.korepetytio.Korepetytio.entities;
 import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
