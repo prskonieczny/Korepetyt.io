@@ -22,22 +22,16 @@ public class Account extends AbstractEntity{
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
-
     @Column(name = "password", nullable = false)
     private String password;
-
     @Column(name = "phone", nullable = false)
     private String phone;
-
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-
     @Column(name = "city", nullable = false)
     private String city;
-
     @Column(name = "street", nullable = false)
     private String street;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 

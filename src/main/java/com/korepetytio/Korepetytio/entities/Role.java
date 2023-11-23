@@ -1,5 +1,6 @@
 package com.korepetytio.Korepetytio.entities;
 
+import com.korepetytio.Korepetytio.entities.enums.RoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

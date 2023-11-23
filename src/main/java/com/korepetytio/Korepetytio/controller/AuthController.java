@@ -5,7 +5,7 @@ import com.korepetytio.Korepetytio.dto.LoginResponse;
 import com.korepetytio.Korepetytio.dto.RegisterRequest;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Role;
-import com.korepetytio.Korepetytio.entities.RoleType;
+import com.korepetytio.Korepetytio.entities.enums.RoleType;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.RoleRepository;
 import com.korepetytio.Korepetytio.security.jwt.JwtUtils;
