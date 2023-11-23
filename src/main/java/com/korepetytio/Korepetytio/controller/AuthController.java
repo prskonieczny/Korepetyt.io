@@ -77,8 +77,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error: Phone number is already in use!");
         }
         Account account = createAccount(registerRequest);
-        Role role = new Role(RoleType.TEACHER);
-        roleRepository.save(role);
+        Role role = roleRepository.findByPermissionLevel(RoleType.TEACHER).orElseThrow(
+                () -> new RuntimeException("Error: Role is not found!"));
         account.addRole(role);
         accountRepository.save(account);
         return ResponseEntity.ok("User registered successfully!");
@@ -96,8 +96,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error: Phone number is already in use!");
         }
         Account account = createAccount(registerRequest);
-        Role role = new Role(RoleType.STUDENT);
-        roleRepository.save(role);
+        Role role = roleRepository.findByPermissionLevel(RoleType.STUDENT).orElseThrow(
+                () -> new RuntimeException("Error: Role is not found!"));
         account.addRole(role);
         accountRepository.save(account);
         return ResponseEntity.ok("User registered successfully!");
