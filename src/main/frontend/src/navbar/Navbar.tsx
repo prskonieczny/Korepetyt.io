@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuBookSharpIcon from '@mui/icons-material/MenuBookSharp';
 import {palette} from "../colors";
 
-const pages = ['Teachers', 'Look for tutor', 'FAQ'];
+const pages = ['Look for a tutor', 'Create your announcement', 'FAQ'];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
