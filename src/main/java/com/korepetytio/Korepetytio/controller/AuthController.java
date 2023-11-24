@@ -10,6 +10,8 @@ import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.RoleRepository;
 import com.korepetytio.Korepetytio.security.jwt.JwtUtils;
 import com.korepetytio.Korepetytio.security.service.UserDetailsImpl;
+import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
+import com.korepetytio.Korepetytio.service.interfaces.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +38,9 @@ public class AuthController {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    PasswordEncoder passwordEncoder;
-    @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -67,58 +69,41 @@ public class AuthController {
 
     @PostMapping("/register/teacher")
     public ResponseEntity<?> registerTeacher(@Valid @RequestBody RegisterRequest registerRequest) {
-        if (checkUsername(registerRequest)) {
+        if (authService.checkUsername(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Username is already taken!");
         }
-        if (checkEmail(registerRequest)) {
+        if (authService.checkEmail(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Email is already in use!");
         }
-        if (checkPhoneNumber(registerRequest)) {
+        if (authService.checkPhoneNumber(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Phone number is already in use!");
         }
-        Account account = createAccount(registerRequest);
+        Account account = authService.createAccount(registerRequest);
         Role role = roleRepository.findByPermissionLevel(RoleType.TEACHER).orElseThrow(
                 () -> new RuntimeException("Error: Role is not found!"));
         account.addRole(role);
         accountRepository.save(account);
+        authService.sendRegistrationEmail(account.getEmail(), account.getUsername());
         return ResponseEntity.ok("User registered successfully!");
     }
 
     @PostMapping("/register/student")
     public ResponseEntity<?> registerStudent(@Valid @RequestBody RegisterRequest registerRequest) {
-        if (checkUsername(registerRequest)) {
+        if (authService.checkUsername(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Username is already taken!");
         }
-        if (checkEmail(registerRequest)) {
+        if (authService.checkEmail(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Email is already in use!");
         }
-        if (checkPhoneNumber(registerRequest)) {
+        if (authService.checkPhoneNumber(registerRequest)) {
             return ResponseEntity.badRequest().body("Error: Phone number is already in use!");
         }
-        Account account = createAccount(registerRequest);
+        Account account = authService.createAccount(registerRequest);
         Role role = roleRepository.findByPermissionLevel(RoleType.STUDENT).orElseThrow(
                 () -> new RuntimeException("Error: Role is not found!"));
         account.addRole(role);
         accountRepository.save(account);
+        authService.sendRegistrationEmail(account.getEmail(), account.getUsername());
         return ResponseEntity.ok("User registered successfully!");
-    }
-
-    private boolean checkUsername(RegisterRequest registerRequest) {
-        return accountRepository.existsByUsername(registerRequest.getUsername());
-    }
-    private boolean checkEmail(RegisterRequest registerRequest) {
-        return accountRepository.existsByEmail(registerRequest.getEmail());
-    }
-    private boolean checkPhoneNumber(RegisterRequest registerRequest) {
-        return accountRepository.existsByPhone(registerRequest.getPhone());
-    }
-    private Account createAccount(RegisterRequest registerRequest) {
-        return new Account(
-                registerRequest.getUsername(),
-                passwordEncoder.encode(registerRequest.getPassword()),
-                registerRequest.getPhone(),
-                registerRequest.getEmail(),
-                registerRequest.getCity(),
-                registerRequest.getStreet());
     }
 }
