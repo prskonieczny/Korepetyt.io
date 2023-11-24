@@ -8,6 +8,7 @@ import com.korepetytio.Korepetytio.entities.Role;
 import com.korepetytio.Korepetytio.entities.enums.RoleType;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.RoleRepository;
+import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    EmailService emailService;
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
 
@@ -123,9 +126,16 @@ public class AccountServiceImpl implements AccountService {
             }
             account.setPassword(passwordEncoder.encode(changeOwnPasswordRequest.getNewPassword()));
             accountRepository.save(account);
+            sendChangePasswordEmail(account.getEmail());
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist.");
         }
+    }
+
+    private void sendChangePasswordEmail(String to) {
+        String subject = "Korepetytio - you have changed your password!";
+        String content = "Your password has been changed successfully.\nThis wasn't you? Contact us now!";
+        emailService.sendEmail(to, subject, content);
     }
 }
