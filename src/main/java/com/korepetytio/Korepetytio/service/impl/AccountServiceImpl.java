@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,30 @@ public class AccountServiceImpl implements AccountService {
         List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
                 .filter(Objects::nonNull)
+                .map(AccountDTOConverter::convertAccountToAccountResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ShowAccountResponse> getAllTeachers() {
+        List<Account> teachersAccounts = accountRepository.findAll();
+        return teachersAccounts.stream()
+                .filter(Objects::nonNull)
+                .filter(account -> account.getRoles()
+                        .stream()
+                        .anyMatch(role -> role.getPermissionLevel() == RoleType.TEACHER))
+                .map(AccountDTOConverter::convertAccountToAccountResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ShowAccountResponse> getAllStudents() {
+        List<Account> studentsAccounts = accountRepository.findAll();
+        return studentsAccounts.stream()
+                .filter(Objects::nonNull)
+                .filter(account -> account.getRoles()
+                        .stream()
+                        .anyMatch(role -> role.getPermissionLevel() == RoleType.STUDENT))
                 .map(AccountDTOConverter::convertAccountToAccountResponse)
                 .collect(Collectors.toList());
     }

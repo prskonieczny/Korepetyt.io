@@ -33,6 +33,16 @@ public class AccountController {
     public ResponseEntity<List<ShowAccountResponse>> getAllAccounts(){
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }
+    @GetMapping("/teachers")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STUDENT')")
+    public ResponseEntity<List<ShowAccountResponse>> getAllTeachers(){
+        return ResponseEntity.ok().body(accountService.getAllTeachers());
+    }
+    @GetMapping("/students")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('TEACHER')")
+    public ResponseEntity<List<ShowAccountResponse>> getAllStudents(){
+        return ResponseEntity.ok().body(accountService.getAllStudents());
+    }
     @PostMapping("/addAdminRole/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity addAdminRole(@PathVariable Long id) {
