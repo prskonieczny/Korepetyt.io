@@ -1,6 +1,8 @@
 package com.korepetytio.Korepetytio.service.interfaces;
 
 import com.korepetytio.Korepetytio.dto.ChangeOwnPasswordRequest;
+import com.korepetytio.Korepetytio.dto.EditOwnAccountDetailsRequest;
+import com.korepetytio.Korepetytio.dto.EditOwnEmailRequest;
 import com.korepetytio.Korepetytio.dto.ShowAccountResponse;
 
 import java.util.List;
@@ -14,4 +16,6 @@ public interface AccountService {
     ShowAccountResponse retrieveCurrentUserDetails();
     ShowAccountResponse retrieveOtherUserDetails(Long id);
     void changeOwnPassword(ChangeOwnPasswordRequest changeOwnPasswordRequest);
+    void editOwnAccountDetails(EditOwnAccountDetailsRequest editOwnAccountDetailsRequest);
+    void editOwnEmail(EditOwnEmailRequest editOwnEmailRequest);
 }
