@@ -18,15 +18,15 @@ import AppBar from "@mui/material/AppBar";
 function MainLayout() {
     const navigationTreeOut = [
         {
-            name: "home",
-            label: "Home",
-            actionProps: { to: "/" }
-        },
-        {
             name: "login",
             label: "Login",
             actionProps: { to: "/login" }
-        }
+        },
+        {
+            name: "signup",
+            label: "Sign up",
+            actionProps: { to: "/choseRegistration" }
+        },
     ];
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

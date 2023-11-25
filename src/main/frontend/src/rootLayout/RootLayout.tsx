@@ -1,6 +1,6 @@
 import React from 'react';
 import MainLayout from "../mainLayout/MainLayout";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 function RootLayout() {
     return (
         <div style={{
@@ -9,7 +9,7 @@ function RootLayout() {
             justifyContent: "spece-between",
             height: "100vh"
         }}>
-            <MainLayout/>
+            <MainLayout />
             <main>
                 <Outlet />
             </main>
