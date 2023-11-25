@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class TecherStatistics extends AbstractEntity{
+public class TeacherStatistics extends AbstractEntity{
     @Column(name = "number_of_students")
     @NotNull
     private int numberOfStudents;
