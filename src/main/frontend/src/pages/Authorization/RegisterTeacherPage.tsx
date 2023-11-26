@@ -51,9 +51,14 @@ const RegisterTeacherPage = () => {
                     setSnackBarMsg("Sorry, we could not register your account: username is already taken")
                 }
                 //@ts-ignore
-                if (error.response.data == "Error: Email is already in use") {
+                if (error.response.data === "Error: Email is already in use!") {
                     setIsOpen(true);
-                    setSnackBarMsg("Sorry, we could not register your account - email is already taken")
+                    setSnackBarMsg("Sorry, we could not register your account: email is already taken")
+                }
+                //@ts-ignore
+                if (error.response.data === "Error: Phone number is already in use!") {
+                    setIsOpen(true);
+                    setSnackBarMsg("Sorry, we could not register your account: phone number is already taken")
                 }
             }
         }

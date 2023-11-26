@@ -1,8 +1,10 @@
-import { Box, Typography, TextField, Button } from "@mui/material";
+import {Box, Typography, TextField, Button, InputAdornment} from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { palette } from "../colors";
-import { defaultMaxListeners } from "events";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import IconButton from "@mui/material/IconButton";
 
 interface RegisterFormProps {
     registerFormEntries: {
@@ -30,9 +32,15 @@ const RegisterForm = ({
     setRegisterFormEntries,
 }: RegisterFormProps) => {
 
+    const [repeatPassword, setRepeatPassword] = useState<string>("");
     const navigate = useNavigate();
-    const [error, setError] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const [emailError, setEmailError] = useState<string | null>(null);
+    const [phoneError, setPhoneError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [cityError, setCityError] = useState<string | null>(null);
+    const [repeatPasswordError, setRepeatPasswordError] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
     return (
         <>
@@ -75,10 +83,71 @@ const RegisterForm = ({
                         name={"password"}
                         value={registerFormEntries.password}
                         onChange={(event) => {
-                            setRegisterFormEntries((prev) => ({ ...prev, password: event.target.value }));
+                            const passwordValue = event.target.value;
+                            setRegisterFormEntries((prev) => ({ ...prev, password: passwordValue }));
+                            // Password validation
+                            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?])[\w!@#$%^&*()_+{}|:"<>?]{8,16}$/;
+                            if (!passwordRegex.test(passwordValue)) {
+                                setPasswordError("Invalid password format. Password must be 8-16 characters, with at least one lowercase, one uppercase letter, and one special character.");
+                            } else {
+                                setPasswordError(null);
+                            }
                         }}
+                        type={showPassword ? "text" : "password"}
+                        error={!!passwordError}
+                        helperText={passwordError}
                         sx={{
                             textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        required={true}
+                        label={"Repeat Password"}
+                        variant="standard"
+                        name={"repeatPassword"}
+                        value={repeatPassword}
+                        onChange={(event) => {
+                            const repeatPasswordValue = event.target.value;
+                            setRepeatPassword(repeatPasswordValue);
+
+                            // Repeat password validation
+                            if (repeatPasswordValue !== registerFormEntries.password) {
+                                setRepeatPasswordError("Passwords do not match.");
+                            } else {
+                                setRepeatPasswordError(null);
+                            }
+                        }}
+                        type={showRepeatPassword ? "text" : "password"}
+                        error={!!repeatPasswordError}
+                        helperText={repeatPasswordError}
+                        sx={{
+                            textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                                        edge="end"
+                                    >
+                                        {showRepeatPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
                         }}
                     />
                 </div>
@@ -90,8 +159,18 @@ const RegisterForm = ({
                         name={"email"}
                         value={registerFormEntries.email}
                         onChange={(event) => {
-                            setRegisterFormEntries((prev) => ({ ...prev, email: event.target.value }));
+                            const emailValue = event.target.value;
+                            setRegisterFormEntries((prev) => ({ ...prev, email: emailValue }));
+                            // E-mail validation
+                            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                            if (!emailRegex.test(emailValue)) {
+                                setEmailError("Invalid email format");
+                            } else {
+                                setEmailError(null);
+                            }
                         }}
+                        error={!!emailError}
+                        helperText={emailError}
                         sx={{
                             textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
                         }}
@@ -105,8 +184,19 @@ const RegisterForm = ({
                         name={"phone"}
                         value={registerFormEntries.phone}
                         onChange={(event) => {
-                            setRegisterFormEntries((prev) => ({ ...prev, phone: event.target.value }));
+                            const phoneValue = event.target.value;
+                            setRegisterFormEntries((prev) => ({ ...prev, phone: phoneValue }));
+
+                            // Phone number validation
+                            const phoneRegex = /^\d{9}$/;
+                            if (!phoneRegex.test(phoneValue)) {
+                                setPhoneError("Invalid phone number format. Please enter 9 digits.");
+                            } else {
+                                setPhoneError(null);
+                            }
                         }}
+                        error={!!phoneError}
+                        helperText={phoneError}
                         sx={{
                             textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
                         }}
@@ -120,8 +210,19 @@ const RegisterForm = ({
                         name={"city"}
                         value={registerFormEntries.city}
                         onChange={(event) => {
-                            setRegisterFormEntries((prev) => ({ ...prev, city: event.target.value }));
+                            const cityValue = event.target.value;
+                            setRegisterFormEntries((prev) => ({ ...prev, city: cityValue }));
+
+                            // City validation
+                            const cityRegex = /^[^\d]+$/;
+                            if (!cityRegex.test(cityValue)) {
+                                setCityError("City cannot contain numbers.");
+                            } else {
+                                setCityError(null);
+                            }
                         }}
+                        error={!!cityError}
+                        helperText={cityError}
                         sx={{
                             textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
                         }}

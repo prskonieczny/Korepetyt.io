@@ -52,10 +52,22 @@ const logout = () => {
     localStorage.removeItem("roles");
 }
 
+const getCurrentUser = () => {
+    // @ts-ignore
+    return JSON.parse(localStorage.getItem("username"));
+}
+
+const getUserRoles = (): string[] => {
+    // @ts-ignore
+    return JSON.parse(localStorage.getItem("roles"));
+}
+
 const AuthService = {
     registerTeacher,
     registerStudent,
     login,
     logout,
+    getCurrentUser,
+    getUserRoles
 }
 export default AuthService;

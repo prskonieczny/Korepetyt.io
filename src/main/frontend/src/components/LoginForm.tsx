@@ -1,6 +1,10 @@
-import { Grid, TextField, Typography, Button, Box } from "@mui/material";
+import {Grid, TextField, Typography, Button, Box, InputAdornment} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom"
 import { palette } from "../colors";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {useState} from "react";
 
 interface LoginFormProps {
     loginFormEntries: { username: string, password: string },
@@ -25,6 +29,8 @@ const LoginForm = ({
     errorMessage,
 }: LoginFormProps) => {
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <>
@@ -65,12 +71,25 @@ const LoginForm = ({
                         label={"Password"}
                         variant="standard"
                         name={"password"}
+                        type={showPassword ? "text" : "password"}
                         value={loginFormEntries.password}
                         onChange={(event) => {
                             setLoginFormEntries((prev) => ({ ...prev, password: event.target.value }));
                         }}
                         sx={{
                             textTransform: "none", width: "40%", mb: { xs: 3, md: 3 },
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
                         }}
                     />
                 </div>
