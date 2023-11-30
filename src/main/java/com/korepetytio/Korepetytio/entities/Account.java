@@ -1,6 +1,8 @@
 package com.korepetytio.Korepetytio.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.korepetytio.Korepetytio.entities.enums.Levels;
+import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,15 +43,26 @@ public class Account extends AbstractEntity{
     private List<Lesson> lessonListAsStudent = new ArrayList<>();
     @OneToMany(mappedBy = "teacherAccount", cascade = CascadeType.ALL)
     private List<Lesson> lessonListAsTeacher = new ArrayList<>();
+    @ElementCollection(targetClass = Levels.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "account_levels", joinColumns = @JoinColumn(name = "account_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "level")
+    private Set<Levels> levels = new HashSet<>();
+    @ElementCollection(targetClass = Subjects.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "account_subjects", joinColumns = @JoinColumn(name = "account_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subject")
+    private Set<Subjects> subjects = new HashSet<>();
 
-
-    public Account(String username, String password, String phone, String email, String city, String street) {
+    public Account(String username, String password, String phone, String email, String city, String street, Set<Levels> levels, Set<Subjects> subjects) {
         this.username = username;
         this.password = password;
         this.phone = phone;
         this.email = email;
         this.city = city;
         this.street = street;
+        this.levels = levels;
+        this.subjects = subjects;
     }
 
     public void addLessonStudent(Lesson lesson) {
@@ -59,6 +72,13 @@ public class Account extends AbstractEntity{
     public void addLessonTeacher(Lesson lesson) {
         lessonListAsTeacher.add(lesson);
         lesson.setTeacherAccount(this);
+    }
+
+    public void addLevel(Levels level){
+        levels.add(level);
+    }
+    public void removeLevel(Levels level){
+        levels.remove(level);
     }
 
     public void addRole(Role role){

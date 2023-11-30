@@ -13,6 +13,8 @@ public class AccountDTOConverter {
                 .city(a.getCity())
                 .street(a.getStreet())
                 .roles(a.getRoles())
+                .levels(a.getLevels())
+                .subjects(a.getSubjects())
                 .build();
     }
 }

@@ -1,11 +1,15 @@
 package com.korepetytio.Korepetytio.dto;
 
+import com.korepetytio.Korepetytio.entities.enums.Levels;
+import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +25,6 @@ public class RegisterRequest {
     private String phone;
     private String city;
     private String street;
+    private Set<Levels> levels;
+    private Set<Subjects> subjects;
 }

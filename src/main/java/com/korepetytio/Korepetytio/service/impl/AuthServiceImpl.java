@@ -37,7 +37,9 @@ public class AuthServiceImpl implements AuthService {
                 registerRequest.getPhone(),
                 registerRequest.getEmail(),
                 registerRequest.getCity(),
-                registerRequest.getStreet());
+                registerRequest.getStreet(),
+                registerRequest.getLevels(),
+                registerRequest.getSubjects());
     }
     @Override
     public void sendRegistrationEmail(String to, String name) {

@@ -1,6 +1,8 @@
 package com.korepetytio.Korepetytio.dto;
 
 import com.korepetytio.Korepetytio.entities.Role;
+import com.korepetytio.Korepetytio.entities.enums.Levels;
+import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,4 +25,6 @@ public class ShowAccountResponse {
     private String city;
     private String street;
     private Set<Role> roles = new HashSet<>();
+    private Set<Levels> levels = new HashSet<>();
+    private Set<Subjects> subjects = new HashSet<>();
 }
