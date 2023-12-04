@@ -26,6 +26,7 @@ const RegisterStudentPage = () => {
     const [registerFormEntries, setRegisterFormEntries] = useState(registrationCredentials);
     const [isOpen, setIsOpen] = useState(false);
     const [snackbarMsg, setSnackBarMsg] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -36,6 +37,7 @@ const RegisterStudentPage = () => {
 
     const registerFormSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         let { username
             , password
             , email
@@ -47,7 +49,7 @@ const RegisterStudentPage = () => {
         } = registerFormEntries;
         try {
             await AuthService.registerStudent(username, password, email, phone, city, street, levels, subjects).then(r => {
-                navigate('/')
+                navigate("/registrationSuccessfull")
                 console.log("zarejestrowano")
             });
         } catch (error) {
@@ -71,6 +73,8 @@ const RegisterStudentPage = () => {
                     setSnackBarMsg("Sorry, we could not register your account: phone number is already taken")
                 }
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -121,6 +125,7 @@ const RegisterStudentPage = () => {
                         marginBottom: '0px'
                     }}>
                         <RegisterForm
+                            loading={loading}
                             registerFormEntries={registerFormEntries}
                             setRegisterFormEntries={setRegisterFormEntries}
                             registerFormSubmit={registerFormSubmit}

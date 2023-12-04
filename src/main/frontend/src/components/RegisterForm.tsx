@@ -1,12 +1,14 @@
-import {Box, Typography, TextField, Button, InputAdornment, FormGroup, FormControlLabel, Checkbox, Grid} from "@mui/material";
+import {Box, Typography, TextField, Button, InputAdornment, FormGroup, FormControlLabel, Checkbox, Grid, Paper} from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { palette } from "../colors";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from "@mui/material/IconButton";
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface RegisterFormProps {
+    loading: boolean,
     registerFormEntries: {
         username: string,
         password: string,
@@ -31,6 +33,7 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({
+    loading,
     registerFormEntries,
     registerFormSubmit,
     setRegisterFormEntries,
@@ -319,6 +322,7 @@ const RegisterForm = ({
                         </Grid>
                         <Grid xs={5}>
                     <div>
+                        <Paper elevation={4} sx={{ padding: 1, marginTop: 2, backgroundColor: palette.champagne}}>
                         <Typography variant="h6" fontFamily={"Nunito"} fontStyle={palette.gray} sx={{ alignContent: 'left' }}>Choose subjects you are interested in *:</Typography>
                         <FormGroup>
                             <Grid container>
@@ -416,7 +420,8 @@ const RegisterForm = ({
                                 </Grid>
                             </Grid>
                         </FormGroup>
-                        <br />
+                        </Paper>
+                        <Paper elevation={4} sx={{ padding: 1, marginTop: 1, backgroundColor: palette.champagne}}>
                         <Typography variant="h6" fontFamily={"Nunito"} fontStyle={palette.gray} sx={{ alignContent: 'left' }}>Choose your levels: *</Typography>
                         <FormGroup>
                             <Grid container>
@@ -470,11 +475,15 @@ const RegisterForm = ({
                             </Grid>
                             </Grid>
                         </FormGroup>
-                        <br /><br />
-                        <Typography variant="h5" fontFamily={"Nunito"} fontStyle={palette.gray} sx={{ alignContent: 'left' }}>Remember!</Typography>
-                        <Typography variant="h6" fontFamily={"Nunito"} fontStyle={palette.gray} sx={{ alignContent: 'left' }}>All of your choices can be changed
-                            later in your account settings.</Typography>
-
+                        </Paper>
+                        <Paper elevation={4} sx={{ padding: 1, marginTop: 1, backgroundColor: palette.champagne}}>
+                            <Typography variant="h5" fontFamily="Nunito" fontStyle={palette.gray} sx={{ textAlign: 'left' }}>
+                                Remember!
+                            </Typography>
+                            <Typography variant="h6" fontFamily="Nunito" fontStyle={palette.gray} sx={{ textAlign: 'left' }}>
+                                All of your choices can be changed later in your account settings.
+                            </Typography>
+                        </Paper>
                     </div>
                         </Grid>
                     <div>
@@ -491,8 +500,9 @@ const RegisterForm = ({
                                     backgroundColor: palette.current,
                                 },
                             }}
+                            disabled={loading}
                         >
-                            Submit
+                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Submit'}
                         </Button>
                     </div>
                 </Grid>

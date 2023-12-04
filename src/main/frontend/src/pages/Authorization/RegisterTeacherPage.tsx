@@ -11,6 +11,7 @@ const RegisterTeacherPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const registrationCredentials = {
         username: "",
@@ -36,6 +37,7 @@ const RegisterTeacherPage = () => {
 
     const registerFormSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         let { username
             , password
             , email
@@ -47,7 +49,7 @@ const RegisterTeacherPage = () => {
         } = registerFormEntries;
         try {
             await AuthService.registerTeacher(username, password, email, phone, city, street, levels, subjects).then(r => {
-                navigate('/')
+                navigate("/registrationSuccessfull");
                 console.log("zarejestrowano")
             });
         } catch (error) {
@@ -71,6 +73,8 @@ const RegisterTeacherPage = () => {
                     setSnackBarMsg("Sorry, we could not register your account: phone number is already taken")
                 }
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -121,6 +125,7 @@ const RegisterTeacherPage = () => {
                         marginBottom: '0px'
                     }}>
                         <RegisterForm
+                            loading={loading}
                             registerFormEntries={registerFormEntries}
                             setRegisterFormEntries={setRegisterFormEntries}
                             registerFormSubmit={registerFormSubmit}

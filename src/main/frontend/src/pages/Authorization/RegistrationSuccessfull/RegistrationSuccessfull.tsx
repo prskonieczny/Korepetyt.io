@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 const RegistrationSuccessfull = () => {
 
     const navigate = useNavigate();
-    const [remainingTime, setRemainingTime] = useState(10);
+    const [remainingTime, setRemainingTime] = useState(5);
 
     useEffect(() => {
         const redirectTimeout = setTimeout(() => {
@@ -44,7 +44,7 @@ const RegistrationSuccessfull = () => {
                 Please wait as you will be redirected soon.
             </Typography>
             <Typography variant="h4" fontFamily={"Nunito"} fontStyle={palette.gray}>
-                Redirecting in {remainingTime} seconds.
+                Redirecting in <span style={{ fontWeight: 'bold' }}>{remainingTime}</span> seconds.
             </Typography>
         </Box>
     );
