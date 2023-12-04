@@ -8,9 +8,11 @@ const registerTeacher = (
     phone: string,
     city: string,
     street: string,
+    levels: string[],
+    subjects: string[]
 ) => {
     return axios.post(API_URL + "register/teacher", {
-        username, password, email, phone, city, street,
+        username, password, email, phone, city, street, levels, subjects
     })
 };
 
@@ -21,9 +23,11 @@ const registerStudent = (
     phone: string,
     city: string,
     street: string,
+    levels: string[],
+    subjects: string[]
 ) => {
     return axios.post(API_URL + "register/student", {
-        username, password, email, phone, city, street,
+        username, password, email, phone, city, street, levels, subjects
     });
 };
 

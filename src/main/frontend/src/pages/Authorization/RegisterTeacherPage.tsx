@@ -19,6 +19,8 @@ const RegisterTeacherPage = () => {
         phone: "",
         city: "",
         street: "",
+        levels: [] as string[],
+        subjects: [] as string[],
     };
 
     const [registerFormEntries, setRegisterFormEntries] = useState(registrationCredentials);
@@ -34,9 +36,17 @@ const RegisterTeacherPage = () => {
 
     const registerFormSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        let { username, password, email, phone, city, street } = registerFormEntries;
+        let { username
+            , password
+            , email
+            , phone
+            , city
+            , street
+            , levels
+            , subjects
+        } = registerFormEntries;
         try {
-            await AuthService.registerTeacher(username, password, email, phone, city, street).then(r => {
+            await AuthService.registerTeacher(username, password, email, phone, city, street, levels, subjects).then(r => {
                 navigate('/')
                 console.log("zarejestrowano")
             });
@@ -77,7 +87,7 @@ const RegisterTeacherPage = () => {
             <Grid container sx={{
                 display: 'flex'
             }}>
-                <Grid xs={6}>
+                <Grid xs={5}>
                     <Box sx={{
                         backgroundColor: palette.champagne,
                         height: '100%',
@@ -98,7 +108,7 @@ const RegisterTeacherPage = () => {
                         />
                     </Box>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={7}>
                     <Box sx={{
                         backgroundColor: palette.champagne,
                         height: '100vh',
