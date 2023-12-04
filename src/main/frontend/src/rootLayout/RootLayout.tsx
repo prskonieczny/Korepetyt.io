@@ -1,6 +1,7 @@
 import React from 'react';
 import MainLayout from "../mainLayout/MainLayout";
 import { Outlet } from "react-router-dom";
+import AuthService from "../services/authService";
 function RootLayout() {
     return (
         <div style={{

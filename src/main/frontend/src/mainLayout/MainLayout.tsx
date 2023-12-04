@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
+import FaceIcon from '@mui/icons-material/Face';
 import AppBar from "@mui/material/AppBar";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AuthService from "../services/authService";
@@ -99,6 +100,7 @@ function MainLayout() {
             actionProps: { to: "/"}
         },
     ];
+
 
     if (roles !== null && roles.includes('STUDENT')) {
         navigationTreeIn.push(
@@ -188,6 +190,18 @@ function MainLayout() {
                             >
                                 Logout
                                 <LogoutIcon
+                                    sx={{ verticalAlign: 'middle', marginLeft: 1 }}
+                                />
+                            </Button>
+                        )}
+                        {loggedUser && (
+                            <Button
+                                component={Link}
+                                to={"/profile"}
+                                sx={{ my: 2, color: 'white', display: { xs: 'none', md: 'block' }, verticalAlign: 'middle'}}
+                            >
+                                {loggedUser}
+                                <FaceIcon
                                     sx={{ verticalAlign: 'middle', marginLeft: 1 }}
                                 />
                             </Button>

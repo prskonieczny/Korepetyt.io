@@ -8,6 +8,7 @@ import LoginPage from './pages/Authorization/LoginPage';
 import RegisterStudentPage from './pages/Authorization/RegisterStudentPage';
 import RegisterTeacherPage from './pages/Authorization/RegisterTeacherPage';
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
+import RegistrationSuccessfull from "./pages/Authorization/RegistrationSuccessfull/RegistrationSuccessfull";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
@@ -15,6 +16,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="login" element={<LoginPage />} />
     <Route path="registerStudent" element={<RegisterStudentPage />} />
     <Route path="registerTeacher" element={<RegisterTeacherPage />} />
+      <Route path="registrationSuccessfull" element={<RegistrationSuccessfull />} />
       <Route path="*" element={<NotFoundPage />} />
   </Route>
 ))

@@ -1,7 +1,7 @@
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/authService";
-import { Snackbar, Alert, Grid, Box } from "@mui/material";
+import { Snackbar, Alert, Grid, Box, Paper } from "@mui/material";
 import LoginForm from "../../components/LoginForm";
 import { palette } from "../../colors";
 import image from '../../assets/images/loginpage.svg';
