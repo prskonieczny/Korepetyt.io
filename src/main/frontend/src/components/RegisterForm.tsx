@@ -47,39 +47,71 @@ const RegisterForm = ({
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
     const [subjectState, setSubjectState] = React.useState({
-        mathematics: false,
-        physics: false,
-        chemistry: false,
-        english: false,
-        geography: false,
-        literacy: false,
-        music: false,
-        information_technology: false,
+        MATHEMATICS: false,
+        PHYSICS: false,
+        CHEMISTRY: false,
+        ENGLISH: false,
+        GEOGRAPHY: false,
+        LITERACY: false,
+        MUSIC: false,
+        INFORMATION_TECHNOLOGY: false,
     });
 
     const [levelState, setLevelState] = React.useState({
-        primary_school: false,
-        middle_school: false,
-        high_school: false,
-        university: false,
+        PRIMARY_SCHOOL: false,
+        MIDDLE_SCHOOL: false,
+        HIGH_SCHOOL: false,
+        UNIVERSITY: false,
     });
 
     const handleChangeLevels = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const levelName = event.target.name;
+        const isChecked = event.target.checked;
         setLevelState({
             ...levelState,
-            [event.target.name]: event.target.checked,
+            [levelName]: isChecked,
         });
+        const updatedLevels = [...registerFormEntries.levels];
+        if (isChecked) {
+            updatedLevels.push(levelName);
+        } else {
+            const index = updatedLevels.indexOf(levelName);
+            if (index !== -1) {
+                updatedLevels.splice(index, 1);
+            }
+        }
+        setRegisterFormEntries({
+            ...registerFormEntries,
+            levels: updatedLevels,
+        });
+        console.log(updatedLevels);
     };
 
     const handleChangeSubjects = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const subjectName = event.target.name;
+        const isChecked = event.target.checked;
         setSubjectState({
             ...subjectState,
-            [event.target.name]: event.target.checked,
+            [subjectName]: isChecked,
         });
+        const updatedSubjects = [...registerFormEntries.subjects];
+        if (isChecked) {
+            updatedSubjects.push(subjectName);
+        } else {
+            const index = updatedSubjects.indexOf(subjectName);
+            if (index !== -1) {
+                updatedSubjects.splice(index, 1);
+            }
+        }
+        setRegisterFormEntries({
+            ...registerFormEntries,
+            subjects: updatedSubjects,
+        });
+        console.log(updatedSubjects);
     };
 
-    const { mathematics, physics, chemistry, english, geography, literacy, music, information_technology } = subjectState;
-    const {primary_school, middle_school, high_school, university} = levelState;
+    const { MATHEMATICS, PHYSICS, CHEMISTRY, ENGLISH, GEOGRAPHY, LITERACY, MUSIC, INFORMATION_TECHNOLOGY } = subjectState;
+    const { PRIMARY_SCHOOL, MIDDLE_SCHOOL, HIGH_SCHOOL, UNIVERSITY} = levelState;
 
     return (
         <>
@@ -298,7 +330,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }} checked={mathematics} onChange={handleChangeSubjects} name="mathematics" />
+                                    }} checked={MATHEMATICS} onChange={handleChangeSubjects} name="MATHEMATICS" />
                                 }
                                 label="Mathematics"
                             />
@@ -309,7 +341,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={physics} onChange={handleChangeSubjects} name="physics" />
+                                    }} checked={PHYSICS} onChange={handleChangeSubjects} name="PHYSICS" />
                                 }
                                 label="Physics"
                             />
@@ -320,7 +352,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={chemistry} onChange={handleChangeSubjects} name="chemistry" />
+                                    }} checked={CHEMISTRY} onChange={handleChangeSubjects} name="CHEMISTRY" />
                                 }
                                 label="Chemistry"
                             />
@@ -331,7 +363,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={english} onChange={handleChangeSubjects} name="english" />
+                                    }} checked={ENGLISH} onChange={handleChangeSubjects} name="ENGLISH" />
                                 }
                                 label="English"
                             />
@@ -344,7 +376,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={geography} onChange={handleChangeSubjects} name="geography" />
+                                    }} checked={GEOGRAPHY} onChange={handleChangeSubjects} name="GEOGRAPHY" />
                                 }
                                 label="Geography"
                             />
@@ -355,7 +387,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={literacy} onChange={handleChangeSubjects} name="literacy" />
+                                    }} checked={LITERACY} onChange={handleChangeSubjects} name="LITERACY" />
                                 }
                                 label="Literacy"
                             />
@@ -366,7 +398,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={music} onChange={handleChangeSubjects} name="music" />
+                                    }} checked={MUSIC} onChange={handleChangeSubjects} name="MUSIC" />
                                 }
                                 label="Music"
                             />
@@ -377,7 +409,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={information_technology} onChange={handleChangeSubjects} name="information_technology" />
+                                    }} checked={INFORMATION_TECHNOLOGY} onChange={handleChangeSubjects} name="INFORMATION_TECHNOLOGY" />
                                 }
                                 label="IT"
                             />
@@ -396,7 +428,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={primary_school} onChange={handleChangeLevels} name="primary_school" />
+                                    }} checked={PRIMARY_SCHOOL} onChange={handleChangeLevels} name="PRIMARY_SCHOOL" />
                                 }
                                 label="Primary school"
                             />
@@ -407,7 +439,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={middle_school} onChange={handleChangeLevels} name="middle_school" />
+                                    }} checked={MIDDLE_SCHOOL} onChange={handleChangeLevels} name="MIDDLE_SCHOOL" />
                                 }
                                 label="Middle school"
                             />
@@ -420,7 +452,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={high_school} onChange={handleChangeLevels} name="high_school" />
+                                    }} checked={HIGH_SCHOOL} onChange={handleChangeLevels} name="HIGH_SCHOOL" />
                                 }
                                 label="High school"
                             />
@@ -431,7 +463,7 @@ const RegisterForm = ({
                                         '&.Mui-checked': {
                                             color: palette.umber,
                                         },
-                                    }}  checked={university} onChange={handleChangeLevels} name="university" />
+                                    }} checked={UNIVERSITY} onChange={handleChangeLevels} name="UNIVERSITY" />
                                 }
                                 label="University"
                             />
