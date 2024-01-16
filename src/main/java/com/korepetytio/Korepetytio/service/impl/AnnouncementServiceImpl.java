@@ -2,7 +2,9 @@ package com.korepetytio.Korepetytio.service.impl;
 
 import com.korepetytio.Korepetytio.dto.AddAnnouncementRequest;
 import com.korepetytio.Korepetytio.dto.EditAnnouncementRequest;
+import com.korepetytio.Korepetytio.dto.ShowAnnouncementAccountResponse;
 import com.korepetytio.Korepetytio.dto.ShowAnnouncementsResponse;
+import com.korepetytio.Korepetytio.dto.converters.AccountDTOConverter;
 import com.korepetytio.Korepetytio.dto.converters.AnnouncementDTOConverter;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Announcement;
@@ -82,5 +84,27 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             throw new RuntimeException("Error: You have no permissions to edit this announcement");
         }
+    }
+
+    @Override
+    public void addTeacherToAnnouncement(Long announcementId) {
+        Announcement announcement = announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new IllegalArgumentException("Announcement not found"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Account teacher = accountRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Teacher account not found"));
+        announcement.getTeachersAccounts().add(teacher);
+        announcementRepository.save(announcement);
+    }
+
+    @Override
+    public List<ShowAnnouncementAccountResponse> getTeachersByAnnouncementId(Long announcementId) {
+        Announcement announcement = announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new IllegalArgumentException("Announcement not found"));
+        return announcement.getTeachersAccounts().stream()
+                .filter(Objects::nonNull)
+                .map(AccountDTOConverter::convertAccountToAnnouncementAccountResponse)
+                .collect(Collectors.toList());
     }
 }

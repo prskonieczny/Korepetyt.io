@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Announcement extends AbstractEntity {
         @Column(name = "subject")
         private Subjects subjects;
         @ManyToMany
+        @OnDelete(action = OnDeleteAction.CASCADE)
         @JoinTable(
                 name = "announcement_teacher",
                 joinColumns = @JoinColumn(name = "announcement_id"),
