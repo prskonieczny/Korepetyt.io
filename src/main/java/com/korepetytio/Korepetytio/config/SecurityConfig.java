@@ -1,6 +1,5 @@
 package com.korepetytio.Korepetytio.config;
 
-import com.korepetytio.Korepetytio.security.jwt.AuthEntryPointJwt;
 import com.korepetytio.Korepetytio.security.jwt.AuthTokenFilter;
 import com.korepetytio.Korepetytio.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ public class SecurityConfig {
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter(){
         return new AuthTokenFilter();
@@ -52,18 +49,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .securityMatcher("/api/**")
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/accounts/**").permitAll()
+                        .requestMatchers("/api/announcements/**").permitAll()
                         .anyRequest().authenticated());
-        http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
 }

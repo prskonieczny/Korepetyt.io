@@ -28,3 +28,11 @@ INSERT INTO account_subjects (account_id, subject) VALUES (2, 'BIOLOGY');
 INSERT INTO account_subjects (account_id, subject) VALUES (2, 'CHEMISTRY');
 INSERT INTO account_subjects (account_id, subject) VALUES (3, 'ENGLISH');
 INSERT INTO account_subjects (account_id, subject) VALUES (3, 'GEOGRAPHY');
+
+-- insert announcements
+INSERT INTO announcement (student_name, level, subject) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'MATHEMATICS');
+INSERT INTO announcement (student_name, level, subject) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS');
+
+-- insert teachers into announcements
+INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,2);
+INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,3);
