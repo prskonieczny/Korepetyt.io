@@ -1,4 +1,4 @@
-package com.korepetytio.Korepetytio.dto;
+package com.korepetytio.Korepetytio.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.korepetytio.Korepetytio.dto;
+package com.korepetytio.Korepetytio.dto.request;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

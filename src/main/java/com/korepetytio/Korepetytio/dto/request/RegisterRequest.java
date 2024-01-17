@@ -1,4 +1,4 @@
-package com.korepetytio.Korepetytio.dto;
+package com.korepetytio.Korepetytio.dto.request;
 
 import com.korepetytio.Korepetytio.entities.enums.Levels;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;

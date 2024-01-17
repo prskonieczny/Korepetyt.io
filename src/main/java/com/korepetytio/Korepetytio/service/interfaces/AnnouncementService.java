@@ -1,9 +1,9 @@
 package com.korepetytio.Korepetytio.service.interfaces;
 
-import com.korepetytio.Korepetytio.dto.AddAnnouncementRequest;
-import com.korepetytio.Korepetytio.dto.EditAnnouncementRequest;
-import com.korepetytio.Korepetytio.dto.ShowAnnouncementAccountResponse;
-import com.korepetytio.Korepetytio.dto.ShowAnnouncementsResponse;
+import com.korepetytio.Korepetytio.dto.request.AddAnnouncementRequest;
+import com.korepetytio.Korepetytio.dto.request.EditAnnouncementRequest;
+import com.korepetytio.Korepetytio.dto.response.ShowAnnouncementAccountResponse;
+import com.korepetytio.Korepetytio.dto.response.ShowAnnouncementsResponse;
 
 import java.util.List;
 

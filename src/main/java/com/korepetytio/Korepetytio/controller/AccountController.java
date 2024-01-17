@@ -1,10 +1,10 @@
 package com.korepetytio.Korepetytio.controller;
 
 
-import com.korepetytio.Korepetytio.dto.ChangeOwnPasswordRequest;
-import com.korepetytio.Korepetytio.dto.EditOwnAccountDetailsRequest;
-import com.korepetytio.Korepetytio.dto.EditOwnEmailRequest;
-import com.korepetytio.Korepetytio.dto.ShowAccountResponse;
+import com.korepetytio.Korepetytio.dto.request.ChangeOwnPasswordRequest;
+import com.korepetytio.Korepetytio.dto.request.EditOwnAccountDetailsRequest;
+import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
+import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

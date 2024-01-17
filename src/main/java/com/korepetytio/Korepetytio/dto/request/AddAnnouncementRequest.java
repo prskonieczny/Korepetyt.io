@@ -1,17 +1,15 @@
-package com.korepetytio.Korepetytio.dto;
+package com.korepetytio.Korepetytio.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditAnnouncementRequest {
+@Builder
+public class AddAnnouncementRequest {
     private String levels;
     private String subjects;
 }

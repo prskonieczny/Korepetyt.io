@@ -1,5 +1,6 @@
-package com.korepetytio.Korepetytio.dto;
+package com.korepetytio.Korepetytio.dto.response;
 
+import com.korepetytio.Korepetytio.entities.Role;
 import com.korepetytio.Korepetytio.entities.enums.Levels;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,14 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShowAnnouncementAccountResponse {
+public class ShowAccountResponse {
     private Long id;
     private String username;
     private String email;
     private String phone;
     private String city;
     private String street;
+    private Set<Role> roles = new HashSet<>();
     private Set<Levels> levels = new HashSet<>();
     private Set<Subjects> subjects = new HashSet<>();
 }

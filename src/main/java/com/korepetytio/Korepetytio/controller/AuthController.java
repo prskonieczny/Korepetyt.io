@@ -1,8 +1,8 @@
 package com.korepetytio.Korepetytio.controller;
 
-import com.korepetytio.Korepetytio.dto.LoginRequest;
-import com.korepetytio.Korepetytio.dto.LoginResponse;
-import com.korepetytio.Korepetytio.dto.RegisterRequest;
+import com.korepetytio.Korepetytio.dto.request.LoginRequest;
+import com.korepetytio.Korepetytio.dto.response.LoginResponse;
+import com.korepetytio.Korepetytio.dto.request.RegisterRequest;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Role;
 import com.korepetytio.Korepetytio.entities.enums.RoleType;
@@ -10,7 +10,6 @@ import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.RoleRepository;
 import com.korepetytio.Korepetytio.security.jwt.JwtUtils;
 import com.korepetytio.Korepetytio.security.service.UserDetailsImpl;
-import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
 import com.korepetytio.Korepetytio.service.interfaces.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

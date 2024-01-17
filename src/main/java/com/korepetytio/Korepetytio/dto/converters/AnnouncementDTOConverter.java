@@ -1,6 +1,6 @@
 package com.korepetytio.Korepetytio.dto.converters;
 
-import com.korepetytio.Korepetytio.dto.ShowAnnouncementsResponse;
+import com.korepetytio.Korepetytio.dto.response.ShowAnnouncementsResponse;
 import com.korepetytio.Korepetytio.entities.Announcement;
 
 public class AnnouncementDTOConverter {

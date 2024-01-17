@@ -1,9 +1,9 @@
 package com.korepetytio.Korepetytio.service.impl;
 
-import com.korepetytio.Korepetytio.dto.ChangeOwnPasswordRequest;
-import com.korepetytio.Korepetytio.dto.EditOwnAccountDetailsRequest;
-import com.korepetytio.Korepetytio.dto.EditOwnEmailRequest;
-import com.korepetytio.Korepetytio.dto.ShowAccountResponse;
+import com.korepetytio.Korepetytio.dto.request.ChangeOwnPasswordRequest;
+import com.korepetytio.Korepetytio.dto.request.EditOwnAccountDetailsRequest;
+import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
+import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.dto.converters.AccountDTOConverter;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Role;

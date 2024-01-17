@@ -1,6 +1,6 @@
 package com.korepetytio.Korepetytio.service.impl;
 
-import com.korepetytio.Korepetytio.dto.RegisterRequest;
+import com.korepetytio.Korepetytio.dto.request.RegisterRequest;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;

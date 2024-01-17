@@ -1,6 +1,6 @@
 package com.korepetytio.Korepetytio.service.interfaces;
 
-import com.korepetytio.Korepetytio.dto.RegisterRequest;
+import com.korepetytio.Korepetytio.dto.request.RegisterRequest;
 import com.korepetytio.Korepetytio.entities.Account;
 
 public interface AuthService {
