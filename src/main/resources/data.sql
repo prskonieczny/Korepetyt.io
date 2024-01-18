@@ -39,4 +39,9 @@ INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,3);
 
 -- insert lessons
 INSERT INTO lesson (start_time, end_time, student_username, teacher_username, description, subject, lesson_status)
-VALUES ('2024-01-17T10:00:00', '2024-01-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie ułamków', 'MATHEMATICS', 'INCOMING');
+VALUES ('2024-01-17T10:00:00', '2024-01-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie ułamków', 'MATHEMATICS', 'ACTIVE');
+
+-- insert opinion
+INSERT INTO opinion (star_review, opinion_content, opinion_pros, opinion_cons, student_username, teacher_username, creation_date)
+VALUES
+    ('FIVE', 'Bardzo dobry nauczyciel!', 'Znakomita wiedza', 'Brak', 'teststudent', 'testteacher',  '2024-01-20 12:30:00');

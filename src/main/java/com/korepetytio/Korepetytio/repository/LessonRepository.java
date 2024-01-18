@@ -1,6 +1,7 @@
 package com.korepetytio.Korepetytio.repository;
 
 import com.korepetytio.Korepetytio.entities.Lesson;
+import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
@@ -34,4 +36,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     @Query("SELECT l FROM Lesson l WHERE l.studentUsername = :studentUsername")
     List<Lesson> findByStudentUsername(@Param("studentUsername") String studentUsername);
+
+    List<Lesson> findByLessonStatus(LessonStatus lessonStatus);
+    Optional<Lesson> findFinishedLessonByTeacherUsernameAndStudentUsername(String teacherUsername, String studentUsername);
 }

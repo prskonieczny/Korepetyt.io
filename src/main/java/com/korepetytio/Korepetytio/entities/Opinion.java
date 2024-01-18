@@ -25,7 +25,6 @@ public class Opinion extends AbstractEntity {
     @Column(length = 500)
     private String opinionCons;
     private String studentUsername;
-    private Long teacherId;
-    private boolean isHidden;
+    private String teacherUsername;
     private Date creationDate;
 }

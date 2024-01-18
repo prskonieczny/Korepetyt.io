@@ -77,7 +77,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setTeacherUsername(teacher.getUsername());
         lesson.setStartTime(createLessonRequest.getStartTime());
         lesson.setEndTime(createLessonRequest.getEndTime());
-        lesson.setLessonStatus(LessonStatus.INCOMING);
+        lesson.setLessonStatus(LessonStatus.ACTIVE);
         lesson.setSubject(createLessonRequest.getSubject());
         lesson.setDescription(createLessonRequest.getDescription());
 
@@ -108,7 +108,7 @@ public class LessonServiceImpl implements LessonService {
 
             // lessons can be deleted only by user that created them or ADMIN user
             if (!(lesson.getStudentUsername().equals(studentUsername))
-                    || !(accountDeletingLesson.getRoles().stream().noneMatch(role -> role.getPermissionLevel().equals(ADMIN)))) {
+                    || accountDeletingLesson.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(ADMIN))) {
                 throw new IllegalArgumentException("You have no permissions to cancel this lesson");
             }
 

@@ -14,9 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 public class TeacherStatistics extends AbstractEntity{
-    @Column(name = "number_of_students")
-    @NotNull
-    private int numberOfStudents;
     @Column(name = "number_of_lessons")
     @NotNull
     private int numberOfLessons;
