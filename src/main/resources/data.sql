@@ -36,3 +36,7 @@ INSERT INTO announcement (student_name, level, subject) VALUES ('teststudent', '
 -- insert teachers into announcements
 INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,2);
 INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,3);
+
+-- insert lessons
+INSERT INTO lesson (start_time, end_time, student_username, teacher_username, description, subject, lesson_status)
+VALUES ('2024-01-17T10:00:00', '2024-01-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie ułamków', 'MATHEMATICS', 'INCOMING');

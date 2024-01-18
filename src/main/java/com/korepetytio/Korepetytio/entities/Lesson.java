@@ -1,14 +1,18 @@
 package com.korepetytio.Korepetytio.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,19 +22,18 @@ import java.util.Date;
 public class Lesson extends AbstractEntity {
     @Column(name = "start_time")
     @NotNull
-    private Date startTime;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime startTime;
     @Column(name = "end_time")
     @NotNull
-    private Date endTime;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime endTime;
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Account studentAccount;
+    @Column(name = "student_username")
+    private String studentUsername;
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Account teacherAccount;
-    @NotNull
+    @Column(name = "teacher_username")
+    private String teacherUsername;
     @Column(name = "description", length = 2000)
     private String description;
     @NotNull

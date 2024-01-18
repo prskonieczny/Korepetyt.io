@@ -3,7 +3,6 @@ package com.korepetytio.Korepetytio.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.korepetytio.Korepetytio.entities.enums.Levels;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -13,16 +12,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -49,10 +45,6 @@ public class Account extends AbstractEntity{
     private String street;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-    @OneToMany(mappedBy = "studentAccount", cascade = CascadeType.ALL)
-    private List<Lesson> lessonListAsStudent = new ArrayList<>();
-    @OneToMany(mappedBy = "teacherAccount", cascade = CascadeType.ALL)
-    private List<Lesson> lessonListAsTeacher = new ArrayList<>();
     @ElementCollection(targetClass = Levels.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "account_levels", joinColumns = @JoinColumn(name = "account_id"))
     @Enumerated(EnumType.STRING)
@@ -73,15 +65,6 @@ public class Account extends AbstractEntity{
         this.street = street;
         this.levels = levels;
         this.subjects = subjects;
-    }
-
-    public void addLessonStudent(Lesson lesson) {
-        lessonListAsStudent.add(lesson);
-        lesson.setStudentAccount(this);
-    }
-    public void addLessonTeacher(Lesson lesson) {
-        lessonListAsTeacher.add(lesson);
-        lesson.setTeacherAccount(this);
     }
 
     public void addLevel(Levels level){

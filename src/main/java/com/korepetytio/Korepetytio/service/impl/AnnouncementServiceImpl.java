@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
-
     private final AnnouncementRepository announcementRepository;
     private final AccountRepository accountRepository;
     public AnnouncementServiceImpl(AnnouncementRepository announcementRepository, AccountRepository accountRepository) {
