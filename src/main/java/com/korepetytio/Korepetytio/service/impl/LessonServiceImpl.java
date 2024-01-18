@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.korepetytio.Korepetytio.entities.enums.RoleType.ADMIN;
 import static com.korepetytio.Korepetytio.entities.enums.RoleType.STUDENT;
 
 @Service
@@ -89,5 +91,38 @@ public class LessonServiceImpl implements LessonService {
                 .filter(Objects::nonNull)
                 .map(LessonDTOConverter::convertLessonToShowTeacherLessonsResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void cancelLesson(Long lessonId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String studentUsername = authentication.getName();
+
+        Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
+        Account accountDeletingLesson = accountRepository
+                .findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("Error: Student account not found"));
+
+        if (optionalLesson.isPresent()) {
+            Lesson lesson = optionalLesson.get();
+
+            // lessons can be deleted only by user that created them or ADMIN user
+            if (!(lesson.getStudentUsername().equals(studentUsername))
+                    || !(accountDeletingLesson.getRoles().stream().noneMatch(role -> role.getPermissionLevel().equals(ADMIN)))) {
+                throw new IllegalArgumentException("You have no permissions to cancel this lesson");
+            }
+
+            LocalDateTime lessonStartDateTime = lesson.getStartTime();
+            LocalDateTime currentDateTime = LocalDateTime.now();
+
+            // we can delete lessons max 2 hours before it starts
+            if (lessonStartDateTime.isBefore(currentDateTime.plusHours(2))) {
+                throw new IllegalArgumentException("You can only cancel a lesson at least 2 hours before its start");
+            }
+
+            lessonRepository.delete(lesson);
+        } else {
+            throw new RuntimeException("Lesson not found");
+        }
     }
 }
