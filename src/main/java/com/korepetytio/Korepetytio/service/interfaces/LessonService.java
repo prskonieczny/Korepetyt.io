@@ -10,4 +10,5 @@ public interface LessonService {
     List<ShowTeacherLessonsResponse> getTeacherLessons(String teacherUsername);
     void cancelLesson(Long lessonId);
     List<ShowTeacherLessonsResponse> getAllReservations();
+    List<ShowTeacherLessonsResponse> getStudentReservations();
 }

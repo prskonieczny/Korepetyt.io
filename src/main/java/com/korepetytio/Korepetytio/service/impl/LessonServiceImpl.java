@@ -134,4 +134,15 @@ public class LessonServiceImpl implements LessonService {
                 .map(LessonDTOConverter::convertLessonToShowTeacherLessonsResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ShowTeacherLessonsResponse> getStudentReservations() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String studentUsername = authentication.getName();
+        List<Lesson> studentLessons = lessonRepository.findByStudentUsername(studentUsername);
+        return studentLessons.stream()
+                .filter(Objects::nonNull)
+                .map(LessonDTOConverter::convertLessonToShowTeacherLessonsResponse)
+                .collect(Collectors.toList());
+    }
 }

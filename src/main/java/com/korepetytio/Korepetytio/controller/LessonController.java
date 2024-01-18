@@ -40,6 +40,11 @@ public class LessonController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+    @GetMapping("/reservations/self")
+    public ResponseEntity<List<ShowTeacherLessonsResponse>> getStudentReservations() {
+        List<ShowTeacherLessonsResponse> studentReservations = lessonService.getStudentReservations();
+        return ResponseEntity.ok(studentReservations);
+    }
     @PostMapping("/reserve/{teacherId}")
     public ResponseEntity<String> reserveLesson(
             @PathVariable Long teacherId,
