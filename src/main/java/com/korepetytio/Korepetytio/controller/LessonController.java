@@ -3,6 +3,7 @@ package com.korepetytio.Korepetytio.controller;
 import com.korepetytio.Korepetytio.dto.request.CreateLessonRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowTeacherLessonsResponse;
 import com.korepetytio.Korepetytio.service.interfaces.LessonService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,15 @@ public class LessonController {
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
-
+    @GetMapping("/reservations")
+    public ResponseEntity<List<ShowTeacherLessonsResponse>> getAllReservations() {
+        try {
+            List<ShowTeacherLessonsResponse> reservations = lessonService.getAllReservations();
+            return ResponseEntity.ok(reservations);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
     @GetMapping("/teacher/{teacherUsername}")
     public ResponseEntity<List<ShowTeacherLessonsResponse>> getTeacherLessons(@PathVariable String teacherUsername) {
         try {

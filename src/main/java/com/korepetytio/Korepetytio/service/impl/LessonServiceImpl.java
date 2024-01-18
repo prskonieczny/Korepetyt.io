@@ -125,4 +125,13 @@ public class LessonServiceImpl implements LessonService {
             throw new RuntimeException("Lesson not found");
         }
     }
+
+    @Override
+    public List<ShowTeacherLessonsResponse> getAllReservations() {
+        List<Lesson> teacherLessons = lessonRepository.findAll();
+        return teacherLessons.stream()
+                .filter(Objects::nonNull)
+                .map(LessonDTOConverter::convertLessonToShowTeacherLessonsResponse)
+                .collect(Collectors.toList());
+    }
 }
