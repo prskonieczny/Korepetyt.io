@@ -77,6 +77,9 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Error: Account not found"));
         Role adminRole = roleRepository.findByPermissionLevel(RoleType.ADMIN)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT));
+        if (account.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(RoleType.ADMIN))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Error: User already has ADMIN role");
+        }
         account.addRole(adminRole);
         accountRepository.save(account);
     }
@@ -87,6 +90,12 @@ public class AccountServiceImpl implements AccountService {
         Role adminRole = roleRepository.findByPermissionLevel(RoleType.ADMIN)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT));
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        if (account.getRoles().stream().noneMatch(role -> role.getPermissionLevel().equals(RoleType.ADMIN))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Error: User does not have ADMIN role");
+        }
+        if (Objects.equals(account.getUsername(), currentUser.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot remove ADMIN role from yourself");
+        }
         if (Objects.equals(account.getUsername(), currentUser.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

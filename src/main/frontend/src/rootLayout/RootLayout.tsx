@@ -1,14 +1,15 @@
 import React from 'react';
 import MainLayout from "../mainLayout/MainLayout";
 import { Outlet } from "react-router-dom";
-import AuthService from "../services/authService";
+import {palette} from "../colors";
 function RootLayout() {
     return (
         <div style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "spece-between",
-            height: "100vh"
+            height: "100vh",
+            backgroundColor: palette.champagne,
         }}>
             <MainLayout />
             <main>
