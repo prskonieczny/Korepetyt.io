@@ -10,7 +10,7 @@ import RegisterTeacherPage from './pages/Authorization/RegisterTeacherPage';
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import RegistrationSuccessfull from "./pages/Authorization/RegistrationSuccessfull/RegistrationSuccessfull";
 import AccountsPage from "./pages/AdminView/AccountsPage";
-import Profile from "./pages/Profile/Profile";
+import ProfilePage from "./pages/Profile/ProfilePage";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
@@ -20,7 +20,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="registerTeacher" element={<RegisterTeacherPage />} />
       <Route path="registrationSuccessfull" element={<RegistrationSuccessfull />} />
       <Route path="users" element={<AccountsPage />} />
-      <Route path="profile" element={<Profile />} />
+      <Route path="profile" element={<ProfilePage />} />
 
       <Route path="*" element={<NotFoundPage />} />
   </Route>

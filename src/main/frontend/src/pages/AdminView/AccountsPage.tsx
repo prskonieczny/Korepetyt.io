@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {IAccountData} from "../../util/data";
 import {useNavigate} from "react-router-dom";
 import AccountService from "../../services/accountService";
-import {Alert, Box, Snackbar} from "@mui/material";
+import {Alert, Box, Snackbar, Typography} from "@mui/material";
 import AccountsTable from "../../components/AdminView/AccountsTable";
 import {palette} from "../../colors";
 
@@ -84,7 +84,6 @@ const AccountsPage = () => {
         <Box sx={{
             height: 600,
             width: "70%",
-            borderRadius: 10,
             overflow: "hidden",
             margin: "auto",
             backgroundColor: palette.champagne

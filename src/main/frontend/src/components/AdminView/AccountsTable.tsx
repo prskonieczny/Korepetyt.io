@@ -36,7 +36,7 @@ const AccountsTable = ({
         {
             field: 'username',
             renderHeader: () => <strong>{"Username"}</strong>,
-            width: 100,
+            width: 150,
             editable: false,
         },
         {
@@ -105,7 +105,7 @@ const AccountsTable = ({
 
     return (
         <Box>
-            <br/><br/><br/>
+            <br/><br/>
                 <DataGrid
                     rows={rows}
                     columns={columns}
