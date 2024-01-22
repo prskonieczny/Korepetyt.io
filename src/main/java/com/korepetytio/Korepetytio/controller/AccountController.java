@@ -79,4 +79,13 @@ public class AccountController {
         accountService.editOwnEmail(edtitOwnEmailRequest);
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping("/delete/{accountId}")
+    public ResponseEntity<String> deleteAnnouncement(@PathVariable Long accountId) {
+        try {
+            accountService.deleteAccount(accountId);
+            return ResponseEntity.ok("Account deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to delete account: " + e.getMessage());
+        }
+    }
 }

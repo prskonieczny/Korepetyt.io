@@ -14,4 +14,5 @@ public interface AnnouncementService {
     void editAnnouncement(Long announcementId, EditAnnouncementRequest editAnnouncementRequest);
     void addTeacherToAnnouncement(Long announcementId);
     List<ShowAnnouncementAccountResponse> getTeachersByAnnouncementId(Long announcementId);
+    void removeAnnouncementsByTeacherId(Long teacherId);
 }

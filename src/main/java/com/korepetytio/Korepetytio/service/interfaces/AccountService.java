@@ -18,4 +18,5 @@ public interface AccountService {
     void changeOwnPassword(ChangeOwnPasswordRequest changeOwnPasswordRequest);
     void editOwnAccountDetails(EditOwnAccountDetailsRequest editOwnAccountDetailsRequest);
     void editOwnEmail(EditOwnEmailRequest editOwnEmailRequest);
+    void deleteAccount(Long accountId);
 }

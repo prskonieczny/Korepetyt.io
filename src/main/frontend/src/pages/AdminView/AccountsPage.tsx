@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {IAccountData} from "../../util/data";
 import {useNavigate} from "react-router-dom";
 import AccountService from "../../services/accountService";
-import {Alert, Box, Snackbar, Typography} from "@mui/material";
+import {Alert, Box, Snackbar} from "@mui/material";
 import AccountsTable from "../../components/AdminView/AccountsTable";
 import {palette} from "../../colors";
 
@@ -61,6 +61,19 @@ const AccountsPage = () => {
             });
     }
 
+    function deleteAccountHandler(id: number) {
+        AccountService.deleteAccount(id)
+            .then(() => {
+                console.log("usunieto konto " + id);
+                setAccounts((prevAccounts) => {
+                    return prevAccounts.filter((account) => account.id !== id);
+                });
+            })
+            .catch((error) => {
+                console.log("error " + id);
+            });
+    }
+
     return (
         <>
         <Snackbar
@@ -92,6 +105,7 @@ const AccountsPage = () => {
                     accounts={accounts}
                     addAdminRoleHandler={addAdminRoleHandler}
                     removeAdminRoleHandler={removeAdminRoleHandler}
+                    deleteAccountHandler={deleteAccountHandler}
                 />
         </Box>
         </>

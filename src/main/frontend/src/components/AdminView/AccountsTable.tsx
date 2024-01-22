@@ -5,12 +5,16 @@ import {IAccountData} from "../../util/data";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {palette} from "../../colors";
 
 
 export interface AccountsListProps {
     accounts: IAccountData[],
     addAdminRoleHandler: (id: number) => void,
-    removeAdminRoleHandler: (id: number) => void
+    removeAdminRoleHandler: (id: number) => void,
+    deleteAccountHandler: (id: number) => void,
 }
 
 const convertAccountsToRows = (accounts: IAccountData[]) => {
@@ -28,9 +32,21 @@ const convertAccountsToRows = (accounts: IAccountData[]) => {
 const AccountsTable = ({
                            accounts,
                            addAdminRoleHandler,
-                           removeAdminRoleHandler
+                           removeAdminRoleHandler,
+                           deleteAccountHandler,
                        }: AccountsListProps) => {
     const rows = convertAccountsToRows(accounts);
+    const [open, setOpen] = React.useState(false);
+    const [accountId, setAccountId] = React.useState(0);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    function handleDeleteAccount(id: number) {
+        deleteAccountHandler(id);
+    };
     const columns: GridColDef[] = [
         { field: 'id', renderHeader: () => <strong>{"ID"}</strong>, width: 50 },
         {
@@ -95,6 +111,22 @@ const AccountsTable = ({
                 </>
             ),
         },
+        {
+            field: 'actionsDelete',
+            headerName: '',
+            width: 40,
+            sortable: false,
+            renderCell: (params) => (
+                <>
+                    {!(AuthService.getCurrentUser() === params.row.username) && (
+                        <DeleteForeverIcon onClick={() => {
+                            setOpen(true);
+                            setAccountId(params.row.id);
+                        }} />
+                    )}
+                </>
+            ),
+        },
     ];
 
     const handleCellClick = (params: GridCellParams) => {
@@ -103,8 +135,37 @@ const AccountsTable = ({
         }
     };
 
+    const deleteAccountDialog = (
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                {"Delete this account?"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete this account?
+                    You can not take this action back.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleClose}>Cancel</Button>
+                <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
+                    handleDeleteAccount(accountId);
+                    handleClose();
+                }} autoFocus>
+                    Delete
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+
     return (
         <Box>
+            {deleteAccountDialog}
             <br/><br/>
                 <DataGrid
                     rows={rows}

@@ -9,9 +9,12 @@ import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Role;
 import com.korepetytio.Korepetytio.entities.enums.RoleType;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
+import com.korepetytio.Korepetytio.repository.AnnouncementRepository;
 import com.korepetytio.Korepetytio.repository.RoleRepository;
 import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
+import com.korepetytio.Korepetytio.service.interfaces.AnnouncementService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -33,10 +36,12 @@ public class AccountServiceImpl implements AccountService {
     EmailService emailService;
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final AnnouncementService announcementService;
 
-    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, AnnouncementRepository announcementRepository, AnnouncementService announcementService) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
+        this.announcementService = announcementService;
     }
 
     @Override
@@ -158,6 +163,19 @@ public class AccountServiceImpl implements AccountService {
             Account account = accountRepository.findByUsername(authentication.getName())
                     .orElseThrow(() -> new RuntimeException("Error: Account is not found"));
             updateOwnEmail(account, editOwnEmailRequest);
+        }
+    }
+
+    @Override
+    public void deleteAccount(Long accountId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Account accountToDelete = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found with id: " + accountId));
+        if (Objects.equals(authentication.getName(), accountToDelete.getUsername())){
+            throw new RuntimeException("Error: you can not delete your own account!");
+        } else {
+            announcementService.removeAnnouncementsByTeacherId(accountId);
+            accountRepository.delete(accountToDelete);
         }
     }
 

@@ -106,4 +106,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .map(AccountDTOConverter::convertAccountToAnnouncementAccountResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void removeAnnouncementsByTeacherId(Long teacherId) {
+        List<Announcement> announcements = announcementRepository.findByTeachersAccounts_Id(teacherId);
+
+        for (Announcement announcement : announcements) {
+            announcement.getTeachersAccounts().removeIf(account -> account.getId().equals(teacherId));
+        }
+
+        // Usuń ogłoszenia, których nie ma już przypisanych nauczycieli
+        announcements.removeIf(announcement -> announcement.getTeachersAccounts().isEmpty());
+
+        announcementRepository.saveAll(announcements);
+    }
 }

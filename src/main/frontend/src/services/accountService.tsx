@@ -27,10 +27,18 @@ const removeAdminRole = (id: number) => {
     });
 };
 
+const deleteAccount = (id: number) => {
+    return axios.delete(API_URL + "delete/" + id, {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    });
+}
 
 const AccountService = {
     getAllUsers,
     addAdminRole,
     removeAdminRole,
+    deleteAccount,
 }
 export default AccountService;
