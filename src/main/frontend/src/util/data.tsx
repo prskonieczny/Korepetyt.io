@@ -14,3 +14,8 @@ export interface IRoleData {
     id: number,
     permissionLevel: string
 }
+
+export interface IChangePasswordData {
+    newPassword: string,
+    oldPassword: string
+}

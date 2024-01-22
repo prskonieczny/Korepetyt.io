@@ -53,7 +53,6 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/self")
-    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('STUDENT') or hasAuthority('ADMIN')")
     public ResponseEntity<Object> retrieveCurrentUserDetails() {
         return ResponseEntity.ok().body(accountService.retrieveCurrentUserDetails());
     }
