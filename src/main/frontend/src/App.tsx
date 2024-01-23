@@ -21,7 +21,6 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="registrationSuccessfull" element={<RegistrationSuccessfull />} />
       <Route path="users" element={<AccountsPage />} />
       <Route path="profile" element={<ProfilePage />} />
-
       <Route path="*" element={<NotFoundPage />} />
   </Route>
 ))

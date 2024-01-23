@@ -23,10 +23,6 @@ const LoginForm = ({
     loginFormEntries,
     setLoginFormEntries,
     loginFormSubmit,
-    error,
-    setError,
-    isLoading,
-    errorMessage,
 }: LoginFormProps) => {
     const navigate = useNavigate();
 

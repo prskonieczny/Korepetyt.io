@@ -131,8 +131,10 @@ function MainLayout() {
     }
 
     const handleLogout = () => {
-        AuthService.logout();
-        navigate("/");
+        AuthService.logout().then(() => {
+            navigate("/");
+            window.location.reload();
+        });
     }
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

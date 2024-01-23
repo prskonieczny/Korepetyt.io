@@ -4,7 +4,6 @@ const API_URL = "http://localhost:8082/api/accounts/";
 const token = localStorage.getItem("token");
 
 const getAllUsers = () => {
-    console.log(token);
     return axios.get(API_URL + "all", {
         headers: {
             Authorization: 'Bearer ' + token
@@ -39,7 +38,7 @@ const deleteAccount = (id: number) => {
 const getCurrentUser = () => {
     return axios.get(API_URL + 'self', {
         headers: {
-            Authorization: 'Bearer: ' + token
+            Authorization: 'Bearer ' + token
         }
     });
 }

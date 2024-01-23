@@ -7,6 +7,7 @@ import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import jakarta.validation.Valid;
+import jdk.jfr.ContentType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,6 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
     @PutMapping("/self/details")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STUDENT') or hasAuthority('TEACHER')")
     public ResponseEntity editOwnAccountDetails(@Valid @RequestBody EditOwnAccountDetailsRequest editOwnAccountDetailsRequest) {
         accountService.editOwnAccountDetails(editOwnAccountDetailsRequest);
         return ResponseEntity.ok().build();

@@ -1,3 +1,4 @@
+import React from "react";
 import AuthService from "../../services/authService";
 import {IAccountData} from "../../util/data";
 import {useEffect, useState} from "react";
@@ -11,18 +12,12 @@ const ProfilePage = () => {
     const [account, setAccount] = useState<IAccountData>();
     const navigate = useNavigate();
 
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
-
     useEffect(() => {
         AccountService.getCurrentUser().then(response => {
             setAccount(response.data);
         }).catch(error => {
             if (error.response.status === 404) {
                 navigate("/login");
-            } else if (error) {
-                navigate("/");
             }
         })
     },[])

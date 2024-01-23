@@ -88,12 +88,14 @@ const AccountsTable = ({
         {
             field: 'actionsAdd',
             headerName: '',
-            width: 40,
+            width: 60,
             sortable: false,
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <AddCircleIcon onClick={() => addAdminRoleHandler(params.row.id)} />
+                        <Button sx={{color: palette.umber}}>
+                            <AddCircleIcon onClick={() => addAdminRoleHandler(params.row.id)} />
+                        </Button>
                     )}
                 </>
             ),
@@ -101,12 +103,14 @@ const AccountsTable = ({
         {
             field: 'actionsRemove',
             headerName: '',
-            width: 40,
+            width: 60,
             sortable: false,
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <RemoveCircleIcon onClick={() => removeAdminRoleHandler(params.row.id)} />
+                        <Button sx={{color: palette.umber}}>
+                            <RemoveCircleIcon onClick={() => removeAdminRoleHandler(params.row.id)} />
+                        </Button>
                     )}
                 </>
             ),
@@ -114,15 +118,17 @@ const AccountsTable = ({
         {
             field: 'actionsDelete',
             headerName: '',
-            width: 40,
+            width: 70,
             sortable: false,
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <DeleteForeverIcon onClick={() => {
-                            setOpen(true);
-                            setAccountId(params.row.id);
-                        }} />
+                        <Button sx={{color: palette.umber}}>
+                            <DeleteForeverIcon onClick={() => {
+                                setOpen(true);
+                                setAccountId(params.row.id);
+                            }} />
+                        </Button>
                     )}
                 </>
             ),
