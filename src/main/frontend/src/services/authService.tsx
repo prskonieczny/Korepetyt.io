@@ -35,8 +35,9 @@ const login = (
     username: string,
     password: string,
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-) => {
-    return axios.post(API_URL + "login", {
+    ) => {
+    return axios
+        .post(API_URL + "login", {
         username, password,
     }).then((response) => {
         if (response.data.token && response.status === 200) {

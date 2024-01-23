@@ -20,7 +20,7 @@ const ProfilePage = () => {
                 navigate("/login");
             }
         })
-    },[])
+    });
 
     return (
         <>
