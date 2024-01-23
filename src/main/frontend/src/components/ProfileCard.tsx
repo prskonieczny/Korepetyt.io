@@ -1,4 +1,9 @@
-import {IAccountData, IChangeAccountDetailsData, IChangeEmailData, IChangePasswordData} from "../util/data";
+import {
+    IAccountData,
+    IChangeEmailData,
+    IChangePasswordData,
+    IEditAccountPropertiesData
+} from "../util/data";
 import {
     Alert,
     Box,
@@ -22,14 +27,21 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SchoolIcon from '@mui/icons-material/School';
 import EditAccountDetails from "./EditAccountDetails";
+import EditAccountProperties from "./EditAccountProperties";
 
 export interface ProfileCardProps {
     account: IAccountData | undefined,
     onEmailChange: (email: string) => void,
     onAccountEdit: (username: string | undefined) => void,
+    onPropertiesEdit: (key: string | any) => void,
 }
 
-const ProfileCard = ({account, onEmailChange, onAccountEdit}: ProfileCardProps) => {
+const ProfileCard = ({
+                         account,
+                         onEmailChange,
+                         onAccountEdit,
+                         onPropertiesEdit
+    }: ProfileCardProps) => {
     const handleAccountEditSnackbar = (isError: boolean, flag: boolean, msg: string) => {
         if (isError) {
             setSnackbarErrorInfo({ open: flag, message: msg});
@@ -61,6 +73,15 @@ const ProfileCard = ({account, onEmailChange, onAccountEdit}: ProfileCardProps) 
     };
     const handleEditAccountClose = () => {
         setEditOpen(false);
+    };
+
+    // PropertiesEdit
+    const [editPropertiesOpen, setEditPropertiesOpen] = React.useState(false);
+    const handleClickPropertiesAccountOpen = () => {
+        setEditPropertiesOpen(true);
+    };
+    const handleClickPropertiesAccountClose = () => {
+        setEditPropertiesOpen(false);
     };
 
     const [oldPassword, setOldPassword] = useState('');
@@ -343,6 +364,13 @@ const ProfileCard = ({account, onEmailChange, onAccountEdit}: ProfileCardProps) 
                 handleEditAccountClose={handleEditAccountClose}
                 handleAccountEditSnackbar={handleAccountEditSnackbar}
             />
+            <EditAccountProperties
+                account={account}
+                onPropertiesEdit={onPropertiesEdit}
+                editPropertiesOpen={editPropertiesOpen}
+                handleClickPropertiesAccountOpen={handleClickPropertiesAccountOpen}
+                handleClickPropertiesAccountClose={handleClickPropertiesAccountClose}
+            />
             <Box textAlign="center">
                 <AccountCircleIcon
                     sx={{ color: palette.current, fontSize: "50px", mr: 1.5 }}
@@ -363,7 +391,7 @@ const ProfileCard = ({account, onEmailChange, onAccountEdit}: ProfileCardProps) 
                 Subjects: {account?.subjects.map(subject => subject.toLowerCase()).join(", ")}</Typography>
             <br/>
             <Box textAlign="center">
-                <Button onClick={() => console.log("xd")}>
+                <Button onClick={handleClickPropertiesAccountOpen}>
                     <SchoolIcon
                         fontSize={"large"}
                         sx={{color: palette.current}}

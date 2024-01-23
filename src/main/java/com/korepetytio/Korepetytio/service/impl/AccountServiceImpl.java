@@ -3,6 +3,7 @@ package com.korepetytio.Korepetytio.service.impl;
 import com.korepetytio.Korepetytio.dto.request.ChangeOwnPasswordRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnAccountDetailsRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
+import com.korepetytio.Korepetytio.dto.request.UpdateAccountPropertiesRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.dto.converters.AccountDTOConverter;
 import com.korepetytio.Korepetytio.entities.Account;
@@ -177,6 +178,15 @@ public class AccountServiceImpl implements AccountService {
             announcementService.removeAnnouncementsByTeacherId(accountId);
             accountRepository.delete(accountToDelete);
         }
+    }
+
+    @Override
+    public void editAccountProperties(Long accountId, UpdateAccountPropertiesRequest updateAccountPropertiesRequest) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
+        account.setLevels(updateAccountPropertiesRequest.getNewLevels());
+        account.setSubjects(updateAccountPropertiesRequest.getNewSubjects());
+        accountRepository.save(account);
     }
 
     private void updateAccountDetails(Account account, EditOwnAccountDetailsRequest dto) {

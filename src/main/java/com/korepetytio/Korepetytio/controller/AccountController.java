@@ -4,6 +4,7 @@ package com.korepetytio.Korepetytio.controller;
 import com.korepetytio.Korepetytio.dto.request.ChangeOwnPasswordRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnAccountDetailsRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
+import com.korepetytio.Korepetytio.dto.request.UpdateAccountPropertiesRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import jakarta.validation.Valid;
@@ -63,7 +64,9 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.retrieveOtherUserDetails(id));
     }
     @PostMapping("/self/password")
-    public ResponseEntity changeOwnPassword(@Valid @RequestBody ChangeOwnPasswordRequest changeOwnPasswordRequest) {
+    public ResponseEntity changeOwnPassword(
+            @Valid @RequestBody ChangeOwnPasswordRequest changeOwnPasswordRequest
+    ) {
         accountService.changeOwnPassword(changeOwnPasswordRequest);
         return ResponseEntity.ok().build();
     }
@@ -75,7 +78,7 @@ public class AccountController {
     @PutMapping("/self/email")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STUDENT') or hasAuthority('TEACHER')")
     public ResponseEntity editOwnEmail(@Valid @RequestBody EditOwnEmailRequest edtitOwnEmailRequest) {
-        accountService.editOwnEmail(edtitOwnEmailRequest);
+         accountService.editOwnEmail(edtitOwnEmailRequest);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("/delete/{accountId}")
@@ -85,6 +88,21 @@ public class AccountController {
             return ResponseEntity.ok("Account deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to delete account: " + e.getMessage());
+        }
+    }
+    @PutMapping("/{accountId}/editAccountProperties")
+    public ResponseEntity<?> editAccountProperties(
+            @PathVariable Long accountId,
+            @RequestBody UpdateAccountPropertiesRequest updateAccountPropertiesRequest
+    ) {
+        try {
+            accountService.editAccountProperties(
+                    accountId,
+                    updateAccountPropertiesRequest
+            );
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to edit account: " + e.getMessage());
         }
     }
 }

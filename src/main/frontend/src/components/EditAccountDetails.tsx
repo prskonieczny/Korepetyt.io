@@ -32,15 +32,10 @@ const EditAccountDetails = ({
                                 handleAccountEditSnackbar
                             }: EditAccountDetailsProps) => {
 
-    const [open, setOpen] = React.useState(false);
-
     const [username, setUsername] = useState('');
     const [phone, setPhone] = useState('');
     const [city, setCity] = useState('');
     const [street, setStreet] = useState('');
-
-    const [snackbarInfo, setSnackbarInfo] = useState({ message: ""});
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
     const handleChangeAccountDetails = async (e: FormEvent) => {
         e.preventDefault();

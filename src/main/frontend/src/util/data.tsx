@@ -30,3 +30,8 @@ export interface IChangeAccountDetailsData {
     city: string | undefined,
     street: string | undefined
 }
+
+export interface IEditAccountPropertiesData {
+    newLevels: string[],
+    newSubjects: string[]
+}

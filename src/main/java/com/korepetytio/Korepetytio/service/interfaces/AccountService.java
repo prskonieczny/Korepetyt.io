@@ -3,6 +3,7 @@ package com.korepetytio.Korepetytio.service.interfaces;
 import com.korepetytio.Korepetytio.dto.request.ChangeOwnPasswordRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnAccountDetailsRequest;
 import com.korepetytio.Korepetytio.dto.request.EditOwnEmailRequest;
+import com.korepetytio.Korepetytio.dto.request.UpdateAccountPropertiesRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface AccountService {
     void editOwnAccountDetails(EditOwnAccountDetailsRequest editOwnAccountDetailsRequest);
     void editOwnEmail(EditOwnEmailRequest editOwnEmailRequest);
     void deleteAccount(Long accountId);
+    void editAccountProperties(Long accountId, UpdateAccountPropertiesRequest updateAccountPropertiesRequest);
 }
