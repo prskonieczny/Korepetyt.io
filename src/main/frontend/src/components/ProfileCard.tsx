@@ -1,4 +1,4 @@
-import {IAccountData, IChangePasswordData} from "../../util/data";
+import {IAccountData, IChangePasswordData} from "../util/data";
 import {
     Box,
     Button, Dialog,
@@ -10,13 +10,12 @@ import {
     Typography
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {palette} from "../../colors";
+import {palette} from "../colors";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PasswordIcon from '@mui/icons-material/Password';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import React, {FormEvent, useState} from "react";
-import AccountService from "../../services/accountService";
-import {Simulate} from "react-dom/test-utils";
+import AccountService from "../services/accountService";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -86,6 +85,7 @@ const ProfileCard = ({account}: ProfileCardProps) => {
                         label="Old password"
                         fullWidth
                         variant="standard"
+                        onChange={(e) => setOldPassword(e.target.value)}
                         type={showPassword ? "text" : "password"}
                         InputProps={{
                             endAdornment: (
@@ -109,6 +109,7 @@ const ProfileCard = ({account}: ProfileCardProps) => {
                         label="New password"
                         fullWidth
                         variant="standard"
+                        onChange={(e) => setNewPassword(e.target.value)}
                         type={showNewPassword ? "text" : "password"}
                         InputProps={{
                             endAdornment: (
@@ -132,6 +133,7 @@ const ProfileCard = ({account}: ProfileCardProps) => {
                         label="Repeat Password"
                         fullWidth
                         variant="standard"
+                        onChange={(e) => setRepeatPassword(e.target.value)}
                         type={showRPassword ? "text" : "password"}
                         InputProps={{
                             endAdornment: (

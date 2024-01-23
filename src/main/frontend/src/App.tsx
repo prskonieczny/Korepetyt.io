@@ -10,7 +10,7 @@ import RegisterTeacherPage from './pages/Authorization/RegisterTeacherPage';
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import RegistrationSuccessfull from "./pages/Authorization/RegistrationSuccessfull/RegistrationSuccessfull";
 import AccountsPage from "./pages/AdminView/AccountsPage";
-import ProfilePage from "./pages/Profile/ProfilePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>

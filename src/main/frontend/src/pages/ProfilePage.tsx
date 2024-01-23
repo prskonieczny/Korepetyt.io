@@ -1,10 +1,10 @@
 import React from "react";
-import AuthService from "../../services/authService";
-import {IAccountData} from "../../util/data";
+import AuthService from "../services/authService";
+import {IAccountData} from "../util/data";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import AccountService from "../../services/accountService";
-import ProfileCard from "../../components/ProfileCard/ProfileCard";
+import AccountService from "../services/accountService";
+import ProfileCard from "../components/ProfileCard";
 
 const ProfilePage = () => {
     const loggedUser = AuthService.getCurrentUser();
