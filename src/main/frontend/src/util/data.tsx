@@ -19,3 +19,7 @@ export interface IChangePasswordData {
     newPassword: string,
     oldPassword: string
 }
+
+export interface IChangeEmailData {
+    email: string
+}

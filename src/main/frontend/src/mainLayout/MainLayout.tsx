@@ -13,6 +13,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AuthService from "../services/authService";
 import HelpIcon from '@mui/icons-material/Help';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle} from "@mui/material";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 function MainLayout() {
 
@@ -133,7 +135,6 @@ function MainLayout() {
     const handleLogout = () => {
         AuthService.logout().then(() => {
             navigate("/");
-            window.location.reload();
         });
     }
 

@@ -6,7 +6,16 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Snackbar
+} from "@mui/material";
 import {palette} from "../../colors";
 
 
@@ -47,6 +56,7 @@ const AccountsTable = ({
     function handleDeleteAccount(id: number) {
         deleteAccountHandler(id);
     };
+
     const columns: GridColDef[] = [
         { field: 'id', renderHeader: () => <strong>{"ID"}</strong>, width: 50 },
         {
