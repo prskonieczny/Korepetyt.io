@@ -49,7 +49,7 @@ const LoginPage = () => {
             })
         } catch (error) {
             // @ts-ignore
-            if (error.response.status === 401 || error.response.status === 400) {
+            if (error.response.status === 403) {
                 setIsFailOpen(true);
                 setFailMsg("Wrong credentials")
             } else {

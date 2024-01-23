@@ -75,7 +75,6 @@ const EditAccountProperties = ({
             }
             return updatedProperties;
         });
-        console.log(accountProperties);
     };
 
     const handleChangeSubjects = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +99,6 @@ const EditAccountProperties = ({
             }
             return updatedProperties;
         });
-        console.log(accountProperties);
     };
 
     const handleChangeAccountProperties = async (e: FormEvent) => {

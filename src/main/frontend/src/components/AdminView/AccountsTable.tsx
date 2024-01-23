@@ -149,7 +149,11 @@ const AccountsTable = ({
     ];
 
     const handleCellClick = (params: GridCellParams) => {
-        if (params.field != "actions") {
+        // if (params.field != "actions") {
+        //     const accountId = params.row.id;
+        //     navigate("account/" + accountId);
+        // }
+        if (params.field !== 'actionsAdd' && params.field !== 'actionsRemove' && params.field !== 'actionsDelete') {
             const accountId = params.row.id;
             navigate("account/" + accountId);
         }
