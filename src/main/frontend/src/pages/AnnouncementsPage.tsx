@@ -1,12 +1,21 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Pagination, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import AnnouncementService from "../services/announcementService";
 import {IAnnouncementData} from "../util/announcementData";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {palette} from "../colors";
 
 const AnnouncementsPage = () => {
 
     const [announcements, setAnnouncements] = useState<IAnnouncementData[]>([]);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+    const startIdx = (page - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const displayedAnnouncements = announcements.slice(startIdx, endIdx);
 
     useEffect(() => {
         AnnouncementService.getAllAnnouncements().then(response => {
@@ -25,11 +34,12 @@ const AnnouncementsPage = () => {
                 marginTop: '60px',
             }}
         >
-            <Typography variant="h4" gutterBottom>
-                Announcements
+            <Typography variant="h5" gutterBottom>
+                Explore students announcements:
             </Typography>
+            <br/>
             <div>
-                {announcements.map((announcement) => (
+                {displayedAnnouncements.map((announcement) => (
                     <Box
                         key={announcement.id}
                         style={{
@@ -47,6 +57,13 @@ const AnnouncementsPage = () => {
                     </Box>
                 ))}
             </div>
+            <Pagination
+                count={Math.ceil(announcements.length / pageSize)}
+                page={page}
+                onChange={handlePageChange}
+                sx={{color: palette.current}}
+                style={{ marginTop: '20px' }}
+            />
         </Box>
     );
 }
