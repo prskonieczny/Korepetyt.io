@@ -30,8 +30,8 @@ INSERT INTO account_subjects (account_id, subject) VALUES (3, 'ENGLISH');
 INSERT INTO account_subjects (account_id, subject) VALUES (3, 'GEOGRAPHY');
 
 -- insert announcements
-INSERT INTO announcement (student_name, level, subject) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'MATHEMATICS');
-INSERT INTO announcement (student_name, level, subject) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'MATHEMATICS', 'Mam problem z ułamkami :c');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma?');
 
 -- insert teachers into announcements
 INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,2);

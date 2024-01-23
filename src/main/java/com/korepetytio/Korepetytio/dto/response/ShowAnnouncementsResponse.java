@@ -16,4 +16,5 @@ public class ShowAnnouncementsResponse {
     private String studentName;
     private String levels;
     private String subjects;
+    private String description;
 }

@@ -14,4 +14,5 @@ import lombok.Setter;
 public class EditAnnouncementRequest {
     private String levels;
     private String subjects;
+    private String description;
 }

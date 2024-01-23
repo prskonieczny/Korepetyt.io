@@ -27,6 +27,8 @@ public class Announcement extends AbstractEntity {
         @Enumerated(EnumType.STRING)
         @Column(name = "subject")
         private Subjects subjects;
+        @Column(name = "description")
+        private String description;
         @ManyToMany
         @OnDelete(action = OnDeleteAction.CASCADE)
         @JoinTable(

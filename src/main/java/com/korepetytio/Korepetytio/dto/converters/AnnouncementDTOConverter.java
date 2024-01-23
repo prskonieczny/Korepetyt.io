@@ -10,6 +10,7 @@ public class AnnouncementDTOConverter {
         dto.setStudentName(announcement.getStudentName());
         dto.setLevels(String.valueOf(announcement.getLevels()));
         dto.setSubjects(String.valueOf(announcement.getSubjects()));
+        dto.setDescription(announcement.getDescription());
         return dto;
     }
 }
