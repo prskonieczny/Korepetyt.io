@@ -18,6 +18,7 @@ export interface EditAccountPropertiesProps {
     editPropertiesOpen: boolean,
     handleClickPropertiesAccountOpen: () => void,
     handleClickPropertiesAccountClose: () => void,
+    handlePropertiesEditSnackbar: (isError: boolean, flag: boolean, msg: string) => void,
 }
 
 const EditAccountProperties = ({
@@ -25,7 +26,8 @@ const EditAccountProperties = ({
                                    onPropertiesEdit,
                                    editPropertiesOpen,
                                    handleClickPropertiesAccountOpen,
-                                   handleClickPropertiesAccountClose
+                                   handleClickPropertiesAccountClose,
+                                   handlePropertiesEditSnackbar
 }: EditAccountPropertiesProps) => {
 
     const [accountProperties, setAccountProperties] = useState<IEditAccountPropertiesData[]>([]);
@@ -116,9 +118,14 @@ const EditAccountProperties = ({
                 if (onPropertiesEdit) {
                     onPropertiesEdit({});
                 }
+                if (handlePropertiesEditSnackbar) {
+                    handlePropertiesEditSnackbar(false, true, "Account properties edited successfully")
+                }
             });
         } catch (error) {
-            console.log("nie działa");
+            if (handlePropertiesEditSnackbar) {
+                handlePropertiesEditSnackbar(true, true, "Error editing account properties")
+            }
         }
     };
 

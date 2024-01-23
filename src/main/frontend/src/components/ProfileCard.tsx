@@ -42,7 +42,16 @@ const ProfileCard = ({
                          onAccountEdit,
                          onPropertiesEdit
     }: ProfileCardProps) => {
+    //snackbar po edycji szczegolow konta
     const handleAccountEditSnackbar = (isError: boolean, flag: boolean, msg: string) => {
+        if (isError) {
+            setSnackbarErrorInfo({ open: flag, message: msg});
+        } else {
+            setSnackbarInfo({ open: flag, message: msg});
+        }
+    }
+    //snackbar po edycji levels i accounts
+    const handlePropertiesEditSnackbar = (isError: boolean, flag: boolean, msg: string) => {
         if (isError) {
             setSnackbarErrorInfo({ open: flag, message: msg});
         } else {
@@ -370,6 +379,7 @@ const ProfileCard = ({
                 editPropertiesOpen={editPropertiesOpen}
                 handleClickPropertiesAccountOpen={handleClickPropertiesAccountOpen}
                 handleClickPropertiesAccountClose={handleClickPropertiesAccountClose}
+                handlePropertiesEditSnackbar={handlePropertiesEditSnackbar}
             />
             <Box textAlign="center">
                 <AccountCircleIcon
