@@ -8,7 +8,6 @@ import com.korepetytio.Korepetytio.dto.request.UpdateAccountPropertiesRequest;
 import com.korepetytio.Korepetytio.dto.response.ShowAccountResponse;
 import com.korepetytio.Korepetytio.service.interfaces.AccountService;
 import jakarta.validation.Valid;
-import jdk.jfr.ContentType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

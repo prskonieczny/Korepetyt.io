@@ -80,6 +80,14 @@ const editAccountProperties = (id: number | undefined, data: IEditAccountPropert
     });
 }
 
+const getOtherUserAccount = (id: number) => {
+    return axios.get(API_URL + "otherUser/" + id, {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    });
+}
+
 const AccountService = {
     getAllUsers,
     addAdminRole,
@@ -89,6 +97,7 @@ const AccountService = {
     changeOwnPassword,
     changeOwnEmail,
     changeOwnAccountDetails,
-    editAccountProperties
+    editAccountProperties,
+    getOtherUserAccount
 }
 export default AccountService;

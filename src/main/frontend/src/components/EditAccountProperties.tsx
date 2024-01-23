@@ -64,15 +64,13 @@ const EditAccountProperties = ({
             const updatedProperties = [...prevState];
             const existingProperty = updatedProperties.find(property => property.newLevels.includes(levelName));
             if (existingProperty) {
-                // Property with the same level already exists, update it
                 existingProperty.newLevels = isChecked
                     ? [...existingProperty.newLevels, levelName]
                     : existingProperty.newLevels.filter(item => item !== levelName);
             } else {
-                // No property with the level, create a new one
                 updatedProperties.push({
                     newLevels: isChecked ? [levelName] : [],
-                    newSubjects: [], // Add subjects or other properties if needed
+                    newSubjects: [],
                 });
             }
             return updatedProperties;
@@ -91,14 +89,12 @@ const EditAccountProperties = ({
             const updatedProperties = [...prevState];
             const existingProperty = updatedProperties.find(property => property.newSubjects.includes(subjectName));
             if (existingProperty) {
-                // Property with the same subject already exists, update it
                 existingProperty.newSubjects = isChecked
                     ? [...existingProperty.newSubjects, subjectName]
                     : existingProperty.newSubjects.filter(item => item !== subjectName);
             } else {
-                // No property with the subject, create a new one
                 updatedProperties.push({
-                    newLevels: [], // Add levels or other properties if needed
+                    newLevels: [],
                     newSubjects: isChecked ? [subjectName] : [],
                 });
             }

@@ -15,6 +15,7 @@ import {
     DialogTitle,
 } from "@mui/material";
 import {palette} from "../../colors";
+import {useNavigate} from "react-router-dom";
 
 
 export interface AccountsListProps {
@@ -45,6 +46,7 @@ const AccountsTable = ({
     const rows = convertAccountsToRows(accounts);
     const [open, setOpen] = React.useState(false);
     const [accountId, setAccountId] = React.useState(0);
+    const navigate = useNavigate();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -53,7 +55,7 @@ const AccountsTable = ({
     };
     function handleDeleteAccount(id: number) {
         deleteAccountHandler(id);
-    };
+    }
 
     const columns: GridColDef[] = [
         { field: 'id', renderHeader: () => <strong>{"ID"}</strong>, width: 50 },
@@ -101,8 +103,9 @@ const AccountsTable = ({
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <Button sx={{color: palette.umber}}>
-                            <AddCircleIcon onClick={() => addAdminRoleHandler(params.row.id)} />
+                        <Button sx={{color: palette.umber}}
+                                onClick={() => addAdminRoleHandler(params.row.id)}>
+                            <AddCircleIcon />
                         </Button>
                     )}
                 </>
@@ -116,8 +119,9 @@ const AccountsTable = ({
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <Button sx={{color: palette.umber}}>
-                            <RemoveCircleIcon onClick={() => removeAdminRoleHandler(params.row.id)} />
+                        <Button sx={{color: palette.umber}}
+                                onClick={() => removeAdminRoleHandler(params.row.id)}>
+                            <RemoveCircleIcon />
                         </Button>
                     )}
                 </>
@@ -131,11 +135,12 @@ const AccountsTable = ({
             renderCell: (params) => (
                 <>
                     {!(AuthService.getCurrentUser() === params.row.username) && (
-                        <Button sx={{color: palette.umber}}>
-                            <DeleteForeverIcon onClick={() => {
-                                setOpen(true);
-                                setAccountId(params.row.id);
-                            }} />
+                        <Button sx={{color: palette.umber}}
+                                onClick={() => {
+                                    setOpen(true);
+                                    setAccountId(params.row.id);
+                                }}>
+                            <DeleteForeverIcon />
                         </Button>
                     )}
                 </>
@@ -146,6 +151,7 @@ const AccountsTable = ({
     const handleCellClick = (params: GridCellParams) => {
         if (params.field != "actions") {
             const accountId = params.row.id;
+            navigate("account/" + accountId);
         }
     };
 
@@ -182,6 +188,7 @@ const AccountsTable = ({
             {deleteAccountDialog}
             <br/><br/>
                 <DataGrid
+                    onCellClick={handleCellClick}
                     rows={rows}
                     columns={columns}
                     initialState={{
