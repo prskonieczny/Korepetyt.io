@@ -7,14 +7,12 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
-    Alert,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Snackbar
 } from "@mui/material";
 import {palette} from "../../colors";
 
