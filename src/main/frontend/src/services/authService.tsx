@@ -56,7 +56,6 @@ const logout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("roles");
     return axios.post(API_URL + "logout").then((response) => {
-        window.location.reload();
         return response.data;
     })
 }
