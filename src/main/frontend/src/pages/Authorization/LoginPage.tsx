@@ -45,6 +45,7 @@ const LoginPage = () => {
                 navigate("/");
                 setIsOpen(true)
                 setSnackBarMsg("Logged in successfully")
+                window.location.reload();
             })
         } catch (error) {
             // @ts-ignore
