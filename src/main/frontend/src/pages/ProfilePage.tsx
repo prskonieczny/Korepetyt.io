@@ -13,7 +13,8 @@ const ProfilePage = () => {
     const [account, setAccount] = useState<IAccountData>();
     const navigate = useNavigate();
 
-    const [refresAfterEmailChange, setRefresAfterEmailChange] = useState('');
+    const [refreshAfterEmailChange, setRefreshAfterEmailChange] = useState('');
+    const [refreshAfterAccountEdit, setRefreshAfterAccountEdit] = useState<string | undefined>('');
 
     useEffect(() => {
         AccountService.getCurrentUser().then(response => {
@@ -23,10 +24,16 @@ const ProfilePage = () => {
                 navigate("/login");
             }
         })
-    }, [refresAfterEmailChange]);
+    }, [
+        refreshAfterEmailChange,
+        refreshAfterAccountEdit
+    ]);
 
     const handleEmailChange = (newEmail: string) => {
-        setRefresAfterEmailChange(newEmail);
+        setRefreshAfterEmailChange(newEmail);
+    }
+    const handleAccountEdit = (newUsername: string | undefined) => {
+        setRefreshAfterAccountEdit(newUsername);
     }
 
     return (
@@ -34,6 +41,7 @@ const ProfilePage = () => {
             <ProfileCard
                 account={account}
                 onEmailChange={handleEmailChange}
+                onAccountEdit={handleAccountEdit}
             />
         </>
     )

@@ -23,3 +23,10 @@ export interface IChangePasswordData {
 export interface IChangeEmailData {
     email: string
 }
+
+export interface IChangeAccountDetailsData {
+    username: string | undefined,
+    phone: string | undefined,
+    city: string | undefined,
+    street: string | undefined
+}

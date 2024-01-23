@@ -79,7 +79,7 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("/delete/{accountId}")
-    public ResponseEntity<String> deleteAnnouncement(@PathVariable Long accountId) {
+    public ResponseEntity<String> deleteAccount(@PathVariable Long accountId) {
         try {
             accountService.deleteAccount(accountId);
             return ResponseEntity.ok("Account deleted successfully");

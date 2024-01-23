@@ -101,8 +101,8 @@ function MainLayout() {
     if (roles !== null && roles.includes('STUDENT')) {
         navigationTreeIn.push(
             {
-                name: "teachers",
-                label: "Our teachers",
+                name: "myAnnouncements",
+                label: "My announcements",
                 actionProps: {to: "/teachers"}
             },
         )

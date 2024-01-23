@@ -1,4 +1,4 @@
-import {IAccountData, IChangeEmailData, IChangePasswordData} from "../util/data";
+import {IAccountData, IChangeAccountDetailsData, IChangeEmailData, IChangePasswordData} from "../util/data";
 import {
     Alert,
     Box,
@@ -20,14 +20,23 @@ import AccountService from "../services/accountService";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import ProfilePage from "../pages/ProfilePage";
+import SchoolIcon from '@mui/icons-material/School';
+import EditAccountDetails from "./EditAccountDetails";
 
 export interface ProfileCardProps {
     account: IAccountData | undefined,
-    onEmailChange: (email: string) => void
+    onEmailChange: (email: string) => void,
+    onAccountEdit: (username: string | undefined) => void,
 }
 
-const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
+const ProfileCard = ({account, onEmailChange, onAccountEdit}: ProfileCardProps) => {
+    const handleAccountEditSnackbar = (isError: boolean, flag: boolean, msg: string) => {
+        if (isError) {
+            setSnackbarErrorInfo({ open: flag, message: msg});
+        } else {
+            setSnackbarInfo({ open: flag, message: msg});
+        }
+    }
     //changePassword
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -45,19 +54,25 @@ const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
         setEmailOpen(false);
     };
 
+    // EditAccount
+    const [editOpen, setEditOpen] = React.useState(false);
+    const handleClickEditAccountOpen = () => {
+        setEditOpen(true);
+    };
+    const handleEditAccountClose = () => {
+        setEditOpen(false);
+    };
+
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setNewShowPassword] = useState(false);
     const [showRPassword, setShowRPassword] = useState(false);
-
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [repeatPasswordError, setRepeatPasswordError] = useState<string | null>(null);
 
     const [email, setEmail] = useState('');
-
     const [emailError, setEmailError] = useState<string | null>(null);
 
     const handleChangeOwnPassword = async (e: FormEvent) => {
@@ -101,7 +116,7 @@ const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
         setSnackbarErrorInfo({ ...snackbarInfo, open: false });
     };
 
-    const passwordChangeSuccessSnackbar = (
+    const successSnackbar = (
         <Snackbar
             open={snackbarInfo.open}
             autoHideDuration={6000}
@@ -113,7 +128,7 @@ const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
         </Snackbar>
     )
 
-    const passwordChangeErrorSnackbar = (
+    const errorSnackbar = (
         <Snackbar
             open={snackbarErrorInfo.open}
             autoHideDuration={6000}
@@ -316,10 +331,18 @@ const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
             borderRadius="8px"
             maxWidth="400px"
         >
-            {passwordChangeErrorSnackbar}
-            {passwordChangeSuccessSnackbar}
+            {errorSnackbar}
+            {successSnackbar}
             {changePasswordDialog}
             {changeEmailDialog}
+            <EditAccountDetails
+                account={account}
+                onAccountEdit={onAccountEdit}
+                editOpen={editOpen}
+                handleClickEditAccountOpen={handleClickEditAccountOpen}
+                handleEditAccountClose={handleEditAccountClose}
+                handleAccountEditSnackbar={handleAccountEditSnackbar}
+            />
             <Box textAlign="center">
                 <AccountCircleIcon
                     sx={{ color: palette.current, fontSize: "50px", mr: 1.5 }}
@@ -340,22 +363,30 @@ const ProfileCard = ({account, onEmailChange }: ProfileCardProps) => {
                 Subjects: {account?.subjects.map(subject => subject.toLowerCase()).join(", ")}</Typography>
             <br/>
             <Box textAlign="center">
-                <Button>
-                    <ManageAccountsIcon fontSize={"large"} sx={{color: palette.current}}>Edit account</ManageAccountsIcon>
+                <Button onClick={() => console.log("xd")}>
+                    <SchoolIcon
+                        fontSize={"large"}
+                        sx={{color: palette.current}}
+                    >Edit levels and subjects</SchoolIcon>
                 </Button>
                 &emsp;
-                <Button>
+                <Button onClick={handleClickEditAccountOpen}>
+                    <ManageAccountsIcon
+                        fontSize={"large"}
+                        sx={{color: palette.current}}
+                    >Edit account</ManageAccountsIcon>
+                </Button>
+                &emsp;
+                <Button onClick={handleClickOpen}>
                     <PasswordIcon
                         fontSize={"large"}
                         sx={{color: palette.current}}
-                        onClick={handleClickOpen}
                     >Edit password</PasswordIcon>
                 </Button>
                 &emsp;
-                <Button>
+                <Button onClick={handleClickEmailOpen}>
                     <AlternateEmailIcon fontSize={"large"}
                                         sx={{color: palette.current}}
-                                        onClick={handleClickEmailOpen}
                     >Edit email</AlternateEmailIcon>
                 </Button>
             </Box>

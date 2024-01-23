@@ -1,5 +1,5 @@
 import axios from "axios";
-import {IChangeEmailData, IChangePasswordData} from "../util/data";
+import {IChangeAccountDetailsData, IChangeEmailData, IChangePasswordData} from "../util/data";
 const API_URL = "http://localhost:8082/api/accounts/";
 const token = localStorage.getItem("token");
 
@@ -59,6 +59,14 @@ const changeOwnEmail = (data: IChangeEmailData) => {
     });
 }
 
+const changeOwnAccountDetails = (data: IChangeAccountDetailsData) => {
+    return axios.put(API_URL + 'self/details', data, {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    })
+}
+
 const AccountService = {
     getAllUsers,
     addAdminRole,
@@ -67,5 +75,6 @@ const AccountService = {
     getCurrentUser,
     changeOwnPassword,
     changeOwnEmail,
+    changeOwnAccountDetails
 }
 export default AccountService;
