@@ -1,7 +1,6 @@
 import {Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import AnnouncementService from "../services/announcementService";
-import {IAccountData} from "../util/data";
 import {IAnnouncementData} from "../util/announcementData";
 
 const AnnouncementsPage = () => {
