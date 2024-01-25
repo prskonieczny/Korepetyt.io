@@ -46,6 +46,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public List<ShowAnnouncementsResponse> getOwnAnnouncements() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Account account = accountRepository
+                .findByUsername(authentication.getName()).orElseThrow(() -> new RuntimeException("Error: Account not found"));
+        List<Announcement> announcements = announcementRepository.findAllByStudentName(account.getUsername());
+        return announcements.stream()
+                .filter(Objects::nonNull)
+                .map(AnnouncementDTOConverter::convertAnnouncementToAnnouncementResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void addAnnouncement(AddAnnouncementRequest addAnnouncementRequest) {
         Announcement announcement = new Announcement();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

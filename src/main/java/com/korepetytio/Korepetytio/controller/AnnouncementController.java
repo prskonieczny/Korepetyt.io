@@ -22,6 +22,10 @@ public class AnnouncementController {
     public ResponseEntity<List<ShowAnnouncementsResponse>> getAllAnnouncements(){
         return ResponseEntity.ok().body(announcementService.getAllAnnouncements());
     }
+    @GetMapping("/own")
+    public ResponseEntity<List<ShowAnnouncementsResponse>> getOwnAnnouncements(){
+        return ResponseEntity.ok().body(announcementService.getOwnAnnouncements());
+    }
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('STUDENT')")
     public ResponseEntity<String> addAnnouncement(@RequestBody AddAnnouncementRequest announcementDto) {

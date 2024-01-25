@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AnnouncementService {
     List<ShowAnnouncementsResponse> getAllAnnouncements();
+    List<ShowAnnouncementsResponse> getOwnAnnouncements();
     void addAnnouncement(AddAnnouncementRequest addAnnouncementRequest);
     void deleteAnnouncement(Long announcementId);
     void editAnnouncement(Long announcementId, EditAnnouncementRequest editAnnouncementRequest);

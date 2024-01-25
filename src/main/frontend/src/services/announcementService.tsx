@@ -9,6 +9,13 @@ const getAllAnnouncements = () => {
         }
     });
 };
+const getOwnAnnouncements = () => {
+    return axios.get(API_URL + "own", {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    });
+};
 const deleteAnnouncement = (id: number) => {
     return axios.delete(API_URL + id, {
         headers: {
@@ -26,6 +33,7 @@ const addTeacherToAnnouncement = (id: number) => {
 const AnnouncementService = {
     getAllAnnouncements,
     deleteAnnouncement,
-    addTeacherToAnnouncement
+    addTeacherToAnnouncement,
+    getOwnAnnouncements,
 }
 export default AnnouncementService;
