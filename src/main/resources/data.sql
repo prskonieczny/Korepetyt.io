@@ -37,6 +37,13 @@ INSERT INTO announcement (student_name, level, subject, description) VALUES ('te
 INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma4?');
 INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma5?');
 INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma6?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma7?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma8?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma9?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma0?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma11?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma12?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma13?');
 
 -- insert teachers into announcements
 INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,2);
