@@ -13,6 +13,7 @@ import AccountsPage from "./pages/AdminView/AccountsPage";
 import ProfilePage from "./pages/ProfilePage";
 import AnnouncementsPage from "./pages/AnnouncementsPage";
 import OtherUserProfilePage from "./pages/OtherUserProfilePage";
+import OwnAnnouncementsPage from "./pages/OwnAnnouncementsPage";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
@@ -25,6 +26,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="profile" element={<ProfilePage />} />
       <Route path="students" element={<AnnouncementsPage />} />
       <Route path="users/account/:id" element={<OtherUserProfilePage />} />
+      <Route path="teachers" element={<OwnAnnouncementsPage />} />
       <Route path="*" element={<NotFoundPage />} />
   </Route>
 ))

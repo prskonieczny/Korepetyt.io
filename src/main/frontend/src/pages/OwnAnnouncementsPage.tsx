@@ -1,3 +1,7 @@
+import AuthService from "../services/authService";
+import React, {useEffect, useMemo, useState} from "react";
+import {IAnnouncementData} from "../util/announcementData";
+import AnnouncementService from "../services/announcementService";
 import {
     Alert,
     Box,
@@ -5,24 +9,17 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    Pagination, Snackbar,
+    DialogTitle, Pagination,
+    Snackbar,
     Typography
 } from "@mui/material";
-import React, {useEffect, useMemo, useState} from "react";
-import AnnouncementService from "../services/announcementService";
-import {IAnnouncementData} from "../util/announcementData";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {palette} from "../colors";
-import AuthService from "../services/authService";
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from "@mui/material/Unstable_Grid2";
 import image from "../assets/images/loginpage.svg";
+import GroupsIcon from '@mui/icons-material/Groups';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-
-const AnnouncementsPage = () => {
-    const roles = AuthService.getUserRoles();
-    const loggedUserId = AuthService.getCurrentUserId();
+const OwnAnnouncementsPage = () => {
 
     const [announcements, setAnnouncements] = useState<IAnnouncementData[]>([]);
     const [page, setPage] = useState(1);
@@ -49,12 +46,22 @@ const AnnouncementsPage = () => {
     };
 
     useEffect(() => {
-        AnnouncementService.getAllAnnouncements().then(response => {
+        AnnouncementService.getOwnAnnouncements().then(response => {
             setAnnouncements(response.data);
         }).catch(error => {
             console.log(error);
         });
     }, []);
+
+    // usuniecie ogloszenia
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
     function deleteAnnouncementHandler(id: number) {
         AnnouncementService.deleteAnnouncement(id)
             .then(() => {
@@ -67,35 +74,6 @@ const AnnouncementsPage = () => {
             .catch((error) => {
                 setSnackbarErrorInfo({ open: true, message: "Announcement could not be deleted"});
             });
-    }
-    function addTeacherToAnnouncementHandler(id: number) {
-        AnnouncementService.addTeacherToAnnouncement(id)
-            .then(() => {
-                setSnackbarInfo({ open: true, message: "You have successfully assigned to the announcement"});
-            }).catch((error) => {
-            if (error.response.status === 409) {
-                setSnackbarErrorInfo({ open: true, message: "You are already assigned to this announcement"});
-            } else {
-                setSnackbarErrorInfo({ open: true, message: "Unknown error"});
-                }
-            });
-    }
-
-    // usuniecie ogloszenia
-    const [open, setOpen] = useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    // przypisanie do ogloszenia
-    const [addTeacherOpen, setAddTeacherOpen] = useState(false);
-    const handleAddTeacherClose = () => {
-        setAddTeacherOpen(false);
-    };
-    const handleAddTeacherOpen = () => {
-        setAddTeacherOpen(true);
     }
 
     const Divider = (
@@ -183,7 +161,6 @@ const AnnouncementsPage = () => {
                                     {Divider}
                                     <Grid container spacing={40}>
                                         <Grid xs={8}>
-                                            <Typography>Student: {announcement.studentName}</Typography>
                                             <Typography>Subject: {announcement.subjects.toLowerCase()}</Typography>
                                             <Typography>Level: {announcement.levels.replace("_", " ").toLowerCase()}</Typography>
                                             <Typography>Description:</Typography>
@@ -191,25 +168,22 @@ const AnnouncementsPage = () => {
                                         </Grid>
                                         <Grid xs={2}>
                                             <Grid>
-                                                {roles.includes('TEACHER') && (
                                                     <Button
                                                         sx={{marginTop: '10px'}}
                                                         onClick={() => {
                                                             setActiveAnnouncementId(announcement.id);
-                                                            handleAddTeacherOpen()
+                                                            console.log("lista nauczycielow")
                                                         }}
                                                     >
-                                                        <AddBoxIcon
+                                                        <GroupsIcon
                                                             style={{
                                                                 fontSize: 'xx-large',
                                                                 color: palette.umber,
                                                             }}
                                                         />
                                                     </Button>
-                                                )}
                                             </Grid>
                                             <Grid>
-                                                {roles.includes('ADMIN') && (
                                                     <Button
                                                         onClick={() => {
                                                             setActiveAnnouncementId(announcement.id);
@@ -223,7 +197,6 @@ const AnnouncementsPage = () => {
                                                             }}
                                                         />
                                                     </Button>
-                                                )}
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -257,33 +230,6 @@ const AnnouncementsPage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
-                            <Dialog
-                                open={addTeacherOpen}
-                                onClose={handleAddTeacherClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                            >
-                                <DialogTitle id="alert-dialog-title">
-                                    {"Do you want to teach this lesson?"}
-                                </DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        <p>Do you want to assign to this announcement?</p>
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleAddTeacherClose}>Cancel</Button>
-                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
-                                        if (activeAnnouncement) {
-                                            addTeacherToAnnouncementHandler(activeAnnouncement.id);
-                                        }
-                                        handleAddTeacherClose();
-                                        setActiveAnnouncementId(undefined);
-                                    }} autoFocus>
-                                        Assign
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
                         </div>
                         <Pagination
                             count={Math.ceil(announcements.length / pageSize)}
@@ -296,6 +242,6 @@ const AnnouncementsPage = () => {
                 </Grid>
             </Grid>
         </>
-    );
+    )
 }
-export default AnnouncementsPage;
+export default OwnAnnouncementsPage;
