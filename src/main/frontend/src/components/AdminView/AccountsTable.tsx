@@ -46,7 +46,8 @@ const AccountsTable = ({
     const rows = convertAccountsToRows(accounts);
     const [open, setOpen] = React.useState(false);
     const [accountId, setAccountId] = React.useState(0);
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const loggedUserId = AuthService.getCurrentUserId();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -151,7 +152,11 @@ const AccountsTable = ({
     const handleCellClick = (params: GridCellParams) => {
         if (params.field !== 'actionsAdd' && params.field !== 'actionsRemove' && params.field !== 'actionsDelete') {
             const accountId = params.row.id;
-            navigate("account/" + accountId);
+            if (loggedUserId === accountId) {
+                navigate("../profile")
+            } else {
+                navigate("account/" + accountId);
+            }
         }
     };
 
@@ -167,8 +172,8 @@ const AccountsTable = ({
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete this account?
-                    You can not take this action back.
+                    <p>Are you sure you want to delete this account?</p>
+                    <p>You can not take this action back.</p>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

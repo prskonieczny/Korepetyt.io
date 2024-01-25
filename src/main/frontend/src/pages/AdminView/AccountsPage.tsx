@@ -76,29 +76,30 @@ const AccountsPage = () => {
 
     return (
         <>
-        <Snackbar
-            open={snackbarInfo.open}
-            autoHideDuration={6000}
-            onClose={handleCloseSnackbar}
-        >
-            <Alert onClose={handleCloseSnackbar} severity="success">
-                {snackbarInfo.message}
-            </Alert>
-        </Snackbar>
             <Snackbar
-                open={snackbarErrorInfo.open}
+                open={snackbarInfo.open}
                 autoHideDuration={6000}
-                onClose={handleCloseErrorSnackbar}
+                onClose={handleCloseSnackbar}
             >
-                <Alert onClose={handleCloseErrorSnackbar} severity="error">
-                    {snackbarErrorInfo.message}
+                <Alert onClose={handleCloseSnackbar} severity="success">
+                    {snackbarInfo.message}
                 </Alert>
             </Snackbar>
+                <Snackbar
+                    open={snackbarErrorInfo.open}
+                    autoHideDuration={6000}
+                    onClose={handleCloseErrorSnackbar}
+                >
+                    <Alert onClose={handleCloseErrorSnackbar} severity="error">
+                        {snackbarErrorInfo.message}
+                    </Alert>
+                </Snackbar>
         <Box sx={{
             height: 600,
             width: "70%",
             overflow: "hidden",
             margin: "auto",
+            marginTop: "10px",
             backgroundColor: palette.champagne
         }}>
                 <AccountsTable

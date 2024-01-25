@@ -44,6 +44,7 @@ const login = (
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("username", JSON.stringify(response.data.username));
             localStorage.setItem("roles", JSON.stringify(response.data.roles));
+            localStorage.setItem("currentUserId", JSON.stringify(response.data.id));
         } else {
             setErrorMessage("Error");
         }
@@ -55,6 +56,7 @@ const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("roles");
+    localStorage.removeItem("currentUserId");
     return axios.post(API_URL + "logout").then((response) => {
         return response.data;
     })
@@ -70,12 +72,18 @@ const getUserRoles = (): string[] => {
     return JSON.parse(localStorage.getItem("roles"));
 }
 
+const getCurrentUserId = () => {
+    // @ts-ignore
+    return JSON.parse(localStorage.getItem("currentUserId"));
+}
+
 const AuthService = {
     registerTeacher,
     registerStudent,
     login,
     logout,
     getCurrentUser,
-    getUserRoles
+    getUserRoles,
+    getCurrentUserId
 }
 export default AuthService;

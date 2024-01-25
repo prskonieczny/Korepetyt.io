@@ -125,6 +125,11 @@ function MainLayout() {
                 label: "Manage users",
                 actionProps: {to: "/users"}
             },
+            {
+                name: "students",
+                label: "Announcements",
+                actionProps: {to: "/students"}
+            },
         )
     }
 
@@ -149,7 +154,7 @@ function MainLayout() {
     return (
         <AppBar position="static" sx={{ backgroundColor: palette.umber }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar disableGutters={true}>
                     <MenuBookSharpIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"

@@ -8,14 +8,20 @@ import com.korepetytio.Korepetytio.dto.converters.AccountDTOConverter;
 import com.korepetytio.Korepetytio.dto.converters.AnnouncementDTOConverter;
 import com.korepetytio.Korepetytio.entities.Account;
 import com.korepetytio.Korepetytio.entities.Announcement;
+import com.korepetytio.Korepetytio.entities.Role;
 import com.korepetytio.Korepetytio.entities.enums.Levels;
+import com.korepetytio.Korepetytio.entities.enums.RoleType;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.AnnouncementRepository;
 import com.korepetytio.Korepetytio.service.interfaces.AnnouncementService;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,11 +69,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .orElseThrow(() -> new RuntimeException("Error: Account not found"));
         if (Objects.equals(account.getUsername(), deletedAnnouncement.getStudentName())) {
             announcementRepository.deleteById(announcementId);
+        } else if (account.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(RoleType.ADMIN))) {
+            announcementRepository.deleteById(announcementId);
         } else {
             throw new RuntimeException("Error: You have no permissions to delete this announcement");
         }
     }
-
     @Override
     public void editAnnouncement(Long announcementId, EditAnnouncementRequest editAnnouncementRequest) {
         Announcement editedAnnouncement = announcementRepository
@@ -95,6 +102,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         String username = authentication.getName();
         Account teacher = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Teacher account not found"));
+        if (announcement.getTeachersAccounts().contains(teacher)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Teacher is already assigned to this announcement");
+        }
         announcement.getTeachersAccounts().add(teacher);
         announcementRepository.save(announcement);
     }

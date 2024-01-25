@@ -31,7 +31,12 @@ INSERT INTO account_subjects (account_id, subject) VALUES (3, 'GEOGRAPHY');
 
 -- insert announcements
 INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'MATHEMATICS', 'Mam problem z ułamkami :c');
-INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma1?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma2?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma3?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma4?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma5?');
+INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'PHYSICS', 'O co chodzi w prawie Ohma6?');
 
 -- insert teachers into announcements
 INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,2);

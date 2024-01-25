@@ -51,15 +51,11 @@ public class AnnouncementController {
         }
     }
     @PostMapping("/{announcementId}/assign")
-    public ResponseEntity<String> addTeacherToAnnouncement(
+    public ResponseEntity addTeacherToAnnouncement(
             @PathVariable Long announcementId
     ) {
-        try {
-            announcementService.addTeacherToAnnouncement(announcementId);
-            return ResponseEntity.ok("Teacher added to announcement successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to add teacher to announcement: " + e.getMessage());
-        }
+        announcementService.addTeacherToAnnouncement(announcementId);
+        return ResponseEntity.ok("Teacher added to announcement successfully");
     }
     @GetMapping("/{announcementId}/teachers")
     public ResponseEntity<List<ShowAnnouncementAccountResponse>> getTeachersByAnnouncementId(@PathVariable Long announcementId) {
