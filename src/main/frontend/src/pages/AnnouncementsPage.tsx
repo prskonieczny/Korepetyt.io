@@ -9,7 +9,7 @@ import {
     Pagination, Snackbar,
     Typography
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import AnnouncementService from "../services/announcementService";
 import {IAnnouncementData} from "../util/announcementData";
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -30,7 +30,11 @@ const AnnouncementsPage = () => {
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
-    const startIdx = (page - 1) * pageSize;
+
+    const [activeAnnouncementId, setActiveAnnouncementId] = useState<number | undefined>();
+    const activeAnnouncement = useMemo(() => announcements.find(announcement => announcement.id === activeAnnouncementId),[activeAnnouncementId])
+
+    const startIdx = useMemo(() => (page - 1) * pageSize,[page, pageSize])
     const endIdx = startIdx + pageSize;
     const displayedAnnouncements = announcements.slice(startIdx, endIdx);
 
@@ -59,9 +63,10 @@ const AnnouncementsPage = () => {
                     return prevAnnouncements.filter((announcement) => announcement.id !== id);
                 });
                 setSnackbarInfo({ open: true, message: "Announcement deleted successfully"});
-            }).catch((error) => {
-            setSnackbarErrorInfo({ open: true, message: "Announcement could not be deleted"});
-        });
+            })
+            .catch((error) => {
+                setSnackbarErrorInfo({ open: true, message: "Announcement could not be deleted"});
+            });
     }
     function addTeacherToAnnouncementHandler(id: number) {
         AnnouncementService.addTeacherToAnnouncement(id)
@@ -93,7 +98,7 @@ const AnnouncementsPage = () => {
         setAddTeacherOpen(true);
     }
 
-    const AnnouncementBox = (
+    const Divider = (
         <Box
             sx={{
                 backgroundColor: palette.current,
@@ -104,6 +109,7 @@ const AnnouncementsPage = () => {
         />
     );
 
+    console.log(displayedAnnouncements);
     return (
         <>
             <Snackbar
@@ -175,56 +181,7 @@ const AnnouncementsPage = () => {
                                         height: '120px'
                                     }}
                                 >
-                                    {AnnouncementBox}
-                                    <Dialog
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
-                                    >
-                                        <DialogTitle id="alert-dialog-title">
-                                            {"Do you want to teach this lesson?"}
-                                        </DialogTitle>
-                                        <DialogContent>
-                                            <DialogContentText id="alert-dialog-description">
-                                                <p>Are you sure you want to delete this announcement?</p>
-                                                <p>You can not take this action back.</p>
-                                            </DialogContentText>
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleClose}>Cancel</Button>
-                                            <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
-                                                deleteAnnouncementHandler(announcement.id);
-                                                handleClose();
-                                            }} autoFocus>
-                                                Delete
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
-                                    <Dialog
-                                        open={addTeacherOpen}
-                                        onClose={handleAddTeacherClose}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
-                                    >
-                                        <DialogTitle id="alert-dialog-title">
-                                            {"Delete this account?"}
-                                        </DialogTitle>
-                                        <DialogContent>
-                                            <DialogContentText id="alert-dialog-description">
-                                                <p>Do you want to assign to this announcement?</p>
-                                            </DialogContentText>
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleAddTeacherClose}>Cancel</Button>
-                                            <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
-                                                addTeacherToAnnouncementHandler(announcement.id);
-                                                handleAddTeacherClose();
-                                            }} autoFocus>
-                                                Assign
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
+                                    {Divider}
                                     <Grid container spacing={40}>
                                         <Grid xs={8}>
                                             <Typography>Student: {announcement.studentName}</Typography>
@@ -238,7 +195,10 @@ const AnnouncementsPage = () => {
                                                 {roles.includes('TEACHER') && (
                                                     <Button
                                                         sx={{marginTop: '10px'}}
-                                                        onClick={() => handleAddTeacherOpen()}
+                                                        onClick={() => {
+                                                            setActiveAnnouncementId(announcement.id);
+                                                            handleAddTeacherOpen()
+                                                        }}
                                                     >
                                                         <AddBoxIcon
                                                             style={{
@@ -253,6 +213,7 @@ const AnnouncementsPage = () => {
                                                 {roles.includes('ADMIN') && (
                                                     <Button
                                                         onClick={() => {
+                                                            setActiveAnnouncementId(announcement.id);
                                                             handleOpen();
                                                         }}
                                                     >
@@ -269,6 +230,61 @@ const AnnouncementsPage = () => {
                                     </Grid>
                                 </Box>
                             ))}
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">
+                                    {"Do you want to delete this announcement?"}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        <p>Are you sure you want to delete this announcement?</p>
+                                        <p>You can not take this action back.</p>
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleClose}>Cancel</Button>
+                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
+                                        if (activeAnnouncement) {
+                                            deleteAnnouncementHandler(activeAnnouncement.id);
+                                        }
+                                        handleClose();
+                                        setActiveAnnouncementId(undefined);
+                                    }} autoFocus>
+                                        Delete
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                            <Dialog
+                                open={addTeacherOpen}
+                                onClose={handleAddTeacherClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">
+                                    {"Do you want to teach this lesson?"}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        <p>Do you want to assign to this announcement?</p>
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={handleAddTeacherClose}>Cancel</Button>
+                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
+                                        if (activeAnnouncement) {
+                                            addTeacherToAnnouncementHandler(activeAnnouncement.id);
+                                        }
+                                        handleAddTeacherClose();
+                                        setActiveAnnouncementId(undefined);
+                                    }} autoFocus>
+                                        Assign
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
                         <Pagination
                             count={Math.ceil(announcements.length / pageSize)}
