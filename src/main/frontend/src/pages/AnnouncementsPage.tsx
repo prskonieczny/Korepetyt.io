@@ -68,7 +68,6 @@ const AnnouncementsPage = () => {
             .then(() => {
                 setSnackbarInfo({ open: true, message: "You have successfully assigned to the announcement"});
             }).catch((error) => {
-            // @ts-ignore
             if (error.response.status === 409) {
                 setSnackbarErrorInfo({ open: true, message: "You are already assigned to this announcement"});
             } else {
