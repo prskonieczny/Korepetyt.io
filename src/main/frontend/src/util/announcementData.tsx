@@ -5,3 +5,9 @@ export interface IAnnouncementData {
     subjects: string,
     description: string
 }
+
+export interface IAddAnnouncementData {
+    levels: string,
+    subjects: string,
+    description: string,
+}

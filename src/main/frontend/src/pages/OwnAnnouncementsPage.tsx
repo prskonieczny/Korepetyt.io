@@ -1,6 +1,5 @@
-import AuthService from "../services/authService";
-import React, {useEffect, useMemo, useState} from "react";
-import {IAnnouncementData} from "../util/announcementData";
+import React, {FormEvent, useEffect, useMemo, useState} from "react";
+import {IAddAnnouncementData, IAnnouncementData} from "../util/announcementData";
 import AnnouncementService from "../services/announcementService";
 import {
     Alert,
@@ -9,8 +8,8 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, Pagination,
-    Snackbar,
+    DialogTitle, MenuItem, Pagination, Select,
+    Snackbar, TextField,
     Typography
 } from "@mui/material";
 import {palette} from "../colors";
@@ -45,12 +44,16 @@ const OwnAnnouncementsPage = () => {
         setSnackbarErrorInfo({ ...snackbarInfo, open: false });
     };
 
-    useEffect(() => {
+   const getOwnAnnouncements = () => {
         AnnouncementService.getOwnAnnouncements().then(response => {
             setAnnouncements(response.data);
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    useEffect(() => {
+        getOwnAnnouncements();
     }, []);
 
     // usuniecie ogloszenia
@@ -75,6 +78,54 @@ const OwnAnnouncementsPage = () => {
                 setSnackbarErrorInfo({ open: true, message: "Announcement could not be deleted"});
             });
     }
+
+    // dodanie ogloszenia
+    const [level, setLevel] = useState('');
+    const [subject, setSubject] = useState('');
+    const [description, setDescription] = useState('');
+    const [addOpen, setAddOpen] = useState(false);
+    const handleAddClose = () => {
+        setAddOpen(false);
+    };
+    const handleAddOpen = () => {
+        setAddOpen(true);
+    }
+    const levels = [
+        'PRIMARY_SCHOOL',
+        'MIDDLE_SCHOOL',
+        'HIGH_SCHOOL',
+        'UNIVERSITY'
+    ];
+    const subjects = [
+        'MATHEMATICS',
+        'PHYSICS',
+        'BIOLOGY',
+        'CHEMISTRY',
+        'ENGLISH',
+        'GEOGRAPHY',
+        'LITERACY',
+        'MUSIC',
+        'INFORMATION_TECHNOLOGY',
+    ];
+    const addAnnouncementHandler = async (e: FormEvent, level: string, subject: string, description: string) => {
+        e.preventDefault();
+        const levelEnum = level.toUpperCase().replace(' ', '_');
+        const subjectEnum = subject.toUpperCase().replace(' ', '_');
+        const newAnnouncementData: IAddAnnouncementData = {
+            levels: levelEnum,
+            subjects: subjectEnum,
+            description,
+        };
+        try {
+            await AnnouncementService.addAnnouncement(newAnnouncementData)
+                .then(() => {
+                    getOwnAnnouncements();
+                    setSnackbarInfo({ open: true, message: "Announcement added successfully"});
+               });
+        } catch (error) {
+            setSnackbarErrorInfo({ open: true, message: "Announcement could not be added"});
+        }
+    };
 
     const Divider = (
         <Box
@@ -116,7 +167,7 @@ const OwnAnnouncementsPage = () => {
                         justifyContent: 'right',
                         alignItems: 'center',
                         padding: '0',
-                        marginTop: '10px'
+                        marginTop: '5px',
                     }}>
                         <img
                             src={image}
@@ -139,12 +190,18 @@ const OwnAnnouncementsPage = () => {
                             marginTop: '100px',
                             textAlign: 'left',
                             padding: '0 0',
-                            marginBottom: '0px'
+                            marginBottom: '0px',
                         }}
                     >
                         <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
                             Explore students announcements:
                         </Typography>
+                        <Button
+                            sx={{backgroundColor: palette.umber, color: 'white'}}
+                            onClick={handleAddOpen}
+                        >
+                            Create new announcement
+                        </Button>
                         <br/>
                         <div>
                             {displayedAnnouncements.map((announcement) => (
@@ -230,6 +287,71 @@ const OwnAnnouncementsPage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
+
+                            <Dialog
+                                open={addOpen}
+                                onClose={handleAddClose}
+                                sx={{color: palette.current}}
+                                PaperProps={{
+                                    component: 'form',
+                                    onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
+                                        event.preventDefault();
+                                        await addAnnouncementHandler(event, level, subject, description).then(handleAddClose);
+                                        },
+                                }}
+                            >
+                                <DialogTitle>Create new announcement</DialogTitle>
+                                <DialogContent>
+                                    <br/>
+                                    <Select
+                                        value={level}
+                                        onChange={(e) => setLevel(e.target.value)}
+                                        fullWidth
+                                        sx={{ marginBottom: '16px', color: palette.umber, backgroundColor: palette.champagne, width: '500px'}}
+                                    >
+                                        {levels.map((lvl) => (
+                                            <MenuItem key={lvl} value={lvl}>
+                                                {lvl.replace('_', ' ')}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <br/>
+                                    <Select
+                                        value={subject}
+                                        onChange={(e) => setSubject(e.target.value)}
+                                        fullWidth
+                                        sx={{ marginBottom: '16px', color: palette.umber, backgroundColor: palette.champagne, width: '500px'}}
+                                    >
+                                        {subjects.map((sub) => (
+                                            <MenuItem key={sub} value={sub}>
+                                                {sub.replace('_', ' ')}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <TextField
+                                        autoFocus
+                                        required
+                                        margin="dense"
+                                        id="description"
+                                        name="description"
+                                        label="Description"
+                                        fullWidth
+                                        variant="standard"
+                                        multiline={true}
+                                        onChange={(e) => {
+                                            setDescription(e.target.value);
+                                        }}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleAddClose} sx={{backgroundColor: palette.champagne, color: 'black'}}
+                                    >Cancel</Button>
+                                    <Button type="submit" sx={{backgroundColor: palette.champagne, color: 'black'}}
+                                            disabled={description === ''}
+                                    >Submit</Button>
+                                </DialogActions>
+                            </Dialog>
+
                         </div>
                         <Pagination
                             count={Math.ceil(announcements.length / pageSize)}
