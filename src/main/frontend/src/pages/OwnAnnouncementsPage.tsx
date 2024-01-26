@@ -371,22 +371,26 @@ const OwnAnnouncementsPage = () => {
                                 </DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        <Grid>
-                                            <DataGrid
-                                                rows={rows}
-                                                columns={columns}
-                                                initialState={{
-                                                    pagination: {
-                                                        paginationModel: {
-                                                            pageSize: 10,
+                                        {rows.length === 0 ? (
+                                            <p>No teachers assigned yet.</p>
+                                        ) : (
+                                            <Grid>
+                                                <DataGrid
+                                                    rows={rows}
+                                                    columns={columns}
+                                                    initialState={{
+                                                        pagination: {
+                                                            paginationModel: {
+                                                                pageSize: 10,
+                                                            },
                                                         },
-                                                    },
-                                                }}
-                                                disableColumnMenu={true}
-                                                autoHeight
-                                                rowHeight={40}
-                                            />
-                                        </Grid>
+                                                    }}
+                                                    disableColumnMenu={true}
+                                                    autoHeight
+                                                    rowHeight={40}
+                                                />
+                                            </Grid>
+                                        )}
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
@@ -442,6 +446,7 @@ const OwnAnnouncementsPage = () => {
                                 <DialogTitle>Create new announcement</DialogTitle>
                                 <DialogContent>
                                     <br/>
+                                    <p>Choose your level:</p>
                                     <Select
                                         value={level}
                                         onChange={(e) => setLevel(e.target.value)}
@@ -455,6 +460,7 @@ const OwnAnnouncementsPage = () => {
                                         ))}
                                     </Select>
                                     <br/>
+                                    <p>Choose subject:</p>
                                     <Select
                                         value={subject}
                                         onChange={(e) => setSubject(e.target.value)}
