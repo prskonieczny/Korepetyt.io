@@ -57,3 +57,9 @@ VALUES ('2024-01-17T10:00:00', '2024-01-17T12:00:00', 'teststudent', 'testteache
 INSERT INTO opinion (star_review, opinion_content, opinion_pros, opinion_cons, student_username, teacher_username, creation_date)
 VALUES
     ('FIVE', 'Bardzo dobry nauczyciel!', 'Znakomita wiedza', 'Brak', 'teststudent', 'testteacher',  '2024-01-20 12:30:00');
+INSERT INTO opinion (star_review, opinion_content, opinion_pros, opinion_cons, student_username, teacher_username, creation_date)
+VALUES
+    ('FIVE', 'Bardzo niezly nauczyciel!', 'Znakomita wiedza', 'Brak', 'teststudent', 'testteacher',  '2025-01-20 14:30:00');
+INSERT INTO opinion (star_review, opinion_content, opinion_pros, opinion_cons, student_username, teacher_username, creation_date)
+VALUES
+    ('FIVE', 'Bardzo koks nauczyciel!', 'Znakomita wiedza', 'Brak', 'teststudent', 'testteacher',  '2026-01-20 13:30:00');

@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {IAccountData} from "../util/data";
 import AccountService from "../services/accountService";
 import {useNavigate, useParams} from "react-router-dom";
 import OtherUserProfileCard from "../components/OtherUserProfileCard";
 import AuthService from "../services/authService";
+import OpinionCard from "../components/OpinionCard";
 
 const OtherUserProfilePage = () => {
     const navigate = useNavigate();
@@ -27,6 +28,11 @@ const OtherUserProfilePage = () => {
             <OtherUserProfileCard
                 account={account}
             />
+            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                <OpinionCard
+                    account={account}
+                />
+            )}
         </>
     )
 }

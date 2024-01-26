@@ -5,6 +5,9 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AccountService from "../services/accountService";
 import ProfileCard from "../components/ProfileCard";
+import OpinionCard from "../components/OpinionCard";
+import OpinionService from "../services/OpinionService";
+import {IOpinionData} from "../util/opinionData";
 
 const ProfilePage = () => {
     const loggedUser = AuthService.getCurrentUser();
@@ -48,6 +51,11 @@ const ProfilePage = () => {
                 onAccountEdit={handleAccountEdit}
                 onPropertiesEdit={handleAccountPropertiesEdit}
             />
+            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                <OpinionCard
+                    account={account}
+                />
+                )}
         </>
     )
 }
