@@ -187,7 +187,7 @@ const AnnouncementsPage = () => {
                                             <Typography>Subject: {announcement.subjects.toLowerCase()}</Typography>
                                             <Typography>Level: {announcement.levels.replace("_", " ").toLowerCase()}</Typography>
                                             <Typography>Description:</Typography>
-                                            <Typography variant={"h6"}>{announcement.description}</Typography>
+                                            <Typography>{announcement.description}</Typography>
                                         </Grid>
                                         <Grid xs={2}>
                                             <Grid>

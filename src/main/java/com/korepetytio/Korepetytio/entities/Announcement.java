@@ -2,7 +2,13 @@ package com.korepetytio.Korepetytio.entities;
 
 import com.korepetytio.Korepetytio.entities.enums.Levels;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

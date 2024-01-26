@@ -181,6 +181,7 @@ const OwnAnnouncementsPage = () => {
     const [level, setLevel] = useState('');
     const [subject, setSubject] = useState('');
     const [description, setDescription] = useState('');
+    const [descError, setDescError] = useState('');
     const [addOpen, setAddOpen] = useState(false);
     const handleAddClose = () => {
         setAddOpen(false);
@@ -319,7 +320,7 @@ const OwnAnnouncementsPage = () => {
                                             <Typography>Subject: {announcement.subjects.toLowerCase()}</Typography>
                                             <Typography>Level: {announcement.levels.replace("_", " ").toLowerCase()}</Typography>
                                             <Typography>Description:</Typography>
-                                            <Typography variant={"h6"}>{announcement.description}</Typography>
+                                            <Typography>{announcement.description}</Typography>
                                         </Grid>
                                         <Grid xs={2}>
                                             <Grid>
@@ -484,8 +485,16 @@ const OwnAnnouncementsPage = () => {
                                         variant="standard"
                                         multiline={true}
                                         onChange={(e) => {
-                                            setDescription(e.target.value);
+                                            const inputValue = e.target.value;
+                                            if (inputValue.length <= 100) {
+                                                setDescription(inputValue);
+                                                setDescError('');
+                                            } else {
+                                                setDescError('Description cannot exceed 100 characters.');
+                                            }
                                         }}
+                                        error={!!descError}
+                                        helperText={descError}
                                     />
                                 </DialogContent>
                                 <DialogActions>
