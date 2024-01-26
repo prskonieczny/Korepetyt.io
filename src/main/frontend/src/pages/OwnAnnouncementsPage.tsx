@@ -1,5 +1,5 @@
 import React, {FormEvent, useEffect, useMemo, useState} from "react";
-import {IAddAnnouncementData, IAnnouncementData} from "../util/announcementData";
+import {IAddAnnouncementData, IAnnouncementData, IShowAnnouncementAccountResponse} from "../util/announcementData";
 import AnnouncementService from "../services/announcementService";
 import {
     Alert,
@@ -17,8 +17,85 @@ import Grid from "@mui/material/Unstable_Grid2";
 import image from "../assets/images/loginpage.svg";
 import GroupsIcon from '@mui/icons-material/Groups';
 import DeleteIcon from "@mui/icons-material/Delete";
+import {DataGrid, GridCellParams, GridColDef} from "@mui/x-data-grid";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import {useNavigate} from "react-router-dom";
+
+const convertAccountsToRows = (accounts: IShowAnnouncementAccountResponse[]) => {
+    return accounts.map((acc) => ({
+        id: acc.id,
+        username: acc.username,
+        email: acc.email,
+        phone: acc.phone,
+        city: acc.city,
+        street: acc.street,
+    }));
+};
 
 const OwnAnnouncementsPage = () => {
+
+    const navigate = useNavigate();
+    const [ accounts, setAccounts ] = useState<IShowAnnouncementAccountResponse[]>([]);
+    const rows = convertAccountsToRows(accounts);
+    const columns: GridColDef[] = [
+        {
+            field: 'icon',
+            headerName: '',
+            width: 70,
+            sortable: false,
+            renderCell: (params) => (
+                    <AccountBoxIcon />
+            ),
+        },
+        {
+            field: 'username',
+            renderHeader: () => <strong>{"Username"}</strong>,
+            width: 150,
+            editable: false,
+        },
+        {
+            field: 'email',
+            renderHeader: () => <strong>{"Email"}</strong>,
+            width: 200,
+            editable: false,
+        },
+        {
+            field: 'phone',
+            renderHeader: () => <strong>{"Phone"}</strong>,
+            width: 110,
+            editable: false,
+        },
+        {
+            field: 'city',
+            renderHeader: () => <strong>{"City"}</strong>,
+            width: 100,
+            editable: false,
+        },
+        {
+            field: 'street',
+            renderHeader: () => <strong>{"Street"}</strong>,
+            width: 100,
+            editable: false,
+        },
+        {
+            field: 'actions',
+            headerName: '',
+            width: 70,
+            sortable: false,
+            renderCell: (params) => (
+                <>
+                        <Button sx={{color: palette.umber}}
+                                onClick={() => {
+                                    const teacherId = params.row.id;
+                                    navigate("../users/account/" + teacherId);
+                                }}>
+                            <ArrowForwardIosIcon />
+                        </Button>
+                </>
+            ),
+        },
+    ];
 
     const [announcements, setAnnouncements] = useState<IAnnouncementData[]>([]);
     const [page, setPage] = useState(1);
@@ -44,6 +121,23 @@ const OwnAnnouncementsPage = () => {
         setSnackbarErrorInfo({ ...snackbarInfo, open: false });
     };
 
+    // lista nauczycieli
+    const [teachersOpen, setTeachersOpen] = useState(false);
+    const handleTeachersClose = () => {
+        setTeachersOpen(false);
+    }
+    const handleTeachersOpen = () => {
+        setTeachersOpen(true);
+    }
+
+    const getTeachersByAnnouncementId = (id: number | undefined) => {
+        AnnouncementService.getTeachersByAnnouncementId(id).then(response => {
+            setAccounts(response.data);
+        }).catch(error =>{
+            console.log(error);
+        })
+    }
+
    const getOwnAnnouncements = () => {
         AnnouncementService.getOwnAnnouncements().then(response => {
             setAnnouncements(response.data);
@@ -55,6 +149,10 @@ const OwnAnnouncementsPage = () => {
     useEffect(() => {
         getOwnAnnouncements();
     }, []);
+
+    useEffect(() => {
+        getTeachersByAnnouncementId(activeAnnouncementId);
+    });
 
     // usuniecie ogloszenia
     const [open, setOpen] = useState(false);
@@ -229,7 +327,7 @@ const OwnAnnouncementsPage = () => {
                                                         sx={{marginTop: '10px'}}
                                                         onClick={() => {
                                                             setActiveAnnouncementId(announcement.id);
-                                                            console.log("lista nauczycielow")
+                                                            handleTeachersOpen();
                                                         }}
                                                     >
                                                         <GroupsIcon
@@ -259,6 +357,48 @@ const OwnAnnouncementsPage = () => {
                                     </Grid>
                                 </Box>
                             ))}
+
+                            <Dialog
+                                open={teachersOpen}
+                                onClose={handleTeachersClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                                fullWidth
+                                maxWidth="md"
+                            >
+                                <DialogTitle id="alert-dialog-title">
+                                    {"Your teachers"}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        <Grid>
+                                            <DataGrid
+                                                rows={rows}
+                                                columns={columns}
+                                                initialState={{
+                                                    pagination: {
+                                                        paginationModel: {
+                                                            pageSize: 10,
+                                                        },
+                                                    },
+                                                }}
+                                                disableColumnMenu={true}
+                                                autoHeight
+                                                rowHeight={40}
+                                            />
+                                        </Grid>
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button sx={{backgroundColor: palette.champagne, color: 'black'}} onClick={() => {
+                                        handleTeachersClose();
+                                        setActiveAnnouncementId(undefined);
+                                    }} autoFocus>
+                                        Close
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+
                             <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -287,7 +427,6 @@ const OwnAnnouncementsPage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
-
                             <Dialog
                                 open={addOpen}
                                 onClose={handleAddClose}
@@ -351,7 +490,6 @@ const OwnAnnouncementsPage = () => {
                                     >Submit</Button>
                                 </DialogActions>
                             </Dialog>
-
                         </div>
                         <Pagination
                             count={Math.ceil(announcements.length / pageSize)}
