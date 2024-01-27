@@ -5,8 +5,8 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    Pagination, Snackbar,
+    DialogTitle, MenuItem,
+    Pagination, Select, Snackbar, TextField,
     Typography
 } from "@mui/material";
 import React, {useEffect, useMemo, useState} from "react";
@@ -24,7 +24,12 @@ const AnnouncementsPage = () => {
     const roles = AuthService.getUserRoles();
     const loggedUserId = AuthService.getCurrentUserId();
 
+    const [studentFilter, setStudentFilter] = useState("");
+    const [subjectFilter, setSubjectFilter] = useState("");
+
     const [announcements, setAnnouncements] = useState<IAnnouncementData[]>([]);
+    const [allUniqueSubjects, setAllUniqueSubjects] = useState<string[]>([]);
+
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(3);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -50,11 +55,19 @@ const AnnouncementsPage = () => {
 
     useEffect(() => {
         AnnouncementService.getAllAnnouncements().then(response => {
-            setAnnouncements(response.data);
+            const filteredAnnouncements = response.data.filter((announcement: { studentName: string; subjects: string; }) => {
+                const studentNameMatch = announcement.studentName.toLowerCase().includes(studentFilter.toLowerCase());
+                const subjectMatch = announcement.subjects.toLowerCase().includes(subjectFilter.toLowerCase());
+                return studentNameMatch && subjectMatch;
+            });
+            setAnnouncements(filteredAnnouncements);
+            const uniqueSubjects = Array.from(new Set(filteredAnnouncements.map((subjectItem: IAnnouncementData) => subjectItem.subjects)));
+            setAllUniqueSubjects(uniqueSubjects as string[]);
         }).catch(error => {
             console.log(error);
         });
-    }, []);
+    }, [studentFilter, subjectFilter]);
+
     function deleteAnnouncementHandler(id: number) {
         AnnouncementService.deleteAnnouncement(id)
             .then(() => {
@@ -129,6 +142,7 @@ const AnnouncementsPage = () => {
                     {snackbarErrorInfo.message}
                 </Alert>
             </Snackbar>
+
             <Grid container>
                 <Grid xs={5}>
                     <Box sx={{
@@ -167,6 +181,35 @@ const AnnouncementsPage = () => {
                         <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
                             Explore students announcements:
                         </Typography>
+                        <Grid container>
+                            <Grid sx={{ marginBottom: '20px' }}>
+                                <TextField
+                                    label="Student"
+                                    value={studentFilter}
+                                    onChange={(e) => setStudentFilter(e.target.value)}
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+                            &emsp;
+                            <Grid sx={{ marginBottom: '20px' }}>
+                                <Select
+                                    value={subjectFilter}
+                                    onChange={(e) => setSubjectFilter(e.target.value)}
+                                    sx={{width: '224px'}}
+                                    variant={"outlined"}
+                                >
+                                    <MenuItem value={""}>
+                                        All subjects
+                                    </MenuItem>
+                                    {allUniqueSubjects.map((subject, index) => (
+                                        <MenuItem key={index} value={subject}>
+                                            {subject.toLowerCase()}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Grid>
+                        </Grid>
                         <br/>
                         <div>
                             {displayedAnnouncements.map((announcement) => (
