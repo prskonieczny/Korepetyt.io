@@ -12,10 +12,12 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Grid, MenuItem, Select, TextField,
 } from "@mui/material";
 import {palette} from "../../colors";
 import {useNavigate} from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 
 export interface AccountsListProps {
@@ -43,6 +45,7 @@ const AccountsTable = ({
                            removeAdminRoleHandler,
                            deleteAccountHandler,
                        }: AccountsListProps) => {
+
     const rows = convertAccountsToRows(accounts);
     const [open, setOpen] = React.useState(false);
     const [accountId, setAccountId] = React.useState(0);
@@ -57,6 +60,25 @@ const AccountsTable = ({
     function handleDeleteAccount(id: number) {
         deleteAccountHandler(id);
     }
+
+    const [filterText, setFilterText] = React.useState("");
+    const [selectedRole, setSelectedRole] = React.useState("");
+    const roles = ["ADMIN", "TEACHER", "STUDENT"];
+    const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterText(event.target.value);
+    };
+    const handleRoleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setSelectedRole(event.target.value as string);
+    };
+    const filteredRows = rows.filter((row) => {
+        // Filtrowanie po REGEXIE
+        const regex = new RegExp(filterText, "i");
+        if (!regex.test(row.username) && !regex.test(row.email)) {
+            return false;
+        }
+        // Filtrowanie po roli
+        return (!selectedRole || row.roles.toLowerCase().includes(selectedRole.toLowerCase()));
+    });
 
     const columns: GridColDef[] = [
         { field: 'id', renderHeader: () => <strong>{"ID"}</strong>, width: 50 },
@@ -190,11 +212,41 @@ const AccountsTable = ({
 
     return (
         <Box>
+            <Grid container>
+                <Grid>
+                    <PersonIcon fontSize={"large"} sx={{color: palette.current}}/>
+                    <TextField
+                        type="text"
+                        value={filterText}
+                        onChange={handleFilterChange}
+                        placeholder="Username..."
+                    />
+                </Grid>
+                &emsp;
+                <Grid>
+                    <AdminPanelSettingsIcon fontSize={"large"} sx={{color: palette.current}}/>
+                    <Select
+                        value={selectedRole}
+                        onChange={(e) => setSelectedRole(e.target.value)}
+                        sx={{width: '224px'}}
+                        variant={"outlined"}
+                    >
+                        <MenuItem value={""}>
+                            All roles
+                        </MenuItem>
+                        {roles.map((r, index) => (
+                            <MenuItem key={index} value={r}>
+                                {r}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </Grid>
+            </Grid>
             {deleteAccountDialog}
             <br/><br/>
                 <DataGrid
                     onCellClick={handleCellClick}
-                    rows={rows}
+                    rows={filteredRows}
                     columns={columns}
                     initialState={{
                         pagination: {

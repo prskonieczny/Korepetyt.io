@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import {Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School';
+import {palette} from "../colors";
 
 export interface TeachersListProps {
     accounts: IAccountData[]
@@ -108,7 +109,7 @@ const TeachersTable = ({
 
             <Grid container>
                 <Grid>
-                    <PersonIcon fontSize={"large"}/>
+                    <PersonIcon fontSize={"large"} sx={{color: palette.current}}/>
                     <TextField
                         type="text"
                         value={filterText}
@@ -118,7 +119,7 @@ const TeachersTable = ({
                 </Grid>
                 &emsp;
                 <Grid>
-                    <SchoolIcon fontSize={"large"}/>
+                    <SchoolIcon fontSize={"large"} sx={{color: palette.current}}/>
                     <Select
                         value={selectedSubject}
                         onChange={(e) => setSelectedSubject(e.target.value)}
