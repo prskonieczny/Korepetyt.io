@@ -5,6 +5,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import OtherUserProfileCard from "../components/OtherUserProfileCard";
 import AuthService from "../services/authService";
 import OpinionCard from "../components/OpinionCard";
+import {IOpinionData} from "../util/opinionData";
+import OpinionService from "../services/OpinionService";
 
 const OtherUserProfilePage = () => {
     const navigate = useNavigate();
@@ -23,6 +25,25 @@ const OtherUserProfilePage = () => {
         })
     }, []);
 
+    const [opinions, setOpinions] = useState<IOpinionData[]>([]);
+
+    const getOpinionsForTeacher = (username: string | undefined) => {
+        OpinionService.getOpinionsForTeacher(username).then(response => {
+            setOpinions(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const [refreshOpinions, setRefreshOpinions] = useState<boolean>(false);
+    const handleRefreshOpinions = () => {
+        setRefreshOpinions(prevState => !prevState);
+    }
+
+    useEffect(() => {
+        getOpinionsForTeacher(account?.username);
+    }, [account, refreshOpinions])
+
     return (
         <>
             <OtherUserProfileCard
@@ -31,6 +52,8 @@ const OtherUserProfilePage = () => {
             {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
                 <OpinionCard
                     account={account}
+                    opinions={opinions}
+                    refreshOpinions={handleRefreshOpinions}
                 />
             )}
         </>

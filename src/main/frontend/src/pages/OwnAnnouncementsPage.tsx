@@ -432,6 +432,7 @@ const OwnAnnouncementsPage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
+
                             <Dialog
                                 open={addOpen}
                                 onClose={handleAddClose}

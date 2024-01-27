@@ -10,8 +10,6 @@ import OpinionService from "../services/OpinionService";
 import {IOpinionData} from "../util/opinionData";
 
 const ProfilePage = () => {
-    const loggedUser = AuthService.getCurrentUser();
-    const roles = AuthService.getUserRoles();
     const [account, setAccount] = useState<IAccountData>();
     const navigate = useNavigate();
 
@@ -43,6 +41,35 @@ const ProfilePage = () => {
         setRefreshAfterPropertiesEdit({});
     }
 
+    const [opinions, setOpinions] = useState<IOpinionData[]>([]);
+    const [ownOpinions, setOwnOpinions] = useState<IOpinionData[]>([]);
+
+    const getOpinionsForTeacher = (username: string | undefined) => {
+        OpinionService.getOpinionsForTeacher(username).then(response => {
+            setOpinions(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const [refreshOpinions, setRefreshOpinions] = useState<boolean>(false);
+    const handleRefreshOpinions = () => {
+        setRefreshOpinions(prevState => !prevState);
+    }
+    const getOwnOpinions = () => {
+        OpinionService.getOpinionsByStudent().then(response => {
+            setOwnOpinions(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    useEffect(() => {
+        getOpinionsForTeacher(account?.username);
+        getOwnOpinions();
+    }, [account, refreshOpinions])
+
     return (
         <>
             <ProfileCard
@@ -51,11 +78,23 @@ const ProfilePage = () => {
                 onAccountEdit={handleAccountEdit}
                 onPropertiesEdit={handleAccountPropertiesEdit}
             />
+            {/*Wyświetlanie opinii o nauczycielu*/}
             {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
                 <OpinionCard
                     account={account}
+                    opinions={opinions}
+                    setOwnOpinions={setOpinions}
                 />
-                )}
+            )}
+            {/*Wyświetlanie własnych opinii gdy uczeń wchodzi na swój profil*/}
+            {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (
+                <OpinionCard
+                    account={account}
+                    opinions={ownOpinions}
+                    setOwnOpinions={setOwnOpinions}
+                    refreshOpinions={handleRefreshOpinions}
+                />
+            )}
         </>
     )
 }

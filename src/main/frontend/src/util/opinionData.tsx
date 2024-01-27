@@ -1,5 +1,5 @@
 export interface IOpinionData {
-    id: number;
+    opinionId: number;
     starReview: string,
     opinionContent: string,
     opinionPros: string,
@@ -7,4 +7,12 @@ export interface IOpinionData {
     studentUsername: string,
     teacherUsername: string,
     creationDate: Date,
+}
+
+export interface IAddOpinionData {
+    starReview: string,
+    opinionContent: string,
+    opinionPros: string,
+    opinionCons: string,
+    teacherUsername: string | undefined
 }
