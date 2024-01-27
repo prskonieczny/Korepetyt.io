@@ -105,6 +105,11 @@ function MainLayout() {
                 label: "My announcements",
                 actionProps: {to: "/teachers"}
             },
+            {
+                name: "allTeachers",
+                label: "All teachers",
+                actionProps: {to: "/allTeachers"}
+            },
         )
     }
 

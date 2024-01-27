@@ -17,8 +17,6 @@ import {IAddOpinionData, IOpinionData} from "../util/opinionData";
 import {IAccountData} from "../util/data";
 import OpinionService from "../services/OpinionService";
 import {palette} from "../colors";
-import {IAddAnnouncementData} from "../util/announcementData";
-import AnnouncementService from "../services/announcementService";
 import AuthService from "../services/authService";
 
 export interface OpinionCardProps {

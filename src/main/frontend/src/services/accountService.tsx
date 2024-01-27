@@ -16,6 +16,14 @@ const getAllUsers = () => {
     });
 };
 
+const getAllTeachers = () => {
+    return axios.get(API_URL + "teachers", {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    });
+};
+
 const addAdminRole = (id: number) => {
     return axios.post(API_URL + "addAdminRole/" + id, {}, {
         headers: {
@@ -90,6 +98,7 @@ const getOtherUserAccount = (id: number) => {
 
 const AccountService = {
     getAllUsers,
+    getAllTeachers,
     addAdminRole,
     removeAdminRole,
     deleteAccount,

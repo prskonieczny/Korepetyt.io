@@ -10,16 +10,24 @@ INSERT INTO account (username, password, email, city, street, phone)
     VALUES ('testteacher', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacheremail@email.com', 'Lodz', 'Street', '333333333');
 INSERT INTO account (username, password, email, city, street, phone)
     VALUES ('teststudent', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'studentemail@email.com', 'Lodz', 'Street', '333333333');
+INSERT INTO account (username, password, email, city, street, phone)
+    VALUES ('testteache1r', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacheremail1@email.com', 'Lodz', 'Street', '313333333');
+INSERT INTO account (username, password, email, city, street, phone)
+    VALUES ('testteacher2', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacherem2ail1@email.com', 'Lodz', 'Street', '323333333');
 
 -- insert account_roles
 INSERT INTO account_role (account_id, roles_id) VALUES (1,1);
 INSERT INTO account_role (account_id, roles_id) VALUES (2,2);
 INSERT INTO account_role (account_id, roles_id) VALUES (3,3);
+INSERT INTO account_role (account_id, roles_id) VALUES (4,2);
+INSERT INTO account_role (account_id, roles_id) VALUES (5,2);
 
 INSERT INTO account_levels (account_id, level) VALUES (1, 'PRIMARY_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (1, 'MIDDLE_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (2, 'UNIVERSITY');
 INSERT INTO account_levels (account_id, level) VALUES (3, 'HIGH_SCHOOL');
+INSERT INTO account_levels (account_id, level) VALUES (4, 'HIGH_SCHOOL');
+INSERT INTO account_levels (account_id, level) VALUES (5, 'HIGH_SCHOOL');
 
 -- insert subjects
 INSERT INTO account_subjects (account_id, subject) VALUES (1, 'MATHEMATICS');
@@ -28,6 +36,8 @@ INSERT INTO account_subjects (account_id, subject) VALUES (2, 'BIOLOGY');
 INSERT INTO account_subjects (account_id, subject) VALUES (2, 'CHEMISTRY');
 INSERT INTO account_subjects (account_id, subject) VALUES (3, 'ENGLISH');
 INSERT INTO account_subjects (account_id, subject) VALUES (3, 'GEOGRAPHY');
+INSERT INTO account_subjects (account_id, subject) VALUES (4, 'ENGLISH');
+INSERT INTO account_subjects (account_id, subject) VALUES (5, 'GEOGRAPHY');
 
 -- insert announcements
 INSERT INTO announcement (student_name, level, subject, description) VALUES ('teststudent', 'PRIMARY_SCHOOL', 'MATHEMATICS', 'Mam problem z ułamkami :c');
