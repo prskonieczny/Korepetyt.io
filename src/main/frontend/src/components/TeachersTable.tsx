@@ -2,9 +2,11 @@ import {IAccountData} from "../util/data";
 import {useNavigate} from "react-router-dom";
 import AuthService from "../services/authService";
 import {DataGrid, GridCellParams, GridColDef} from "@mui/x-data-grid";
-import React from "react";
+import React, {useState} from "react";
 import Box from "@mui/material/Box";
-import {Typography} from "@mui/material";
+import {Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
 
 export interface TeachersListProps {
     accounts: IAccountData[]
@@ -25,6 +27,17 @@ const convertAccountsToRows = (accounts: IAccountData[]) => {
 const TeachersTable = ({
                            accounts
                        }: TeachersListProps) => {
+
+    // filtrowanie
+    const [filterText, setFilterText] = useState("");
+    const [selectedSubject, setSelectedSubject] = useState("");
+    const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterText(event.target.value);
+    };
+    const handleSubjectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setSelectedSubject(event.target.value as string);
+    };
+
     const rows = convertAccountsToRows(accounts);
     const navigate = useNavigate()
     const loggedUserId = AuthService.getCurrentUserId();
@@ -77,11 +90,56 @@ const TeachersTable = ({
             }
     };
 
+    const filteredRows = rows.filter((row) => {
+        // Filtrowanie po REGEXIE
+        const regex = new RegExp(filterText, "i");
+        if (!regex.test(row.username) && !regex.test(row.email)) {
+            return false;
+        }
+        // Filtrowanie po przedmiotach
+        return (!selectedSubject || row.subjects.toLowerCase().includes(selectedSubject.toLowerCase()));
+    });
+
+    const allSubjects = accounts.flatMap((acc) => acc.subjects.map((subject) => subject.toLowerCase()));
+    const uniqueSubjects = Array.from(new Set(allSubjects));
+
     return (
         <Box>
+
+            <Grid container>
+                <Grid>
+                    <PersonIcon fontSize={"large"}/>
+                    <TextField
+                        type="text"
+                        value={filterText}
+                        onChange={handleFilterChange}
+                        placeholder="Username..."
+                    />
+                </Grid>
+                &emsp;
+                <Grid>
+                    <SchoolIcon fontSize={"large"}/>
+                    <Select
+                        value={selectedSubject}
+                        onChange={(e) => setSelectedSubject(e.target.value)}
+                        sx={{width: '224px'}}
+                        variant={"outlined"}
+                    >
+                        <MenuItem value={""}>
+                            All subjects
+                        </MenuItem>
+                        {uniqueSubjects.map((s, index) => (
+                            <MenuItem key={index} value={s}>
+                                {s.replace('_', ' ')}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </Grid>
+            </Grid>
+
             <DataGrid
                 onCellClick={handleCellClick}
-                rows={rows}
+                rows={filteredRows}
                 columns={columns}
                 initialState={{
                     pagination: {

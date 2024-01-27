@@ -24,7 +24,7 @@ const TeachersPage = () => {
                 width: "70%",
                 overflow: "hidden",
                 margin: "auto",
-                marginTop: "10px",
+                marginTop: "50px",
                 backgroundColor: palette.champagne
             }}>
                 <TeachersTable
