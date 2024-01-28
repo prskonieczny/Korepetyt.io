@@ -1,5 +1,6 @@
 import axios from "axios";
-import {IAddAnnouncementData, IAnnouncementData} from "../util/announcementData";
+import {IAddAnnouncementData, IAnnouncementData, IEditAnnouncementData} from "../util/announcementData";
+import {IChangeAccountDetailsData} from "../util/data";
 const API_URL = "http://localhost:8082/api/announcements/";
 const token = localStorage.getItem("token");
 
@@ -45,12 +46,20 @@ const addAnnouncement = (data: IAddAnnouncementData) => {
         }
     });
 }
+const editOwnAnnouncement = (id: number, data: IEditAnnouncementData) => {
+    return axios.put(API_URL + 'edit/' + id, data, {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    })
+}
 const AnnouncementService = {
     getAllAnnouncements,
     deleteAnnouncement,
     addTeacherToAnnouncement,
     getOwnAnnouncements,
     addAnnouncement,
-    getTeachersByAnnouncementId
+    getTeachersByAnnouncementId,
+    editOwnAnnouncement
 }
 export default AnnouncementService;

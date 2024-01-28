@@ -1,5 +1,10 @@
 import React, {FormEvent, useEffect, useMemo, useState} from "react";
-import {IAddAnnouncementData, IAnnouncementData, IShowAnnouncementAccountResponse} from "../util/announcementData";
+import {
+    IAddAnnouncementData,
+    IAnnouncementData,
+    IEditAnnouncementData,
+    IShowAnnouncementAccountResponse
+} from "../util/announcementData";
 import AnnouncementService from "../services/announcementService";
 import {
     Alert,
@@ -17,6 +22,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import image from "../assets/images/loginpage.svg";
 import GroupsIcon from '@mui/icons-material/Groups';
 import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {DataGrid, GridCellParams, GridColDef} from "@mui/x-data-grid";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -147,12 +153,8 @@ const OwnAnnouncementsPage = () => {
     }
 
     useEffect(() => {
-        getOwnAnnouncements();
-    }, []);
-
-    useEffect(() => {
         getTeachersByAnnouncementId(activeAnnouncementId);
-    });
+    }, [activeAnnouncementId]);
 
     // usuniecie ogloszenia
     const [open, setOpen] = useState(false);
@@ -226,6 +228,40 @@ const OwnAnnouncementsPage = () => {
         }
     };
 
+    // edytowanie ogloszenia
+    const [editOpen, setEditOpen] = useState(false);
+    const [descEdit, setDescEdit] = useState('');
+    const [descEditError, setDescEditError] = useState('');
+    const handleEditClose = () => {
+        setEditOpen(false);
+    };
+    const handleEditOpen = () => {
+        setEditOpen(true);
+    }
+    const handleEditAnnouncement = async (e: React.FormEvent, id: number) => {
+        e.preventDefault();
+        const levelEnum = level.toUpperCase().replace(' ', '_');
+        const subjectEnum = subject.toUpperCase().replace(' ', '_');
+        const editAnnouncementData: IEditAnnouncementData = {
+            levels: levelEnum,
+            subjects: subjectEnum,
+            description: descEdit,
+        };
+        try {
+            await AnnouncementService.editOwnAnnouncement(id, editAnnouncementData).then(() => {
+                console.log(descEdit)
+                getOwnAnnouncements();
+                setSnackbarInfo({ open: true, message: "Announcement edited successfully"});
+            })
+        } catch (error) {
+            setSnackbarErrorInfo({ open: true, message: "Announcement could not be edited"});
+        }
+    }
+
+    useEffect(() => {
+        getOwnAnnouncements();
+    }, []);
+
     const Divider = (
         <Box
             sx={{
@@ -293,7 +329,7 @@ const OwnAnnouncementsPage = () => {
                         }}
                     >
                         <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
-                            Explore students announcements:
+                            Explore your announcements:
                         </Typography>
                         <Button
                             sx={{backgroundColor: palette.umber, color: 'white'}}
@@ -333,7 +369,7 @@ const OwnAnnouncementsPage = () => {
                                                     >
                                                         <GroupsIcon
                                                             style={{
-                                                                fontSize: 'xx-large',
+                                                                fontSize: 'x-large',
                                                                 color: palette.umber,
                                                             }}
                                                         />
@@ -348,11 +384,27 @@ const OwnAnnouncementsPage = () => {
                                                     >
                                                         <DeleteIcon
                                                             style={{
-                                                                fontSize: 'xx-large',
+                                                                fontSize: 'x-large',
                                                                 color: palette.umber,
                                                             }}
                                                         />
                                                     </Button>
+                                            </Grid>
+                                            <Grid>
+                                                <Button
+                                                    onClick={() => {
+                                                        setActiveAnnouncementId(announcement.id);
+                                                        console.log("edytowanie")
+                                                        handleEditOpen();
+                                                    }}
+                                                >
+                                                    <BorderColorIcon
+                                                        style={{
+                                                            fontSize: 'x-large',
+                                                            color: palette.umber,
+                                                        }}
+                                                    />
+                                                </Button>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -506,6 +558,90 @@ const OwnAnnouncementsPage = () => {
                                     >Submit</Button>
                                 </DialogActions>
                             </Dialog>
+
+                            <Dialog
+                                open={editOpen}
+                                onClose={handleEditOpen}
+                                sx={{color: palette.current}}
+                                PaperProps={{
+                                    component: 'form',
+                                    onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
+                                        event.preventDefault();
+                                        if (activeAnnouncement) {
+                                            await handleEditAnnouncement(event, activeAnnouncement.id).then(handleEditClose);
+                                        }
+                                    },
+                                }}
+                            >
+                                <DialogTitle>Edit your announcement</DialogTitle>
+                                <DialogContent>
+                                    <br/>
+                                    <p>Choose your level:</p>
+                                    <Select
+                                        required
+                                        value={level}
+                                        onChange={(e) => setLevel(e.target.value)}
+                                        fullWidth
+                                        sx={{ marginBottom: '16px', color: palette.umber, backgroundColor: palette.champagne, width: '500px'}}
+                                    >
+                                        {levels.map((lvl) => (
+                                            <MenuItem key={lvl} value={lvl}>
+                                                {lvl.replace('_', ' ')}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <br/>
+                                    <p>Choose subject:</p>
+                                    <Select
+                                        required
+                                        value={subject}
+                                        onChange={(e) => setSubject(e.target.value)}
+                                        fullWidth
+                                        sx={{ marginBottom: '16px', color: palette.umber, backgroundColor: palette.champagne, width: '500px'}}
+                                    >
+                                        {subjects.map((sub) => (
+                                            <MenuItem key={sub} value={sub}>
+                                                {sub.replace('_', ' ')}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <TextField
+                                        autoFocus
+                                        required
+                                        margin="dense"
+                                        id="description"
+                                        name="description"
+                                        label="Description"
+                                        fullWidth
+                                        variant="standard"
+                                        value={descEdit}
+                                        multiline={true}
+                                        onChange={(e) => {
+                                            const inputValue = e.target.value;
+                                            if (inputValue.length <= 100) {
+                                                setDescription('');
+                                                setDescEdit(inputValue);
+                                                setDescEditError('');
+                                            } else {
+                                                setDescEditError('Description cannot exceed 100 characters.');
+                                            }
+                                        }}
+                                        error={!!descEditError}
+                                        helperText={descEditError}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={() => {
+                                        handleEditClose();
+                                        setActiveAnnouncementId(undefined);
+                                    }} sx={{backgroundColor: palette.champagne, color: 'black'}}
+                                    >Cancel</Button>
+                                    <Button type="submit" sx={{backgroundColor: palette.champagne, color: 'black'}}
+                                            disabled={descEdit === '' || descEditError !== ''}
+                                    >Submit</Button>
+                                </DialogActions>
+                            </Dialog>
+
                         </div>
                         <Pagination
                             count={Math.ceil(announcements.length / pageSize)}

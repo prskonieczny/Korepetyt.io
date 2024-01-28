@@ -99,7 +99,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (Objects.equals(account.getUsername(), editedAnnouncement.getStudentName())) {
             editedAnnouncement.setLevels(Levels.valueOf(editAnnouncementRequest.getLevels()));
             editedAnnouncement.setSubjects(Subjects.valueOf(editAnnouncementRequest.getSubjects()));
-            editedAnnouncement.setDescription(editedAnnouncement.getDescription());
+            editedAnnouncement.setDescription(editAnnouncementRequest.getDescription());
             announcementRepository.save(editedAnnouncement);
         } else {
             throw new RuntimeException("Error: You have no permissions to edit this announcement");

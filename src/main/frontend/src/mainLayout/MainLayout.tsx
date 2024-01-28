@@ -123,17 +123,22 @@ function MainLayout() {
         )
     }
 
+    if (roles !== null && roles.includes('ADMIN') && !(roles.includes('STUDENT'))) {
+        navigationTreeIn.push(
+            {
+                name: "students",
+                label: "Announcements",
+                actionProps: {to: "/students"}
+            },
+        )
+    }
+
     if (roles !== null && roles.includes('ADMIN')) {
         navigationTreeIn.push(
             {
                 name: "users",
                 label: "Manage users",
                 actionProps: {to: "/users"}
-            },
-            {
-                name: "students",
-                label: "Announcements",
-                actionProps: {to: "/students"}
             },
         )
     }

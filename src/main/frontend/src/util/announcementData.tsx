@@ -1,5 +1,3 @@
-import {IRoleData} from "./data";
-
 export interface IAnnouncementData {
     id: number;
     studentName: string,
@@ -15,12 +13,18 @@ export interface IAddAnnouncementData {
 }
 
 export interface IShowAnnouncementAccountResponse {
-    id: number;
-    username: string;
-    email: string;
-    phone: string;
-    city: string;
-    street: string;
-    levels: string[];
-    subjects: string[];
+    id: number,
+    username: string,
+    email: string,
+    phone: string,
+    city: string,
+    street: string,
+    levels: string[],
+    subjects: string[],
+}
+
+export interface IEditAnnouncementData {
+    levels: string,
+    subjects: string,
+    description: string,
 }

@@ -32,10 +32,10 @@ const deleteOpinion = (id: number) => {
     });
 };
 
-const AnnouncementService = {
+const OpinionService = {
     getOpinionsForTeacher,
     getOpinionsByStudent,
     deleteOpinion,
     addOpinion
 }
-export default AnnouncementService;
+export default OpinionService;
