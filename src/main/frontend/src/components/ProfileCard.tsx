@@ -20,7 +20,7 @@ import {palette} from "../colors";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PasswordIcon from '@mui/icons-material/Password';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 import AccountService from "../services/accountService";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -28,6 +28,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SchoolIcon from '@mui/icons-material/School';
 import EditAccountDetails from "./EditAccountDetails";
 import EditAccountProperties from "./EditAccountProperties";
+import TeacherStatisticsService from "../services/teacherStatisticsService";
+import OpinionCard from "./OpinionCard";
 
 export interface ProfileCardProps {
     account: IAccountData | undefined,
@@ -135,6 +137,16 @@ const ProfileCard = ({
             setSnackbarErrorInfo({ open: true, message: "Error changing email"});
         }
     }
+
+    const [lessonCounter, setLessonCounter] = useState('0');
+    useEffect(() => {
+        TeacherStatisticsService.getStatisticsForTeacher(account?.id).then(response => {
+            setLessonCounter(response.data);
+            console.log("pobrano");
+        }).catch(error => {
+            console.log(error);
+        })
+    })
 
     const [snackbarInfo, setSnackbarInfo] = useState({ open: false, message: ""});
     const [snackbarErrorInfo, setSnackbarErrorInfo] = useState({ open: false, message: ""});
@@ -399,6 +411,11 @@ const ProfileCard = ({
                 Levels: {account?.levels.map(level => level.replace("_", " ").toLowerCase()).join(", ")}</Typography>
             <Typography sx={{ fontSize: "14px", color: palette.umber }}>
                 Subjects: {account?.subjects.map(subject => subject.toLowerCase()).join(", ")}</Typography>
+            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                <Typography sx={{ fontSize: "14px", color: palette.umber }} variant={"overline"}>
+                    Lessons finished: {lessonCounter}
+                </Typography>
+            )}
             <br/>
             <Box textAlign="center">
                 <Button onClick={handleClickPropertiesAccountOpen}>

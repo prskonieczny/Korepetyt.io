@@ -1,8 +1,10 @@
 package com.korepetytio.Korepetytio.scheduler;
 
 import com.korepetytio.Korepetytio.entities.Lesson;
+import com.korepetytio.Korepetytio.entities.TeacherStatistics;
 import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
 import com.korepetytio.Korepetytio.repository.LessonRepository;
+import com.korepetytio.Korepetytio.repository.TeacherStatisticsRepository;
 import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
 import org.springframework.mail.MailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,15 +17,17 @@ import java.util.List;
 public class LessonScheduler {
     private final LessonRepository lessonRepository;
     private final EmailService emailService;
-    public LessonScheduler(LessonRepository lessonRepository, MailSender mailSender, EmailService emailService) {
+    private final TeacherStatisticsRepository teacherStatisticsRepository;
+
+    public LessonScheduler(LessonRepository lessonRepository, MailSender mailSender, EmailService emailService, TeacherStatisticsRepository teacherStatisticsRepository) {
         this.lessonRepository = lessonRepository;
         this.emailService = emailService;
+        this.teacherStatisticsRepository = teacherStatisticsRepository;
     }
 
     @Scheduled(fixedRate = 60000) // per minute
     public void checkLessonStatus() {
         List<Lesson> lessons = lessonRepository.findByLessonStatus(LessonStatus.ACTIVE);
-
         for (Lesson lesson : lessons) {
             if (lesson.getEndTime().isBefore(LocalDateTime.now())) {
                 lesson.setLessonStatus(LessonStatus.FINISHED);
@@ -31,6 +35,7 @@ public class LessonScheduler {
             }
         }
     }
+
     @Scheduled(fixedRate = 60000) // per minute
     public void sendEmailBeforeLesson() {
         List<Lesson> lessons = lessonRepository.findLessonsToNotify(

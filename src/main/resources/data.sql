@@ -22,12 +22,17 @@ INSERT INTO account_role (account_id, roles_id) VALUES (3,3);
 INSERT INTO account_role (account_id, roles_id) VALUES (4,2);
 INSERT INTO account_role (account_id, roles_id) VALUES (5,2);
 
+-- inser levels
 INSERT INTO account_levels (account_id, level) VALUES (1, 'PRIMARY_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (1, 'MIDDLE_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (2, 'UNIVERSITY');
 INSERT INTO account_levels (account_id, level) VALUES (3, 'HIGH_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (4, 'HIGH_SCHOOL');
 INSERT INTO account_levels (account_id, level) VALUES (5, 'HIGH_SCHOOL');
+
+-- insert teacher_statistics
+INSERT INTO teacher_statistics (number_of_lessons, teacher_id)
+    VALUES (10, (SELECT id FROM account WHERE username = 'testteacher'));
 
 -- insert subjects
 INSERT INTO account_subjects (account_id, subject) VALUES (1, 'MATHEMATICS');
@@ -61,7 +66,9 @@ INSERT INTO announcement_teacher (announcement_id, teacher_id) VALUES (1,3);
 
 -- insert lessons
 INSERT INTO lesson (start_time, end_time, student_username, teacher_username, description, subject, lesson_status)
-VALUES ('2024-01-17T10:00:00', '2024-01-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie ułamków', 'MATHEMATICS', 'ACTIVE');
+VALUES ('2023-01-17T10:00:00', '2023-01-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie ułamków', 'MATHEMATICS', 'ACTIVE');
+INSERT INTO lesson (start_time, end_time, student_username, teacher_username, description, subject, lesson_status)
+VALUES ('2023-02-17T10:00:00', '2023-02-17T12:00:00', 'teststudent', 'testteacher', 'Ułamki zwykłę, dodawanie i dzielenie u2łamków', 'MATHEMATICS', 'ACTIVE');
 
 -- insert opinion
 INSERT INTO opinion (star_review, opinion_content, opinion_pros, opinion_cons, student_username, teacher_username, creation_date)

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TeacherStatisticsRepository extends JpaRepository<TeacherStatistics, Long> {
-
+    TeacherStatistics findByAccountId(Long accountId);
 }

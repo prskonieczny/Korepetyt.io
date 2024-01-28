@@ -15,5 +15,5 @@ public class TeacherStatistics extends AbstractEntity{
     private int numberOfLessons;
     @OneToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Account teacher;
+    private Account account;
 }
