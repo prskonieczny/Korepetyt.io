@@ -42,4 +42,6 @@ public class Lesson extends AbstractEntity {
     @Column(name = "lesson_status")
     @Enumerated(EnumType.STRING)
     private LessonStatus lessonStatus;
+    @Column(columnDefinition = "text")
+    private String image;
 }

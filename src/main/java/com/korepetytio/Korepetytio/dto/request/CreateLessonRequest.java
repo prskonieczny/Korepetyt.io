@@ -19,4 +19,5 @@ public class CreateLessonRequest {
     private LocalDateTime endTime;
     private String subject;
     private String description;
+    private String image;
 }

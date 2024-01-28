@@ -80,6 +80,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setLessonStatus(LessonStatus.ACTIVE);
         lesson.setSubject(createLessonRequest.getSubject());
         lesson.setDescription(createLessonRequest.getDescription());
+        lesson.setImage(createLessonRequest.getImage());
 
         lessonRepository.save(lesson);
     }
