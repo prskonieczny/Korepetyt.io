@@ -255,7 +255,6 @@ const AccountsTable = ({
                             },
                         },
                     }}
-                    disableColumnMenu={true}
                     autoHeight
                     rowHeight={80}
                 />

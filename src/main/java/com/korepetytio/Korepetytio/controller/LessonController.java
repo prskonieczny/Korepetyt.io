@@ -41,7 +41,7 @@ public class LessonController {
         }
     }
     @GetMapping("/reservations/self")
-    public ResponseEntity<List<ShowTeacherLessonsResponse>> getStudentReservations() {
+    public ResponseEntity<List<ShowTeacherLessonsResponse>> getStudentLessons() {
         List<ShowTeacherLessonsResponse> studentReservations = lessonService.getStudentReservations();
         return ResponseEntity.ok(studentReservations);
     }

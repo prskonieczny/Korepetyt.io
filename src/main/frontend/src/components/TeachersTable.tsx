@@ -149,7 +149,6 @@ const TeachersTable = ({
                         },
                     },
                 }}
-                disableColumnMenu={true}
                 autoHeight
             />
         </Box>

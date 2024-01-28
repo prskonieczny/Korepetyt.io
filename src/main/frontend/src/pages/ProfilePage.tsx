@@ -8,6 +8,11 @@ import ProfileCard from "../components/ProfileCard";
 import OpinionCard from "../components/OpinionCard";
 import OpinionService from "../services/OpinionService";
 import {IOpinionData} from "../util/opinionData";
+import {Grid} from "@mui/material";
+import CalendarCard from "../components/CalendarCard";
+import LessonsList from "../components/LessonsList";
+import {IShowLessonsData} from "../util/lessonData";
+import LessonService from "../services/lessonService";
 
 const ProfilePage = () => {
     const [account, setAccount] = useState<IAccountData>();
@@ -64,37 +69,83 @@ const ProfilePage = () => {
         })
     }
 
+    const [lessons, setLessons] = useState<IShowLessonsData[]>([]);
+    const getLessonsForStudent = () => {
+        LessonService.getStudentLessons().then(response => {
+            setLessons(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function cancelLessonHandler(id: number) {
+        LessonService.cancelLesson(id)
+            .then(() => {
+                setLessons((prevAccounts) => {
+                    return prevAccounts.filter((lesson) => lesson.lessonId !== id);
+                });
+            })
+            .catch((error) => {
+                console.log("error " + id);
+            });
+    }
 
     useEffect(() => {
         getOpinionsForTeacher(account?.username);
         getOwnOpinions();
+        getLessonsForStudent();
     }, [account, refreshOpinions])
 
     return (
         <>
-            <ProfileCard
-                account={account}
-                onEmailChange={handleEmailChange}
-                onAccountEdit={handleAccountEdit}
-                onPropertiesEdit={handleAccountPropertiesEdit}
-            />
-            {/*Wyświetlanie opinii o nauczycielu*/}
-            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
-                <OpinionCard
-                    account={account}
-                    opinions={opinions}
-                    setOwnOpinions={setOpinions}
-                />
-            )}
-            {/*Wyświetlanie własnych opinii gdy uczeń wchodzi na swój profil*/}
-            {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (
-                <OpinionCard
-                    account={account}
-                    opinions={ownOpinions}
-                    setOwnOpinions={setOwnOpinions}
-                    refreshOpinions={handleRefreshOpinions}
-                />
-            )}
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                spacing={3}
+            >
+                <Grid xs={4}>
+                    <ProfileCard
+                        account={account}
+                        onEmailChange={handleEmailChange}
+                        onAccountEdit={handleAccountEdit}
+                        onPropertiesEdit={handleAccountPropertiesEdit}
+                    />
+                </Grid>
+                <Grid xs={4}>
+                    {/*Wyświetlanie opinii o nauczycielu*/}
+                    {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                        <OpinionCard
+                            account={account}
+                            opinions={opinions}
+                            setOwnOpinions={setOpinions}
+                        />
+                    )}
+                    {/*Wyświetlanie własnych opinii gdy uczeń wchodzi na swój profil*/}
+                    {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (
+                        <OpinionCard
+                            account={account}
+                            opinions={ownOpinions}
+                            setOwnOpinions={setOwnOpinions}
+                            refreshOpinions={handleRefreshOpinions}
+                        />
+                    )}
+                </Grid>
+            </Grid>
+            <Grid>
+                {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                    <CalendarCard
+
+                    />
+                )}
+                {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (
+                    <LessonsList
+                        account={account}
+                        lessons={lessons}
+                        cancelLessonHandler={cancelLessonHandler}
+                    />
+                )}
+            </Grid>
         </>
     )
 }
