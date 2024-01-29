@@ -1,4 +1,7 @@
 import {Box} from "@mui/material";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import FullCalendar from "@fullcalendar/react";
+import React from "react";
 
 const CalendarCard = () => {
     return (
@@ -7,9 +10,13 @@ const CalendarCard = () => {
             padding="20px"
             border="3px solid #772E25"
             borderRadius="8px"
-            maxWidth="400px"
+            maxWidth="1000px"
         >
-            TU BEDZIE KALENDARZ
+            <FullCalendar
+                plugins={[ timeGridPlugin ]}
+                initialView="timeGridWeek"
+                height={"400px"}
+            />
         </Box>
     );
 }
