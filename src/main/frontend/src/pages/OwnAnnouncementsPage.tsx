@@ -13,7 +13,7 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, MenuItem, Pagination, Select,
+    DialogTitle, Divider, MenuItem, Pagination, Select,
     Snackbar, TextField,
     Typography
 } from "@mui/material";
@@ -262,17 +262,6 @@ const OwnAnnouncementsPage = () => {
         getOwnAnnouncements();
     }, []);
 
-    const Divider = (
-        <Box
-            sx={{
-                backgroundColor: palette.current,
-                borderRadius: '20px',
-                width: '800px',
-                height: '10px'
-            }}
-        />
-    );
-
     return (
         <>
             <Snackbar
@@ -350,7 +339,7 @@ const OwnAnnouncementsPage = () => {
                                         height: '120px'
                                     }}
                                 >
-                                    {Divider}
+                                    <Divider/><br/>
                                     <Grid container spacing={40}>
                                         <Grid xs={8}>
                                             <Typography>Subject: {announcement.subjects.toLowerCase()}</Typography>

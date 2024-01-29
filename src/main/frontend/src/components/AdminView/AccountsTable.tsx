@@ -12,7 +12,7 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, Grid, MenuItem, Select, TextField,
+    DialogTitle, Grid, MenuItem, Select, TextField, Typography,
 } from "@mui/material";
 import {palette} from "../../colors";
 import {useNavigate} from "react-router-dom";
@@ -211,7 +211,10 @@ const AccountsTable = ({
     );
 
     return (
-        <Box>
+        <Box marginTop={"50px"}>
+            <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
+                Manage accounts:
+            </Typography><br/>
             <Grid container>
                 <Grid>
                     <PersonIcon fontSize={"large"} sx={{color: palette.current}}/>

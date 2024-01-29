@@ -1,4 +1,4 @@
-import {Box, Button} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import {IAccountData} from "../util/data";
 import {IShowLessonsData} from "../util/lessonData";
 import AuthService from "../services/authService";
@@ -116,6 +116,9 @@ const LessonsList = ({
             borderRadius="8px"
             maxWidth="1500px"
         >
+            <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
+                Your lessons:
+            </Typography>
             <DataGrid
                 rows={rows}
                 columns={columns}

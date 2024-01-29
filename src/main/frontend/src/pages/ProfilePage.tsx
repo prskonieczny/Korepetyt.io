@@ -8,11 +8,12 @@ import ProfileCard from "../components/ProfileCard";
 import OpinionCard from "../components/OpinionCard";
 import OpinionService from "../services/OpinionService";
 import {IOpinionData} from "../util/opinionData";
-import {Grid} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import CalendarCard from "../components/CalendarCard";
 import LessonsList from "../components/LessonsList";
 import {IShowLessonsData} from "../util/lessonData";
 import LessonService from "../services/lessonService";
+import {palette} from "../colors";
 
 const ProfilePage = () => {
     const [account, setAccount] = useState<IAccountData>();

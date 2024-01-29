@@ -5,7 +5,7 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, MenuItem,
+    DialogTitle, Divider, MenuItem,
     Pagination, Select, Snackbar, TextField,
     Typography
 } from "@mui/material";
@@ -111,17 +111,6 @@ const AnnouncementsPage = () => {
         setAddTeacherOpen(true);
     }
 
-    const Divider = (
-        <Box
-            sx={{
-                backgroundColor: palette.current,
-                borderRadius: '20px',
-                width: '800px',
-                height: '10px'
-            }}
-        />
-    );
-
     return (
         <>
             <Snackbar
@@ -223,7 +212,7 @@ const AnnouncementsPage = () => {
                                         height: '120px'
                                     }}
                                 >
-                                    {Divider}
+                                    <Divider/><br/>
                                     <Grid container spacing={40}>
                                         <Grid xs={8}>
                                             <Typography>Student: {announcement.studentName}</Typography>
@@ -266,6 +255,7 @@ const AnnouncementsPage = () => {
                                                             }}
                                                         />
                                                     </Button>
+
                                                 )}
                                             </Grid>
                                         </Grid>

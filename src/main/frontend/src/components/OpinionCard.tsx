@@ -256,7 +256,14 @@ const OpinionCard = ({
             </Snackbar>
 
             {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
-                <Typography variant={"h6"}>Other student's opinions:</Typography>
+                <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
+                    Student's opinions:
+                </Typography>
+            )}
+            {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (
+                <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
+                    Your opinions:
+                </Typography>
             )}
             {(
                 roles.includes('STUDENT')

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {IAccountData} from "../util/data";
 import AccountService from "../services/accountService";
 import {palette} from "../colors";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import TeachersTable from "../components/TeachersTable";
 
 const TeachersPage = () => {
@@ -27,6 +27,10 @@ const TeachersPage = () => {
                 marginTop: "50px",
                 backgroundColor: palette.champagne
             }}>
+                <Typography fontFamily={"Nunito"} fontStyle={palette.gray} variant="h5" gutterBottom>
+                    Our teachers:
+                </Typography>
+                <br/>
                 <TeachersTable
                     accounts={accounts}
                 />
