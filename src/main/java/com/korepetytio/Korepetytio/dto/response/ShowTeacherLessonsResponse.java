@@ -23,4 +23,5 @@ public class ShowTeacherLessonsResponse {
     private String description;
     private String subject;
     private LessonStatus lessonStatus;
+    private String image;
 }

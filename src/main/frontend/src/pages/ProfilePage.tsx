@@ -79,7 +79,7 @@ const ProfilePage = () => {
         })
     }
 
-    function cancelLessonHandler(id: number) {
+    function cancelLessonHandler(id: number | undefined) {
         LessonService.cancelLesson(id)
             .then(() => {
                 setLessons((prevAccounts) => {
@@ -136,7 +136,8 @@ const ProfilePage = () => {
             <Grid>
                 {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
                     <CalendarCard
-
+                        account={account}
+                        cancelLessonHandler={cancelLessonHandler}
                     />
                 )}
                 {account?.roles.some(role => role.permissionLevel === 'STUDENT') && (

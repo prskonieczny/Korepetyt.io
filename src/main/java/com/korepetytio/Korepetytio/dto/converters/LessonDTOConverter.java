@@ -14,6 +14,7 @@ public class LessonDTOConverter {
         dto.setStudentUsername(lesson.getStudentUsername());
         dto.setTeacherUsername(lesson.getTeacherUsername());
         dto.setLessonStatus(lesson.getLessonStatus());
+        dto.setImage(lesson.getImage());
         return dto;
     }
 }

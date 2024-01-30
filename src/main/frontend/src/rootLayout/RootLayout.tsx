@@ -8,7 +8,7 @@ function RootLayout() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "spece-between",
-            height: "150vh",
+            height: "200vh",
             backgroundColor: palette.champagne,
         }}>
             <MainLayout />

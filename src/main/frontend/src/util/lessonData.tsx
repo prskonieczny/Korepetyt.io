@@ -6,5 +6,14 @@ export interface IShowLessonsData {
     teacherUsername: string,
     description: string,
     subject: string,
-    lessonStatus: string
+    lessonStatus: string,
+    image: string
+}
+
+export interface ICreateLessonData {
+    startTime: string,
+    endTime: string,
+    subject: string,
+    description: string,
+    image: string
 }

@@ -7,6 +7,9 @@ import AuthService from "../services/authService";
 import OpinionCard from "../components/OpinionCard";
 import {IOpinionData} from "../util/opinionData";
 import OpinionService from "../services/OpinionService";
+import CalendarCard from "../components/CalendarCard";
+import LessonService from "../services/lessonService";
+import {IShowLessonsData} from "../util/lessonData";
 
 const OtherUserProfilePage = () => {
     const navigate = useNavigate();
@@ -35,6 +38,19 @@ const OtherUserProfilePage = () => {
         })
     }
 
+    const [lessons, setLessons] = useState<IShowLessonsData[]>([]);
+    function cancelLessonHandler(id: number | undefined) {
+        LessonService.cancelLesson(id)
+            .then(() => {
+                setLessons((prevAccounts) => {
+                    return prevAccounts.filter((lesson) => lesson.lessonId !== id);
+                });
+            })
+            .catch((error) => {
+                console.log("error " + id);
+            });
+    }
+
     const [refreshOpinions, setRefreshOpinions] = useState<boolean>(false);
     const handleRefreshOpinions = () => {
         setRefreshOpinions(prevState => !prevState);
@@ -54,6 +70,11 @@ const OtherUserProfilePage = () => {
                     account={account}
                     opinions={opinions}
                     refreshOpinions={handleRefreshOpinions}
+                />
+            )}
+            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                <CalendarCard
+                    account={account}
                 />
             )}
         </>

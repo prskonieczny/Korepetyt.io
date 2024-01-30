@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static com.korepetytio.Korepetytio.entities.enums.RoleType.ADMIN;
 import static com.korepetytio.Korepetytio.entities.enums.RoleType.STUDENT;
+import static com.korepetytio.Korepetytio.entities.enums.RoleType.TEACHER;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -107,9 +108,11 @@ public class LessonServiceImpl implements LessonService {
         if (optionalLesson.isPresent()) {
             Lesson lesson = optionalLesson.get();
 
-            // lessons can be deleted only by user that created them or ADMIN user
-            if (!(lesson.getStudentUsername().equals(studentUsername))
-                    || accountDeletingLesson.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(ADMIN))) {
+            // lessons can be deleted only by user that created them or TEACHER or ADMIN user
+            if (!((lesson.getStudentUsername().equals(studentUsername))
+                    || accountDeletingLesson.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(TEACHER))
+                    || accountDeletingLesson.getRoles().stream().anyMatch(role -> role.getPermissionLevel().equals(ADMIN))
+            )) {
                 throw new IllegalArgumentException("You have no permissions to cancel this lesson");
             }
 
