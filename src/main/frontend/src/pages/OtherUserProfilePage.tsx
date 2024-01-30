@@ -10,6 +10,7 @@ import OpinionService from "../services/OpinionService";
 import CalendarCard from "../components/CalendarCard";
 import LessonService from "../services/lessonService";
 import {IShowLessonsData} from "../util/lessonData";
+import {Grid} from "@mui/material";
 
 const OtherUserProfilePage = () => {
     const navigate = useNavigate();
@@ -62,21 +63,34 @@ const OtherUserProfilePage = () => {
 
     return (
         <>
-            <OtherUserProfileCard
-                account={account}
-            />
-            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
-                <OpinionCard
-                    account={account}
-                    opinions={opinions}
-                    refreshOpinions={handleRefreshOpinions}
-                />
-            )}
-            {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
-                <CalendarCard
-                    account={account}
-                />
-            )}
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                spacing={3}
+            >
+                <Grid xs={4}>
+                    <OtherUserProfileCard
+                        account={account}
+                    />
+                </Grid>
+                <Grid xs={4}>
+                    {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                        <OpinionCard
+                            account={account}
+                            opinions={opinions}
+                            refreshOpinions={handleRefreshOpinions}
+                        />
+                    )}
+                </Grid>
+            </Grid>
+            <Grid>
+                {account?.roles.some(role => role.permissionLevel === 'TEACHER') && (
+                    <CalendarCard
+                        account={account}
+                    />
+                )}
+            </Grid>
         </>
     )
 }
