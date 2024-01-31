@@ -30,12 +30,12 @@ public class OpinionServiceImpl implements OpinionService {
 
     @Override
     public void addOpinion(AddOpinionRequest addOpinionRequest) {
-        Optional<Lesson> finishedLesson = lessonRepository.findFinishedLessonByTeacherUsernameAndStudentUsername(
+        List<Lesson> finishedLesson = lessonRepository.findFinishedLessonByTeacherUsernameAndStudentUsername(
                 addOpinionRequest.getTeacherUsername(),
                 SecurityContextHolder.getContext().getAuthentication().getName()
         );
 
-        if (finishedLesson.isPresent()) {
+        if (!finishedLesson.isEmpty()) {
             Opinion opinion = new Opinion();
             opinion.setStarReview(addOpinionRequest.getStarReview());
             opinion.setOpinionContent(addOpinionRequest.getOpinionContent());

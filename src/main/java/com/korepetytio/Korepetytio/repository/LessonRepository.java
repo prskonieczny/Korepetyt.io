@@ -45,7 +45,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
             @Param("endTime") LocalDateTime endTime
     );
     List<Lesson> findByLessonStatus(LessonStatus lessonStatus);
-    Optional<Lesson> findFinishedLessonByTeacherUsernameAndStudentUsername(String teacherUsername, String studentUsername);
+    List<Lesson> findFinishedLessonByTeacherUsernameAndStudentUsername(String teacherUsername, String studentUsername);
     @Query("SELECT l FROM Lesson l WHERE l.teacherUsername = :teacherUsername AND l.lessonStatus = 'FINISHED'")
     List<Lesson> findFinishedLessonsByTeacherUsername(String teacherUsername);
 }

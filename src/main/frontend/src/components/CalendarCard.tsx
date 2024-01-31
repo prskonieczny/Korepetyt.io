@@ -204,7 +204,7 @@ const CalendarCard = ({account, cancelLessonHandler}: CalendarCardProps) => {
                 <DialogTitle>Reserve lesson</DialogTitle>
                 <DialogContent>
                     <Select
-                        required
+                        required={true}
                         value={subject}
                         onChange={(e) => {
                             setSubject(e.target.value);
@@ -221,7 +221,7 @@ const CalendarCard = ({account, cancelLessonHandler}: CalendarCardProps) => {
                     </Select>
                     <br/>
                     <TextField
-                        required
+                        required={true}
                         label="Description"
                         value={newLessonData.description}
                         onChange={(e) => setNewLessonData({...newLessonData, description: e.target.value})}

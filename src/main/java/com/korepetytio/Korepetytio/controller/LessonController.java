@@ -22,7 +22,7 @@ public class LessonController {
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
-    @GetMapping("/reservations")
+    @GetMapping("/reservations/reservations")
     public ResponseEntity<List<ShowTeacherLessonsResponse>> getAllReservations() {
         try {
             List<ShowTeacherLessonsResponse> reservations = lessonService.getAllReservations();

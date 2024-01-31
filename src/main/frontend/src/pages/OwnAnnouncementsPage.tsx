@@ -491,6 +491,7 @@ const OwnAnnouncementsPage = () => {
                                     <br/>
                                     <p>Choose your level:</p>
                                     <Select
+                                        required={true}
                                         value={level}
                                         onChange={(e) => setLevel(e.target.value)}
                                         fullWidth
@@ -505,6 +506,7 @@ const OwnAnnouncementsPage = () => {
                                     <br/>
                                     <p>Choose subject:</p>
                                     <Select
+                                        required={true}
                                         value={subject}
                                         onChange={(e) => setSubject(e.target.value)}
                                         fullWidth

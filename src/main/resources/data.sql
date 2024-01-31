@@ -11,9 +11,9 @@ INSERT INTO account (username, password, email, city, street, phone)
 INSERT INTO account (username, password, email, city, street, phone)
     VALUES ('teststudent', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'studentemail@email.com', 'Lodz', 'Street', '333333333');
 INSERT INTO account (username, password, email, city, street, phone)
-    VALUES ('testteache1r', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacheremail1@email.com', 'Lodz', 'Street', '313333333');
+    VALUES ('Pani Korepetytor', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacheremail1@email.com', 'Lodz', 'Street', '313333333');
 INSERT INTO account (username, password, email, city, street, phone)
-    VALUES ('testteacher2', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacherem2ail1@email.com', 'Lodz', 'Street', '323333333');
+    VALUES ('Pan Korepetytor', '$2a$12$vIbiC0Fw0w/EvE1dnoZ.1udL4NI7HSw4UzbqVnBOOW6D.tYzWHuQK', 'teacherem2ail1@email.com', 'Lodz', 'Street', '323333333');
 
 -- insert account_roles
 INSERT INTO account_role (account_id, roles_id) VALUES (1,1);

@@ -286,6 +286,7 @@ const OpinionCard = ({
                     <Grid xs={10}>
                         <Typography>{opinion.creationDate.toString()}</Typography>
                         <Rating value={getStarRatingFromEnum(opinion.starReview)} readOnly />
+                        <Typography>Teacher: {opinion.teacherUsername}</Typography>
                         <Typography>{opinion.opinionContent}</Typography>
                         <Typography>+ {opinion.opinionPros}</Typography>
                         <Typography>- {opinion.opinionCons}</Typography>
