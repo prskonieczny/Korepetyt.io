@@ -9,7 +9,9 @@ import com.korepetytio.Korepetytio.entities.enums.LessonStatus;
 import com.korepetytio.Korepetytio.entities.enums.Subjects;
 import com.korepetytio.Korepetytio.repository.AccountRepository;
 import com.korepetytio.Korepetytio.repository.LessonRepository;
+import com.korepetytio.Korepetytio.security.service.mailSender.EmailService;
 import com.korepetytio.Korepetytio.service.interfaces.LessonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -29,6 +31,9 @@ import static com.korepetytio.Korepetytio.entities.enums.RoleType.TEACHER;
 public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final AccountRepository accountRepository;
+
+    @Autowired
+    EmailService emailService;
     public LessonServiceImpl(LessonRepository lessonRepository, AccountRepository accountRepository) {
         this.lessonRepository = lessonRepository;
         this.accountRepository = accountRepository;
@@ -104,6 +109,8 @@ public class LessonServiceImpl implements LessonService {
         Account accountDeletingLesson = accountRepository
                 .findByUsername(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("Error: Student account not found"));
+        Account teacherAccount = accountRepository.findByUsername(optionalLesson.get().getTeacherUsername())
+                .orElseThrow(() -> new RuntimeException("Error: Student account not found"));
 
         if (optionalLesson.isPresent()) {
             Lesson lesson = optionalLesson.get();
@@ -125,9 +132,23 @@ public class LessonServiceImpl implements LessonService {
             }
 
             lessonRepository.delete(lesson);
+            sendCancelLessonEmailToStudent(accountDeletingLesson.getEmail(), teacherAccount.getUsername(), lesson.getStartTime());
+            sendCancelLessonEmailToTeacher(teacherAccount.getEmail(), accountDeletingLesson.getUsername(), lesson.getStartTime());
         } else {
             throw new RuntimeException("Lesson not found");
         }
+    }
+
+    private void sendCancelLessonEmailToStudent(String to, String teacherUsername, LocalDateTime time) {
+        String subject = "Korepetytio - your lesson has been cancelled!";
+        String content = "Your lesson with " + teacherUsername + " at " + time.toString() + " has been cancelled.";
+        emailService.sendEmail(to, subject, content);
+    }
+
+    private void sendCancelLessonEmailToTeacher(String to, String studentUsername, LocalDateTime time) {
+        String subject = "Korepetytio - your lesson has been cancelled!";
+        String content = "Your lesson with " + studentUsername + " at " + time.toString() + " has been cancelled.";
+        emailService.sendEmail(to, subject, content);
     }
 
     @Override
